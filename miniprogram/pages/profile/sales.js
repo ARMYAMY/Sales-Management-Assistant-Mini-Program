@@ -88,13 +88,14 @@ Page({
   goToHistory() {
     wx.navigateTo({ url: '/pages/visit/history' });
   },
+  goToCustomers() {
+    wx.navigateTo({ url: '/pages/customer/list' });
+  },
   goToTrainHistory() {
-    wx.showToast({ title: '功能开发中', icon: 'none' });
-    // wx.navigateTo({ url: '/pages/train/history' });
+    wx.navigateTo({ url: '/pages/train/history' });
   },
   goToGrowth() {
-    wx.showToast({ title: '功能开发中', icon: 'none' });
-    // wx.navigateTo({ url: '/pages/train/growth' });
+    wx.navigateTo({ url: '/pages/train/growth' });
   },
   goToWeeklyReport() {
     wx.showToast({ title: '功能开发中', icon: 'none' });

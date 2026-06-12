@@ -1,0 +1,211 @@
+.todo-page {
+  padding: 0 30rpx 120rpx;
+  background: #F5F7FA;
+  min-height: 100vh;
+}
+
+/* 头部 */
+.todo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 0 20rpx;
+}
+.todo-header-info {
+  display: flex;
+  flex-direction: column;
+}
+.todo-date {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1D2129;
+}
+.todo-count {
+  font-size: 24rpx;
+  color: #86909C;
+  margin-top: 8rpx;
+}
+.todo-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 24rpx;
+  background: #2B6FF2;
+  border-radius: 32rpx;
+  color: #fff;
+  font-size: 26rpx;
+}
+.todo-add-icon {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+/* 添加面板 */
+.add-panel {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+.add-input {
+  width: 100%;
+  height: 80rpx;
+  background: #F5F7FA;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+}
+.add-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+}
+.btn-cancel {
+  padding: 12rpx 32rpx;
+  font-size: 26rpx;
+  color: #86909C;
+  border-radius: 8rpx;
+}
+.btn-confirm {
+  padding: 12rpx 32rpx;
+  font-size: 26rpx;
+  color: #fff;
+  background: #2B6FF2;
+  border-radius: 8rpx;
+}
+
+/* 列表 */
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  transition: all 0.2s;
+}
+.todo-item--done {
+  opacity: 0.7;
+  background: #F8FAFC;
+}
+.todo-item--default {
+  border-left: 6rpx solid #2B6FF2;
+}
+
+/* 复选框 */
+.todo-check {
+  flex-shrink: 0;
+}
+.check-circle {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  border: 4rpx solid #D1D5DB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #fff;
+  transition: all 0.2s;
+}
+.check-circle--checked {
+  background: #2B6FF2;
+  border-color: #2B6FF2;
+}
+
+/* 内容 */
+.todo-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.todo-text {
+  font-size: 30rpx;
+  color: #1D2129;
+  line-height: 1.5;
+}
+.todo-text--done {
+  text-decoration: line-through;
+  color: #86909C;
+}
+.todo-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+.todo-tag {
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+.todo-tag--default {
+  background: #EFF4FF;
+  color: #2B6FF2;
+}
+.todo-tag--custom {
+  background: #F0FDF4;
+  color: #16A34A;
+}
+.todo-date {
+  font-size: 22rpx;
+  color: #9CA3AF;
+}
+
+/* 删除 */
+.todo-delete {
+  padding: 12rpx;
+  font-size: 28rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120rpx 0;
+}
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+.empty-text {
+  font-size: 32rpx;
+  color: #4B5563;
+  font-weight: 500;
+}
+.empty-hint {
+  font-size: 24rpx;
+  color: #9CA3AF;
+  margin-top: 12rpx;
+}
+
+/* FAB */
+.fab-add {
+  position: fixed;
+  right: 40rpx;
+  bottom: 60rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: #2B6FF2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(43,111,242,0.4);
+  z-index: 100;
+}
+.fab-icon {
+  font-size: 48rpx;
+  color: #fff;
+  font-weight: 300;
+}

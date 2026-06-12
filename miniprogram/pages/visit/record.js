@@ -228,6 +228,21 @@ Page({
     const apiData = d.editMode ? { id: d.editId, data: payload } : { data: payload };
 
     app.call(apiName, apiData).then(res => {
+      // 新增拜访记录后，自动划掉"填写今日拜访记录"默认待办
+      if (!d.editMode) {
+        const now = new Date();
+        const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+        const defaultId = 'default_visit_' + todayStr;
+        let todos = wx.getStorageSync('todo_list') || [];
+        const idx = todos.findIndex(t => t.id === defaultId);
+        if (idx >= 0) {
+          todos[idx].done = true;
+          wx.setStorageSync('todo_list', todos);
+        }
+        // 缓存今日已拜访标记
+        wx.setStorageSync('today_visit_cached', true);
+      }
+
       const msg = d.editMode ? '修改已保存' : '拜访记录已保存';
       wx.showToast({ title: msg, icon: 'success' });
       setTimeout(() => {

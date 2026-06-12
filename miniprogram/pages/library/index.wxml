@@ -5,15 +5,29 @@
     <view class="header-desc">Top Sales 技能包 & 话术模板</view>
   </view>
 
+  <!-- 维度切换 -->
+  <view class="dimension-bar">
+    <view class="dim-tab {{activeDimension === 'scene' ? 'active' : ''}}" bindtap="setDimension" data-dim="scene">按场景</view>
+    <view class="dim-tab {{activeDimension === 'sales' ? 'active' : ''}}" bindtap="setDimension" data-dim="sales">按销售员</view>
+  </view>
+
   <!-- 分类标签 -->
   <view class="category-tabs">
     <scroll-view scroll-x class="tab-scroll" show-scrollbar="false">
       <view class="tab-list">
         <view class="cat-tab {{activeCategory === 'all' ? 'active' : ''}}" bindtap="setCategory" data-cat="all">全部</view>
-        <view class="cat-tab {{activeCategory === item.key ? 'active' : ''}}" 
-              wx:for="{{categories}}" wx:key="key" bindtap="setCategory" data-cat="{{item.key}}">
-          {{item.name}}
-        </view>
+        <block wx:if="{{activeDimension === 'scene'}}">
+          <view class="cat-tab {{activeCategory === item.key ? 'active' : ''}}"
+                wx:for="{{categories}}" wx:key="key" bindtap="setCategory" data-cat="{{item.key}}">
+            {{item.name}}
+          </view>
+        </block>
+        <block wx:if="{{activeDimension === 'sales'}}">
+          <view class="cat-tab {{activeCategory === item.key ? 'active' : ''}}"
+                wx:for="{{salesList}}" wx:key="key" bindtap="setCategory" data-cat="{{item.key}}">
+            {{item.name}}
+          </view>
+        </block>
       </view>
     </scroll-view>
   </view>
@@ -29,6 +43,12 @@
             <view class="skill-desc">{{item.description}}</view>
           </view>
           <view class="skill-arrow">›</view>
+        </view>
+
+        <!-- 销售员信息 -->
+        <view class="sales-info" wx:if="{{item.salesInfo}}">
+          <view class="sales-avatar" style="background-color: {{item.salesInfo.color}};">{{item.salesInfo.avatar}}</view>
+          <text class="sales-name">{{item.salesInfo.name}}</text>
         </view>
 
         <!-- 标签 -->

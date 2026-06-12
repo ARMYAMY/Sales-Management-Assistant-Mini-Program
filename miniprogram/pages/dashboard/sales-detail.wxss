@@ -1,90 +1,428 @@
-/* pages/dashboard/sales-detail.wxss */
 .page {
   background: #F5F7FA;
   min-height: 100vh;
+  padding-bottom: 40rpx;
 }
 
+/* 导航栏 */
 .nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24rpx 32rpx;
-  background: #FFFFFF;
-  border-bottom: 2rpx solid #F0F1F2;
+  padding: 120rpx 32rpx 24rpx;
+  background: linear-gradient(135deg, #2B6FF2, #1a5bd9);
+  color: #FFFFFF;
 }
 .nav-back {
-  font-size: 36rpx;
-  color: #1A1A1A;
+  font-size: 40rpx;
   width: 60rpx;
 }
 .nav-title {
-  font-size: 32rpx;
+  font-size: 34rpx;
   font-weight: 600;
-  color: #1A1A1A;
 }
 .nav-placeholder {
   width: 60rpx;
 }
 
+/* 统计卡片 */
 .stats-row {
   display: flex;
-  padding: 24rpx;
   gap: 16rpx;
+  padding: 24rpx 32rpx;
 }
 .stat-card {
   flex: 1;
   background: #FFFFFF;
   border-radius: 16rpx;
-  padding: 24rpx 8rpx;
+  padding: 24rpx 0;
   text-align: center;
-  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
 }
 .stat-value {
   font-size: 36rpx;
   font-weight: 700;
-  color: #1A1A1A;
+  color: #1F2937;
 }
 .stat-label {
   font-size: 22rpx;
-  color: #86909C;
-  margin-top: 6rpx;
+  color: #9CA3AF;
+  margin-top: 4rpx;
 }
 
-.section {
-  background: #FFFFFF;
-  margin: 0 24rpx;
+/* 预警横幅 */
+.warning-banner {
+  margin: 0 32rpx 20rpx;
+  background: #FEF3C7;
+  border: 1rpx solid #FDE68A;
   border-radius: 16rpx;
-  padding: 24rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  padding: 20rpx 24rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
 }
-.section-title {
-  font-size: 30rpx;
+.warning-icon {
+  font-size: 32rpx;
+}
+.warning-text {
+  font-size: 26rpx;
+  color: #92400E;
+  line-height: 1.6;
+  flex: 1;
+}
+.warning-num {
+  color: #DC2626;
   font-weight: 700;
-  color: #1A1A1A;
-  margin-bottom: 20rpx;
+  font-size: 30rpx;
 }
-.visit-item {
+.warning-dates {
+  color: #B45309;
+  font-size: 24rpx;
+}
+
+.success-banner {
+  margin: 0 32rpx 20rpx;
+  background: #D1FAE5;
+  border: 1rpx solid #A7F3D0;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16rpx 0;
-  border-bottom: 2rpx solid #F5F7FA;
+  gap: 12rpx;
 }
-.visit-item:last-child {
+.success-icon {
+  font-size: 32rpx;
+}
+.success-text {
+  font-size: 26rpx;
+  color: #065F46;
+}
+
+/* Tab 切换 */
+.tab-bar {
+  display: flex;
+  margin: 0 32rpx 20rpx;
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 6rpx;
+}
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 18rpx 0;
+  font-size: 28rpx;
+  color: #6B7280;
+  border-radius: 8rpx;
+  transition: all 0.2s;
+}
+.tab-item.active {
+  background: #2B6FF2;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+/* 每日记录卡片 */
+.day-card {
+  margin: 0 32rpx 20rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+.day-card.today {
+  border: 2rpx solid #3B82F6;
+}
+.day-card.missing {
+  background: #FEF2F2;
+  border: 1rpx solid #FECACA;
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #F3F4F6;
+}
+.day-date {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.day-date-num {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1F2937;
+}
+.day-date-name {
+  font-size: 24rpx;
+  color: #6B7280;
+}
+.day-today-tag {
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background: #3B82F6;
+  padding: 2rpx 10rpx;
+  border-radius: 8rpx;
+}
+.day-status {
+  display: flex;
+  gap: 8rpx;
+}
+.status-tag {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+.status-tag.done {
+  background: #D1FAE5;
+  color: #065F46;
+}
+.status-tag.missing {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+/* 拜访记录 */
+.visit-record {
+  display: flex;
+  gap: 16rpx;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #F3F4F6;
+}
+.visit-record:last-child {
   border-bottom: none;
+}
+.visit-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #3B82F6;
+  margin-top: 10rpx;
+  flex-shrink: 0;
+}
+.visit-info {
+  flex: 1;
+}
+.visit-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6rpx;
 }
 .visit-customer {
   font-size: 28rpx;
   font-weight: 600;
-  color: #1A1A1A;
+  color: #1F2937;
 }
-.visit-meta {
-  font-size: 24rpx;
-  color: #86909C;
-  margin-top: 4rpx;
+.visit-time {
+  font-size: 22rpx;
+  color: #9CA3AF;
+}
+.visit-bottom {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+.visit-stage {
+  font-size: 22rpx;
+  color: #4B5563;
+  background: #F3F4F6;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
 }
 .visit-result {
-  font-size: 24rpx;
-  color: #22C55E;
+  font-size: 22rpx;
+  color: #6B7280;
+}
+.visit-result.success {
+  color: #059669;
   font-weight: 500;
+}
+.visit-result.warning {
+  color: #D97706;
+  font-weight: 500;
+}
+.visit-amount {
+  font-size: 22rpx;
+  color: #DC2626;
+  font-weight: 600;
+}
+
+/* 日报 */
+.daily-report {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  background: #EFF6FF;
+  border-radius: 12rpx;
+}
+.report-label {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #1E40AF;
+  margin-bottom: 8rpx;
+}
+.report-content {
+  font-size: 26rpx;
+  color: #1F2937;
+  line-height: 1.6;
+}
+.report-plan {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #4B5563;
+  line-height: 1.5;
+}
+.plan-label {
+  color: #1E40AF;
+  font-weight: 500;
+}
+
+/* 空状态 */
+.day-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx 0;
+}
+.empty-icon {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+.empty-text {
+  font-size: 26rpx;
+  color: #9CA3AF;
+}
+
+/* 周报卡片 */
+.weekly-card {
+  margin: 0 32rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+.weekly-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 24rpx;
+  text-align: center;
+}
+.weekly-stats-row {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+.weekly-stat {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  background: #F9FAFB;
+  border-radius: 12rpx;
+}
+.weekly-stat-value {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1F2937;
+}
+.weekly-stat-value.warning {
+  color: #DC2626;
+}
+.weekly-stat-label {
+  font-size: 22rpx;
+  color: #9CA3AF;
+  margin-top: 4rpx;
+}
+
+.weekly-section {
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid #F3F4F6;
+}
+.weekly-section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 16rpx;
+}
+
+/* 阶段分布条 */
+.stage-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+.stage-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.stage-bar-name {
+  font-size: 24rpx;
+  color: #4B5563;
+  width: 140rpx;
+  flex-shrink: 0;
+}
+.stage-bar-track {
+  flex: 1;
+  height: 24rpx;
+  background: #E5E7EB;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+.stage-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3B82F6, #6366F1);
+  border-radius: 12rpx;
+  min-width: 8rpx;
+}
+.stage-bar-count {
+  font-size: 22rpx;
+  color: #6B7280;
+  width: 60rpx;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* 客户标签 */
+.customer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+.customer-tag {
+  font-size: 24rpx;
+  color: #374151;
+  background: #F3F4F6;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+}
+.customer-tag.more {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+/* 要点列表 */
+.highlight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+.highlight-item {
+  font-size: 26rpx;
+  color: #4B5563;
+  line-height: 1.6;
+  padding-left: 24rpx;
+  position: relative;
+}
+.highlight-item::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #3B82F6;
+  font-weight: 700;
 }

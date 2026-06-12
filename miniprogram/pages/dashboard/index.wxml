@@ -71,6 +71,21 @@
       </view>
     </view>
 
+    <!-- 今日未反馈 -->
+    <view class="section" wx:if="{{todayMissing.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">🚨 今日未反馈 ({{todayMissing.length}}人)</view>
+      </view>
+      <view class="missing-list">
+        <view class="missing-row" wx:for="{{todayMissing}}" wx:key="*this" bindtap="goSalesDetail" data-name="{{item}}">
+          <view class="missing-avatar">{{item[0]}}</view>
+          <view class="missing-name">{{item}}</view>
+          <view class="missing-badge">未交日报</view>
+          <view class="missing-arrow">›</view>
+        </view>
+      </view>
+    </view>
+
     <!-- 阶段漏斗 -->
     <view class="section">
       <view class="section-header">

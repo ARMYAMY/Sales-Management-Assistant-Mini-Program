@@ -99,12 +99,16 @@ Page({
       { id: '3', level: 'medium', text: '孙八 · 训练分持续下降', time: '本周' }
     ];
 
+    // 今日未反馈的销售（模拟数据）
+    const todayMissing = ['王五', '赵六'];
+
     this.setData({
       stats: { totalSales: 15, totalVisits: 87, coreCoverage: 78, avgScore: 72 },
       trendData: demoTrend,
       rankList: demoRank,
       funnel: demoFunnel,
-      alerts: demoAlerts
+      alerts: demoAlerts,
+      todayMissing
     });
   },
 
@@ -120,6 +124,10 @@ Page({
 
   goAllAlerts() {
     wx.navigateTo({ url: '/pages/alerts/index' });
+  },
+
+  goTeam() {
+    wx.navigateTo({ url: '/pages/team/index' });
   },
 
   getWeekNumber(date) {

@@ -1,122 +1,175 @@
-<!--pages/customer/list.wxml - 客户清单-->
+<!--pages/customer/list.wxml - 客户管理页面-->
 <view class="container customer-page">
+  <!-- 统计概览 -->
+  <view class="customer-stats">
+    <view class="stat-overview">
+      <view class="stat-item">
+        <view class="stat-num">{{totalCount}}</view>
+        <view class="stat-label">总客户</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <view class="stat-num stat-num--core">{{coreCount}}</view>
+        <view class="stat-label">核心客户</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <view class="stat-num stat-num--deal">{{dealCount}}</view>
+        <view class="stat-label">有商机</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <view class="stat-num stat-num--amount">{{totalAmountFormatted}}</view>
+        <view class="stat-label">总商机</view>
+      </view>
+    </view>
+  </view>
 
-  <!-- 搜索栏 -->
+  <!-- 搜索栏 + 添加按钮 -->
   <view class="search-bar">
     <view class="search-input-wrap">
       <text class="search-icon">🔍</text>
       <input
         class="search-input"
-        placeholder="搜索客户名称"
-        placeholder-class="search-placeholder"
+        placeholder="搜索客户名称、联系人、行业..."
         value="{{keyword}}"
         bindinput="onSearchInput"
-        bindconfirm="onSearchConfirm"
         confirm-type="search"
+        bindconfirm="onSearchConfirm"
       />
-      <view class="search-clear" wx:if="{{keyword}}" bindtap="onClearSearch">✕</view>
+      <text class="search-clear" wx:if="{{keyword}}" bindtap="onSearchInput" data-value="">✕</text>
     </view>
+    <view class="add-btn" bindtap="showAddCustomer">+</view>
   </view>
 
   <!-- 筛选标签 -->
   <view class="filter-tabs">
-    <view class="filter-tab {{filter === 'all' ? 'filter-tab--active' : ''}}" bindtap="onFilterChange" data-filter="all">
-      全部客户
-      <text class="filter-count">{{total}}</text>
-    </view>
-    <view class="filter-tab {{filter === 'core' ? 'filter-tab--active' : ''}}" bindtap="onFilterChange" data-filter="core">
-      核心客户
-      <text class="filter-count">{{coreCount}}</text>
+    <view class="filter-tab {{currentFilter === item.key ? 'filter-tab--active' : ''}}"
+          wx:for="{{filterTabs}}" wx:key="key"
+          bindtap="switchFilter" data-filter="{{item.key}}">
+      {{item.label}}
+      <text class="filter-count" wx:if="{{item.key !== 'all'}}">({{item.key === 'core' ? coreCount : item.key === 'deal' ? dealCount : filteredList.length}})</text>
     </view>
   </view>
 
   <!-- 客户列表 -->
   <view class="customer-list">
-    <!-- 加载中骨架屏 -->
-    <view wx:if="{{loading && customers.length === 0}}">
-      <view class="customer-card skeleton" wx:for="{{5}}" wx:key="index">
-        <view class="skeleton" style="width:40%;height:36rpx;margin-bottom:20rpx;border-radius:4rpx;"></view>
-        <view class="skeleton" style="width:60%;height:28rpx;border-radius:4rpx;"></view>
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}">
+      <view class="customer-card skeleton" wx:for="{{4}}" wx:key="index">
+        <view class="skeleton-line" style="width:40%;height:36rpx;margin-bottom:20rpx;"></view>
+        <view class="skeleton-line" style="width:70%;height:28rpx;margin-bottom:12rpx;"></view>
+        <view class="skeleton-line" style="width:50%;height:28rpx;"></view>
       </view>
     </view>
 
     <!-- 空状态 -->
-    <view class="empty-state" wx:if="{{!loading && customers.length === 0}}">
+    <view class="empty-state" wx:elif="{{filteredList.length === 0}}">
       <view class="empty-icon">📋</view>
-      <view class="empty-text">{{filter === 'core' ? '暂无核心客户' : '暂无客户记录'}}</view>
-      <view class="empty-hint">录入拜访后，客户会自动出现在这里</view>
+      <view class="empty-text">{{keyword ? '未找到匹配客户' : '暂无客户数据'}}</view>
+      <view class="empty-hint" wx:if="{{keyword}}">请尝试其他关键词</view>
+      <view class="add-hint" wx:if="{{!keyword}}">
+        <view class="add-hint-btn" bindtap="showAddCustomer">+ 添加潜在客户</view>
+      </view>
     </view>
 
-    <!-- 列表 -->
-    <view class="customer-card {{item.isCore ? 'customer-card--core' : ''}}"
-      wx:for="{{customers}}"
-      wx:key="name"
-      bindtap="onCustomerTap"
-      data-name="{{item.name}}"
-      data-core="{{item.isCore}}"
-    >
-      <!-- 左侧核心标记 -->
-      <view class="customer-core-mark" wx:if="{{item.isCore}}">
-        <text class="core-star">⭐</text>
-      </view>
+    <!-- 客户卡片 -->
+    <view wx:else>
+      <view class="customer-card {{item.isCore ? 'customer-card--core' : ''}}"
+            wx:for="{{filteredList}}" wx:key="name"
+            bindtap="goToCustomerDetail" data-name="{{item.name}}">
+        <!-- 核心客户标记 -->
+        <view class="core-badge" wx:if="{{item.isCore}}">核心</view>
 
-      <view class="customer-main">
-        <!-- 名称行 -->
         <view class="customer-header">
           <view class="customer-name">{{item.name}}</view>
-          <view class="customer-tag {{item.isCore ? 'tag-core' : 'tag-normal'}}">
-            {{item.isCore ? '核心' : '普通'}}
+          <view class="customer-tags">
+            <view class="customer-industry" wx:if="{{item.industry}}">{{item.industry}}</view>
+            <view class="source-tag source-tag--{{item.source}}">{{item.source === 'manual' ? '手动录入' : '拜访记录'}}</view>
           </view>
         </view>
 
-        <!-- 统计行 -->
-        <view class="customer-stats">
-          <view class="stat-item">
-            <text class="stat-num">{{item.visitCount}}</text>
-            <text class="stat-label">次拜访</text>
+        <view class="customer-meta">
+          <view class="meta-item">
+            <text class="meta-icon">👤</text>
+            <text class="meta-text">{{item.contact || '暂无联系人'}}</text>
           </view>
-          <view class="stat-divider"></view>
-          <view class="stat-item">
-            <text class="stat-label">最近</text>
-            <text class="stat-date">{{item.lastVisitDateStr || '-'}}</text>
-          </view>
-          <view class="stat-divider" wx:if="{{item.lastResult}}"></view>
-          <view class="stat-item" wx:if="{{item.lastResult}}">
-            <text class="stat-label">结果</text>
-            <text class="stat-result">{{item.lastResult}}</text>
+          <view class="meta-item">
+            <text class="meta-icon">📅</text>
+            <text class="meta-text">{{item.lastVisitLabel}}</text>
           </view>
         </view>
 
-        <!-- 联系人 -->
-        <view class="customer-contact" wx:if="{{item.lastContact}}">
-          <text class="contact-label">联系人：</text>
-          <text class="contact-name">{{item.lastContact}}</text>
+        <view class="customer-metrics">
+          <view class="metric">
+            <view class="metric-num">{{item.visitCount}}</view>
+            <view class="metric-label">拜访次数</view>
+          </view>
+          <view class="metric-divider"></view>
+          <view class="metric">
+            <view class="metric-stage stage-{{item.stage === '已成交' ? 'done' : item.stage === '达成意向' ? 'intent' : item.stage === '推进中' ? 'progress' : 'default'}}">
+              {{item.stage}}
+            </view>
+            <view class="metric-label">当前阶段</view>
+          </view>
+          <view class="metric-divider"></view>
+          <view class="metric">
+            <view class="metric-num metric-num--amount">{{item.totalAmount > 0 ? '¥' + item.amountFormatted : '-'}}</view>
+            <view class="metric-label">商机金额</view>
+          </view>
         </view>
-      </view>
 
-      <!-- 右侧操作 -->
-      <view class="customer-actions">
-        <view class="action-btn action-btn--core"
-          catchtap="onToggleCore"
-          data-index="{{index}}"
-        >
-          {{item.isCore ? '取消' : '标记'}}
+        <!-- 最近拜访摘要 -->
+        <view class="recent-visit" wx:if="{{item.recentVisit}}">
+          <view class="recent-tag">最新</view>
+          <view class="recent-text">{{item.recentVisit}}</view>
         </view>
-        <view class="action-btn action-btn--visit"
-          catchtap="onViewHistory"
-          data-name="{{item.name}}"
-        >
-          历史
+
+        <!-- 拜访预警 -->
+        <view class="visit-warning" wx:if="{{item.daysSinceVisit > 14}}">
+          <text class="warning-icon">⚠️</text>
+          <text>已 {{item.daysSinceVisit}} 天未拜访</text>
         </view>
       </view>
     </view>
+  </view>
 
-    <!-- 加载更多 -->
-    <view class="load-more" wx:if="{{loading && customers.length > 0}}">
-      <text class="load-more-text">加载中...</text>
+  <!-- 添加客户弹窗 -->
+  <view class="modal-mask" wx:if="{{showAddModal}}" bindtap="closeAddModal"></view>
+  <view class="modal-content" wx:if="{{showAddModal}}">
+    <view class="modal-header">
+      <view class="modal-title">添加潜在客户</view>
+      <view class="modal-close" bindtap="closeAddModal">✕</view>
     </view>
-    <view class="load-more" wx:if="{{!loading && !hasMore && customers.length > 0}}">
-      <text class="load-more-text">已经到底了</text>
+    <view class="modal-body">
+      <view class="form-item">
+        <view class="form-label">客户名称 <text class="required">*</text></view>
+        <input class="form-input" placeholder="请输入客户名称" value="{{newCustomer.name}}" data-field="name" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item">
+        <view class="form-label">联系人</view>
+        <input class="form-input" placeholder="请输入联系人姓名" value="{{newCustomer.contact}}" data-field="contact" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item">
+        <view class="form-label">联系电话</view>
+        <input class="form-input" placeholder="请输入联系电话" type="number" value="{{newCustomer.phone}}" data-field="phone" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item">
+        <view class="form-label">所属行业</view>
+        <input class="form-input" placeholder="如：互联网、金融、制造业..." value="{{newCustomer.industry}}" data-field="industry" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item form-item--row">
+        <view class="form-label">标记为核心客户</view>
+        <switch checked="{{newCustomer.isCore}}" bindchange="toggleCore" color="#2B6FF2"/>
+      </view>
+      <view class="form-item">
+        <view class="form-label">备注</view>
+        <textarea class="form-textarea" placeholder="备注信息，如：计划拜访时间、客户需求等" value="{{newCustomer.remark}}" data-field="remark" bindinput="onInputChange"/>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn modal-btn--cancel" bindtap="closeAddModal">取消</view>
+      <view class="modal-btn modal-btn--confirm" bindtap="saveCustomer">保存</view>
     </view>
   </view>
 </view>

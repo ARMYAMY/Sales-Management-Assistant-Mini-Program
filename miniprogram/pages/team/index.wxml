@@ -16,10 +16,14 @@
     <view class="member-section-title">团队成员 ({{members.length}}人)</view>
 
     <view class="member-card" wx:for="{{members}}" wx:key="_id">
-      <!-- 第一行：头像 + 姓名 -->
+      <!-- 第一行：头像 + 姓名 + 今日状态 -->
       <view class="member-header">
         <view class="member-avatar" style="background:{{item.avatarColor}}">{{item.name[0]}}</view>
-        <view class="member-name">{{item.name}}</view>
+        <view class="member-name-wrap">
+          <view class="member-name">{{item.name}}</view>
+          <view class="today-tag missing" wx:if="{{!item.todaySubmitted}}">今日未提交</view>
+          <view class="today-tag done" wx:if="{{item.todaySubmitted}}">今日已交</view>
+        </view>
       </view>
 
       <!-- 第二行：总拜访 · 覆盖客户 -->

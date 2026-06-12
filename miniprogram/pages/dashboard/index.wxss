@@ -289,3 +289,48 @@
   margin-top: 8rpx;
   border-top: 2rpx solid #F5F7FA;
 }
+
+/* 今日未反馈 */
+.missing-list {
+  padding: 4rpx 0;
+}
+.missing-row {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid #F5F7FA;
+}
+.missing-row:last-child {
+  border-bottom: none;
+}
+.missing-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: #FEE2E2;
+  color: #DC2626;
+  font-size: 26rpx;
+  font-weight: 600;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+.missing-name {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.missing-badge {
+  font-size: 22rpx;
+  color: #DC2626;
+  background: #FEE2E2;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  margin-right: 12rpx;
+}
+.missing-arrow {
+  font-size: 32rpx;
+  color: #C9CDD4;
+}

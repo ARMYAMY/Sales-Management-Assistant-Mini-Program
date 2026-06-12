@@ -71,13 +71,19 @@
 
   <!-- 今日待办 -->
   <view class="section" wx:if="{{todos.length > 0}}">
-    <view class="section-title">今日待办</view>
+    <view class="section-header">
+      <view class="section-title">今日待办</view>
+      <view class="section-more" bindtap="goToTodos">管理 →</view>
+    </view>
     <view class="todo-list">
-      <view class="todo-card todo-card--{{item.level}}" wx:for="{{todos}}" wx:key="id" bindtap="onTodoTap" data-item="{{item}}">
-        <view class="todo-icon">{{item.level === 'high' ? '🔴' : '🟡'}}</view>
+      <view class="todo-card {{item.done ? 'todo-card--done' : ''}} {{item.type === 'default' ? 'todo-card--default' : ''}}"
+            wx:for="{{todos}}" wx:key="id" bindtap="onTodoTap" data-item="{{item}}">
+        <view class="todo-check {{item.done ? 'todo-check--checked' : ''}}">
+          <text wx:if="{{item.done}}">✓</text>
+        </view>
         <view class="todo-body">
-          <view class="todo-text">{{item.text}}</view>
-          <view class="todo-hint">{{item.hint}}</view>
+          <view class="todo-text {{item.done ? 'todo-text--done' : ''}}">{{item.text}}</view>
+          <view class="todo-hint" wx:if="{{item.type === 'default'}}">系统提醒</view>
         </view>
         <view class="todo-arrow">→</view>
       </view>

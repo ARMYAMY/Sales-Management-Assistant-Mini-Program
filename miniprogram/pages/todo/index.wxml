@@ -1,0 +1,70 @@
+<!--pages/todo/index.wxml-->
+<view class="todo-page">
+
+  <!-- 头部统计 -->
+  <view class="todo-header">
+    <view class="todo-header-info">
+      <text class="todo-date">{{todayStr}}</text>
+      <text class="todo-count">共 {{todos.length}} 项，已完成 {{completedCount}} 项</text>
+    </view>
+    <view class="todo-add-btn" bindtap="showAddInput" wx:if="{{!showAdd}}">
+      <text class="todo-add-icon">+</text>
+      <text>添加待办</text>
+    </view>
+  </view>
+
+  <!-- 添加输入框 -->
+  <view class="add-panel" wx:if="{{showAdd}}">
+    <input class="add-input" type="text" placeholder="输入待办事项..." value="{{newTodo}}"
+           bindinput="onNewTodoInput" focus="{{showAdd}}" confirm-type="done" bindconfirm="addTodo"/>
+    <view class="add-actions">
+      <view class="btn-cancel" bindtap="hideAddInput">取消</view>
+      <view class="btn-confirm" bindtap="addTodo">确定</view>
+    </view>
+  </view>
+
+  <!-- 待办列表 -->
+  <view class="todo-list">
+    <view wx:for="{{todos}}" wx:key="id"
+          class="todo-item {{item.done ? 'todo-item--done' : ''}} {{item.type === 'default' ? 'todo-item--default' : ''}}"
+          bindtap="toggleTodo"
+          data-id="{{item.id}}"
+          bindlongpress="onLongPress"
+          data-id="{{item.id}}">
+
+      <!-- 复选框 -->
+      <view class="todo-check">
+        <view class="check-circle {{item.done ? 'check-circle--checked' : ''}}">
+          <text wx:if="{{item.done}}">✓</text>
+        </view>
+      </view>
+
+      <!-- 内容 -->
+      <view class="todo-content">
+        <text class="todo-text {{item.done ? 'todo-text--done' : ''}}">{{item.text}}</text>
+        <view class="todo-meta">
+          <text class="todo-tag todo-tag--{{item.type}}">{{item.type === 'default' ? '系统' : '自定义'}}</text>
+          <text class="todo-date" wx:if="{{item.date && item.type !== 'default'}}">{{item.date}}</text>
+        </view>
+      </view>
+
+      <!-- 删除按钮 -->
+      <view class="todo-delete" catchtap="deleteTodo" data-id="{{item.id}}" wx:if="{{item.type === 'custom'}}">
+        <text>🗑️</text>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{todos.length === 0}}">
+      <view class="empty-icon">✅</view>
+      <view class="empty-text">今日暂无待办</view>
+      <view class="empty-hint">点击下方按钮添加待办事项</view>
+    </view>
+  </view>
+
+  <!-- 底部浮动添加按钮 -->
+  <view class="fab-add" bindtap="showAddInput" wx:if="{{!showAdd}}">
+    <text class="fab-icon">+</text>
+  </view>
+
+</view>

@@ -47,9 +47,34 @@ Page({
     }
     // 检查日报提交状态
     this.checkDailyReport();
+    // 同步本地待办（用户从todo页面添加/修改的）
+    this.syncLocalTodos();
   },
 
-  // 检查当天日报是否已提交
+  // 从本地存储同步待办列表到首页
+  syncLocalTodos() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const defaultId = 'default_visit_' + todayStr;
+
+    let todos = wx.getStorageSync('todo_list') || [];
+
+    // 只显示当天的待办（包括默认的系统待办和当天创建的自定义待办）
+    todos = todos.filter(t => {
+      // 系统默认待办
+      if (t.type === 'default') return true;
+      // 自定义待办：显示今天创建的，或未完成的
+      if (!t.date || t.date === todayStr) return true;
+      // 之前未完成但跨天的也显示
+      if (!t.done) return true;
+      return false;
+    });
+
+    this.setData({ todos });
+  },
+
+  // 检查当天日报是否已提交 + 同步待办状态
   checkDailyReport() {
     const that = this;
     const today = new Date();
@@ -74,6 +99,9 @@ Page({
         showDailyReminder: !hasTodayVisit
       });
 
+      // 同步待办：根据今天是否有拜访记录，自动添加/划掉默认待办
+      that.syncDefaultTodo(hasTodayVisit, todayStr);
+
       // 晚上10点后且当天未提交，弹强提醒（每天只弹一次）
       if (!hasTodayVisit && isLate && !alreadyReminded) {
         wx.setStorageSync(remindedKey, true);
@@ -90,8 +118,45 @@ Page({
         });
       }
     }).catch(() => {
-      // 接口失败时不打扰用户
+      // 接口失败时，从本地存储判断（如果有缓存的今日拜访记录）
+      const cached = wx.getStorageSync('today_visit_cached');
+      that.syncDefaultTodo(!!cached, todayStr);
     });
+  },
+
+  // 同步默认待办：有拜访记录则划掉，无则添加
+  syncDefaultTodo(hasTodayVisit, todayStr) {
+    let todos = wx.getStorageSync('todo_list') || [];
+    const defaultId = 'default_visit_' + todayStr;
+    const existing = todos.find(t => t.id === defaultId);
+
+    if (hasTodayVisit) {
+      // 有拜访记录：划掉默认待办
+      if (existing && !existing.done) {
+        todos = todos.map(t => t.id === defaultId ? { ...t, done: true } : t);
+        wx.setStorageSync('todo_list', todos);
+      }
+    } else {
+      // 无拜访记录：添加默认待办（如果不存在）
+      if (!existing) {
+        todos.unshift({
+          id: defaultId,
+          text: '填写今日拜访记录',
+          type: 'default',
+          done: false,
+          date: todayStr,
+          action: 'visit',
+          createTime: Date.now()
+        });
+        wx.setStorageSync('todo_list', todos);
+      }
+    }
+    this.setData({ todos });
+  },
+
+  // 去待办管理页
+  goToTodos() {
+    wx.navigateTo({ url: '/pages/todo/index' });
   },
 
   // 关闭日报提醒横幅
@@ -169,13 +234,14 @@ Page({
         scoreTrend: data.scoreTrend || 0,
         absScoreTrend: Math.abs(data.scoreTrend || 0),
         complianceWeeks: data.complianceWeeks || 0,
-        todos: data.todos || [],
         visitList: (data.recentVisits || []).map(v => ({
           ...v,
           timeLabel: that.formatTime(v.visitDate)
         })),
         loading: false
       });
+      // 待办由本地存储管理，数据回来后刷新一次
+      that.syncLocalTodos();
     }).catch(() => {
       // 接口失败时展示骨架屏占位
       that.setData({ loading: false });

@@ -76,10 +76,30 @@
   margin-right: 20rpx;
   flex-shrink: 0;
 }
+.member-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
 .member-name {
   font-size: 32rpx;
   font-weight: 600;
   color: #1A1A1A;
+}
+.today-tag {
+  font-size: 20rpx;
+  padding: 2rpx 10rpx;
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+.today-tag.missing {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+.today-tag.done {
+  background: #D1FAE5;
+  color: #059669;
 }
 
 /* 统计行 */

@@ -53,13 +53,27 @@ Page({
       filter: that.data.currentFilter,
       customerName: that.data.customerFilter || ''
     }).then(data => {
-      const list = (data.list || []).map(v => ({
-        ...v,
-        timeLabel: that.formatTime(v.visitDate),
-        dateLabel: that.formatDate(v.visitDate),
-        amountLabel: v.amount ? that.formatAmount(v.amount) : '',
-        resultClass: that.getResultClass(v.result)
-      }));
+      const list = (data.list || []).map(v => {
+        // 兼容后端下划线字段名 → 前端驼峰
+        const item = {
+          ...v,
+          customerName: v.customer_name || v.customerName || '',
+          contactPerson: v.contact_person || v.contactPerson || '',
+          visitDate: v.visit_date || v.visitDate || v.visit_date,
+          isCoreCustomer: v.is_core_customer || v.isCoreCustomer || false,
+          amount: v.amount || 0,
+          location: v.location || '',
+          stage: v.stage || '',
+          result: v.result || ''
+        };
+        return {
+          ...item,
+          timeLabel: that.formatTime(item.visitDate),
+          dateLabel: that.formatDate(item.visitDate),
+          amountLabel: item.amount ? that.formatAmount(item.amount) : '',
+          resultClass: that.getResultClass(item.result)
+        };
+      });
       const all = refresh ? list : that.data.visitList.concat(list);
       that.setData({
         visitList: all,

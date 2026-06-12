@@ -48,10 +48,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32rpx 32rpx 24rpx;
+  padding: 120rpx 64rpx 40rpx;
   background: linear-gradient(135deg, #2B6FF2, #1a5bd9);
   color: #FFFFFF;
-  border-radius: 0 0 32rpx 32rpx;
 }
 
 .header-left { display: flex; flex-direction: column; }
@@ -79,8 +78,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20rpx;
-  padding: 24rpx 32rpx;
-  margin-top: -20rpx;
+  padding: 48rpx 32rpx 24rpx;
+  margin-top: 0;
 }
 
 .stat-card {
@@ -294,3 +293,15 @@
   font-size: 24rpx;
   color: #22C55E;
 }
+
+/* 待办完成状态 */
+.todo-card--default { border-left: 6rpx solid #2B6FF2; }
+.todo-card--done { opacity: 0.7; background: #F8FAFC; }
+.todo-check {
+  width: 40rpx; height: 40rpx;
+  border-radius: 50%; border: 3rpx solid #D1D5DB;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22rpx; color: #fff; flex-shrink: 0; margin-right: 16rpx;
+}
+.todo-check--checked { background: #2B6FF2; border-color: #2B6FF2; }
+.todo-text--done { text-decoration: line-through; color: #86909C; }

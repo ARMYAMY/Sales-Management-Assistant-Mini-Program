@@ -1,4 +1,4 @@
-<!--pages/dashboard/sales-detail.wxml - 销售详情页-->
+<!--pages/dashboard/sales-detail.wxml - 销售详情页（含每日拜访记录+日报+周报）-->
 <view class="page">
   <view class="nav-bar">
     <view class="nav-back" bindtap="goBack">←</view>
@@ -26,15 +26,131 @@
     </view>
   </view>
 
-  <!-- 最近拜访 -->
-  <view class="section">
-    <view class="section-title">最近拜访</view>
-    <view class="visit-item" wx:for="{{recentVisits}}" wx:key="id">
-      <view class="visit-main">
-        <view class="visit-customer">{{item.customer}}</view>
-        <view class="visit-meta">{{item.date}} · {{item.stage}}</view>
+  <!-- 未提交预警 -->
+  <view class="warning-banner" wx:if="{{missingDays > 0}}">
+    <view class="warning-icon">⚠️</view>
+    <view class="warning-text">
+      近7天有 <text class="warning-num">{{missingDays}}</text> 天未提交拜访记录
+      <text class="warning-dates">（{{missingDates.join('、')}}）</text>
+    </view>
+  </view>
+  <view class="success-banner" wx:if="{{missingDays === 0}}">
+    <view class="success-icon">✅</view>
+    <view class="success-text">近7天拜访记录提交完整</view>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'daily' ? 'active' : ''}}" bindtap="switchTab" data-tab="daily">
+      每日记录
+    </view>
+    <view class="tab-item {{activeTab === 'weekly' ? 'active' : ''}}" bindtap="switchTab" data-tab="weekly">
+      周报汇总
+    </view>
+  </view>
+
+  <!-- 每日记录 -->
+  <view class="tab-content" wx:if="{{activeTab === 'daily'}}">
+    <view class="day-card {{item.isToday ? 'today' : ''}} {{!item.hasVisit ? 'missing' : ''}}" wx:for="{{dailyRecords}}" wx:key="date">
+      <!-- 日期头部 -->
+      <view class="day-header">
+        <view class="day-date">
+          <text class="day-date-num">{{item.date}}</text>
+          <text class="day-date-name">{{item.dayName}}</text>
+          <text class="day-today-tag" wx:if="{{item.isToday}}">今天</text>
+        </view>
+        <view class="day-status">
+          <text class="status-tag done" wx:if="{{item.hasVisit}}">已提交</text>
+          <text class="status-tag missing" wx:if="{{!item.hasVisit}}">未提交</text>
+        </view>
       </view>
-      <view class="visit-result">{{item.result}}</view>
+
+      <!-- 有拜访记录 -->
+      <view class="day-visits" wx:if="{{item.hasVisit}}">
+        <view class="visit-record" wx:for="{{item.visits}}" wx:for-item="v" wx:key="id">
+          <view class="visit-dot"></view>
+          <view class="visit-info">
+            <view class="visit-top">
+              <text class="visit-customer">{{v.customer}}</text>
+              <text class="visit-time">{{v.time}}</text>
+            </view>
+            <view class="visit-bottom">
+              <text class="visit-stage">{{v.stage}}</text>
+              <text class="visit-result {{v.result === '达成意向' ? 'success' : v.result === '推进中' ? 'warning' : ''}}">{{v.result}}</text>
+              <text class="visit-amount" wx:if="{{v.amount > 0}}">{{v.amountFormatted}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 日报 -->
+        <view class="daily-report" wx:if="{{item.dailyReport}}">
+          <view class="report-label">📋 日报</view>
+          <view class="report-content">{{item.dailyReport.summary}}</view>
+          <view class="report-plan" wx:if="{{item.dailyReport.nextPlan}}">
+            <text class="plan-label">下周计划：</text>{{item.dailyReport.nextPlan}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 无拜访记录 -->
+      <view class="day-empty" wx:if="{{!item.hasVisit}}">
+        <view class="empty-icon">📝</view>
+        <view class="empty-text">当天未录入拜访记录</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 周报汇总 -->
+  <view class="tab-content" wx:if="{{activeTab === 'weekly' && weeklyReport}}">
+    <view class="weekly-card">
+      <view class="weekly-title">{{weeklyReport.period}}工作汇总</view>
+
+      <view class="weekly-stats-row">
+        <view class="weekly-stat">
+          <view class="weekly-stat-value">{{weeklyReport.totalVisits}}</view>
+          <view class="weekly-stat-label">总拜访次数</view>
+        </view>
+        <view class="weekly-stat">
+          <view class="weekly-stat-value">{{weeklyReport.visitDays}}</view>
+          <view class="weekly-stat-label">有拜访天数</view>
+        </view>
+        <view class="weekly-stat">
+          <view class="weekly-stat-value {{weeklyReport.missingDays > 0 ? 'warning' : ''}}">{{weeklyReport.missingDays}}</view>
+          <view class="weekly-stat-label">缺交天数</view>
+        </view>
+        <view class="weekly-stat">
+          <view class="weekly-stat-value">{{weeklyReport.amountFormatted}}</view>
+          <view class="weekly-stat-label">涉及金额</view>
+        </view>
+      </view>
+
+      <view class="weekly-section">
+        <view class="weekly-section-title">📊 阶段分布</view>
+        <view class="stage-bars">
+          <view class="stage-bar-item" wx:for="{{weeklyReport.stageBreakdown}}" wx:key="name">
+            <view class="stage-bar-name">{{item.name}}</view>
+            <view class="stage-bar-track">
+              <view class="stage-bar-fill" style="width:{{item.count * 20}}%"></view>
+            </view>
+            <view class="stage-bar-count">{{item.count}}次</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="weekly-section">
+        <view class="weekly-section-title">🏢 覆盖客户（{{weeklyReport.customerCount}}家）</view>
+        <view class="customer-tags">
+          <view class="customer-tag" wx:for="{{weeklyReport.customers}}" wx:key="*this">{{item}}</view>
+          <view class="customer-tag more" wx:if="{{weeklyReport.customerCount > 5}}">+{{weeklyReport.customerCount - 5}}</view>
+        </view>
+      </view>
+
+      <view class="weekly-section">
+        <view class="weekly-section-title">📝 本周要点</view>
+        <view class="highlight-list">
+          <view class="highlight-item" wx:for="{{weeklyReport.highlights}}" wx:key="*this">{{item}}</view>
+        </view>
+      </view>
     </view>
   </view>
 

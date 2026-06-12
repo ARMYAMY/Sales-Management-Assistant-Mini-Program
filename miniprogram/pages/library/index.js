@@ -3,6 +3,8 @@ const app = getApp();
 
 Page({
   data: {
+    // 维度切换：scene | sales
+    activeDimension: 'scene',
     activeCategory: 'all',
     categories: [
       { key: 'first_visit', name: '初次拜访' },
@@ -11,6 +13,13 @@ Page({
       { key: 'objection_handling', name: '异议处理' },
       { key: 'closing', name: '促成成交' },
       { key: 'relationship', name: '关系维护' }
+    ],
+    salesList: [
+      { key: 'zhangsan', name: '张三', avatar: '张' },
+      { key: 'lisi', name: '李四', avatar: '李' },
+      { key: 'wangwu', name: '王五', avatar: '王' },
+      { key: 'zhaoliu', name: '赵六', avatar: '赵' },
+      { key: 'qianqi', name: '钱七', avatar: '钱' }
     ],
     skills: [],
     allSkills: []
@@ -43,14 +52,22 @@ Page({
     }
   },
 
+  setDimension(e) {
+    const dim = e.currentTarget.dataset.dim;
+    this.setData({ activeDimension: dim, activeCategory: 'all', skills: this.data.allSkills });
+  },
+
   setCategory(e) {
     const cat = e.currentTarget.dataset.cat;
     this.setData({ activeCategory: cat });
 
     if (cat === 'all') {
       this.setData({ skills: this.data.allSkills });
-    } else {
+    } else if (this.data.activeDimension === 'scene') {
       const filtered = this.data.allSkills.filter(s => s.category === cat);
+      this.setData({ skills: filtered });
+    } else {
+      const filtered = this.data.allSkills.filter(s => s.salesPerson === cat);
       this.setData({ skills: filtered });
     }
   },
@@ -66,10 +83,18 @@ Page({
 
   // 演示数据
   loadDemoData() {
+    const salesMap = {
+      zhangsan: { name: '张三', avatar: '张', color: '#3B82F6' },
+      lisi: { name: '李四', avatar: '李', color: '#10B981' },
+      wangwu: { name: '王五', avatar: '王', color: '#F59E0B' },
+      zhaoliu: { name: '赵六', avatar: '赵', color: '#EF4444' },
+      qianqi: { name: '钱七', avatar: '钱', color: '#8B5CF6' }
+    };
     const demoSkills = [
       {
         _id: '1', name: 'SPIN 需求挖掘法', icon: '🔍',
-        category: 'needs_discovery',
+        category: 'needs_discovery', salesPerson: 'zhangsan',
+        salesInfo: salesMap.zhangsan,
         description: '通过情景、问题、暗示、需求四个层次，深入挖掘客户真实痛点',
         tags: ['经典模型', '必学'],
         scriptCount: 12, useCount: 356, avgRating: 4.8,
@@ -77,7 +102,8 @@ Page({
       },
       {
         _id: '2', name: '价格谈判三步法', icon: '💰',
-        category: 'price_negotiation',
+        category: 'price_negotiation', salesPerson: 'lisi',
+        salesInfo: salesMap.lisi,
         description: '先确认价值、再处理异议、最后给出方案的标准化价格谈判流程',
         tags: ['高转化', '实战'],
         scriptCount: 8, useCount: 289, avgRating: 4.6,
@@ -85,7 +111,8 @@ Page({
       },
       {
         _id: '3', name: '初次拜访破冰话术', icon: '💼',
-        category: 'first_visit',
+        category: 'first_visit', salesPerson: 'zhangsan',
+        salesInfo: salesMap.zhangsan,
         description: '首次见面快速建立信任、引发兴趣的开口话术合集',
         tags: ['新手必备'],
         scriptCount: 15, useCount: 412, avgRating: 4.5,
@@ -93,7 +120,8 @@ Page({
       },
       {
         _id: '4', name: '异议处理 LSCPA', icon: '🛡️',
-        category: 'objection_handling',
+        category: 'objection_handling', salesPerson: 'wangwu',
+        salesInfo: salesMap.wangwu,
         description: '倾听-分担-澄清-陈述-要求的五步异议处理模型',
         tags: ['系统方法'],
         scriptCount: 10, useCount: 198, avgRating: 4.7,
@@ -101,7 +129,8 @@ Page({
       },
       {
         _id: '5', name: '促成成交逼单话术', icon: '🎯',
-        category: 'closing',
+        category: 'closing', salesPerson: 'zhaoliu',
+        salesInfo: salesMap.zhaoliu,
         description: '识别成交信号、推动客户决策的临门一脚话术',
         tags: ['临门一脚'],
         scriptCount: 6, useCount: 156, avgRating: 4.4,
@@ -109,11 +138,48 @@ Page({
       },
       {
         _id: '6', name: '客户关怀维护话术', icon: '🤝',
-        category: 'relationship',
+        category: 'relationship', salesPerson: 'qianqi',
+        salesInfo: salesMap.qianqi,
         description: '成交后持续维护客户关系、挖掘增购机会的话术',
         tags: ['长期价值'],
         scriptCount: 9, useCount: 134, avgRating: 4.3,
         preview: '「王总，产品上线一个月了，我想了解一下使用体验，看有没有需要优化的地方。」'
+      },
+      {
+        _id: '7', name: 'FABE 产品推介法', icon: '📊',
+        category: 'needs_discovery', salesPerson: 'lisi',
+        salesInfo: salesMap.lisi,
+        description: '特征-优势-利益-证据四步法，让客户清晰感知产品价值',
+        tags: ['产品推介', '经典'],
+        scriptCount: 10, useCount: 278, avgRating: 4.5,
+        preview: '「这款产品的核心特征是能提升30%效率，相比竞品我们的优势在于...」'
+      },
+      {
+        _id: '8', name: '冷启动客户开发话术', icon: '❄️',
+        category: 'first_visit', salesPerson: 'wangwu',
+        salesInfo: salesMap.wangwu,
+        description: '针对从未接触过的潜在客户，快速引起注意并争取面谈机会',
+        tags: ['冷启动', '电销'],
+        scriptCount: 14, useCount: 198, avgRating: 4.2,
+        preview: '「张总您好，冒昧打扰。我是XX科技的小王，我们专注...」'
+      },
+      {
+        _id: '9', name: '竞争对比话术', icon: '⚖️',
+        category: 'objection_handling', salesPerson: 'zhaoliu',
+        salesInfo: salesMap.zhaoliu,
+        description: '客户提到竞品时的专业应对话术，既不贬低对手又突出差异',
+        tags: ['竞品应对'],
+        scriptCount: 7, useCount: 167, avgRating: 4.5,
+        preview: '「您提到XX品牌确实也不错，他们的优势主要在...而我们的差异点是...」'
+      },
+      {
+        _id: '10', name: '老客转介绍话术', icon: '🔗',
+        category: 'relationship', salesPerson: 'qianqi',
+        salesInfo: salesMap.qianqi,
+        description: '通过满意的老客户获取高质量转介绍资源的技巧与话术',
+        tags: ['转介绍', '增购'],
+        scriptCount: 5, useCount: 98, avgRating: 4.6,
+        preview: '「王总，非常感谢您的信任和支持。我想冒昧问一下，您身边有没有...」'
       }
     ];
     this.setData({ allSkills: demoSkills, skills: demoSkills });

@@ -6,6 +6,7 @@
     "pages/visit/record",
     "pages/visit/voice-confirm",
     "pages/visit/history",
+    "pages/customer/list",
     "pages/visit/detail",
     "pages/train/index",
     "pages/report/list/list",
@@ -25,7 +26,8 @@
     "pages/distill/result",
     "pages/team/core-customers",
     "pages/dashboard/sales-detail",
-    "pages/alerts/index"
+    "pages/alerts/index",
+    "pages/todo/index"
   ],
   "window": {
     "backgroundColor": "#F5F7FA",

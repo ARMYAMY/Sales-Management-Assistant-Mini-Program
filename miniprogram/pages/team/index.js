@@ -115,27 +115,32 @@ Page({
       {
         _id: '1', name: '张三', status: 'high',
         totalVisits: 156, customerCount: 23, coreCustomers: 10, coreTarget: 10, avgScore: 85,
-        lastActivity: '昨天完成3次客户拜访'
+        lastActivity: '昨天完成3次客户拜访',
+        todaySubmitted: true
       },
       {
         _id: '2', name: '李四', status: 'high',
         totalVisits: 98, customerCount: 15, coreCustomers: 8, coreTarget: 10, avgScore: 78,
-        lastActivity: '今天录入1次拜访'
+        lastActivity: '今天录入1次拜访',
+        todaySubmitted: true
       },
       {
         _id: '3', name: '王五', status: 'normal',
         totalVisits: 72, customerCount: 12, coreCustomers: 6, coreTarget: 10, avgScore: 72,
-        lastActivity: '2天前完成AI训练'
+        lastActivity: '2天前完成AI训练',
+        todaySubmitted: false
       },
       {
         _id: '4', name: '赵六', status: 'warning',
         totalVisits: 45, customerCount: 8, coreCustomers: 5, coreTarget: 10, avgScore: 65,
-        lastActivity: '7天前录入拜访'
+        lastActivity: '7天前录入拜访',
+        todaySubmitted: false
       },
       {
         _id: '5', name: '钱七', status: 'normal',
         totalVisits: 38, customerCount: 7, coreCustomers: 3, coreTarget: 10, avgScore: 60,
-        lastActivity: '今天完成2次拜访'
+        lastActivity: '今天完成2次拜访',
+        todaySubmitted: true
       }
     ];
     const enriched = demo.map(m => this.enrichMember(m));

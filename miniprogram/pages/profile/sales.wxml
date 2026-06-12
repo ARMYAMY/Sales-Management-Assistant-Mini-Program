@@ -40,6 +40,12 @@
       <view class="menu-badge" wx:if="{{stats.totalVisits > 0}}">{{stats.totalVisits}}条</view>
       <view class="menu-arrow">→</view>
     </view>
+    <view class="menu-item" bindtap="goToCustomers">
+      <view class="menu-icon">🏢</view>
+      <view class="menu-text">客户管理</view>
+      <view class="menu-badge" wx:if="{{stats.customerCount > 0}}">{{stats.customerCount}}家</view>
+      <view class="menu-arrow">→</view>
+    </view>
     <view class="menu-item" bindtap="goToTrainHistory">
       <view class="menu-icon">💬</view>
       <view class="menu-text">训练历史</view>
