@@ -27,7 +27,11 @@ Page({
 
     // 最近拜访
     visitList: [],
-    loading: true
+    loading: true,
+
+    // 日报提醒
+    dailyReportSubmitted: true,
+    showDailyReminder: false
   },
 
   onLoad() {
@@ -41,6 +45,63 @@ Page({
     if (typeof this.loadData === 'function') {
       this.loadData();
     }
+    // 检查日报提交状态
+    this.checkDailyReport();
+  },
+
+  // 检查当天日报是否已提交
+  checkDailyReport() {
+    const that = this;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+    // 先检查本地缓存（今天是否已提醒过）
+    const remindedKey = 'daily_reminder_' + todayStr;
+    const alreadyReminded = wx.getStorageSync(remindedKey);
+
+    app.call('getVisitList', {
+      page: 1,
+      page_size: 1,
+      filter: 'today'
+    }).then(data => {
+      const hasTodayVisit = (data.list || []).length > 0;
+      const hour = new Date().getHours();
+      const isLate = hour >= 22;
+
+      that.setData({
+        dailyReportSubmitted: hasTodayVisit,
+        showDailyReminder: !hasTodayVisit
+      });
+
+      // 晚上10点后且当天未提交，弹强提醒（每天只弹一次）
+      if (!hasTodayVisit && isLate && !alreadyReminded) {
+        wx.setStorageSync(remindedKey, true);
+        wx.showModal({
+          title: '日报提醒',
+          content: '今天还没有录入拜访记录，请及时补录日报。',
+          confirmText: '去录入',
+          cancelText: '知道了',
+          success(res) {
+            if (res.confirm) {
+              wx.navigateTo({ url: '/pages/visit/record' });
+            }
+          }
+        });
+      }
+    }).catch(() => {
+      // 接口失败时不打扰用户
+    });
+  },
+
+  // 关闭日报提醒横幅
+  closeDailyReminder() {
+    this.setData({ showDailyReminder: false });
+  },
+
+  // 从提醒横幅跳转录入
+  goToRecordFromReminder() {
+    wx.navigateTo({ url: '/pages/visit/record' });
   },
 
   onPullDownRefresh() {

@@ -1,5 +1,13 @@
 <!--pages/home/sales.wxml - 销售工作台-->
 <view class="container home-page">
+  <!-- 日报提醒横幅 -->
+  <view class="daily-reminder" wx:if="{{showDailyReminder}}">
+    <view class="reminder-icon">⏰</view>
+    <view class="reminder-text">今日拜访记录尚未录入</view>
+    <view class="reminder-action" bindtap="goToRecordFromReminder">去录入</view>
+    <view class="reminder-close" bindtap="closeDailyReminder">✕</view>
+  </view>
+
   <!-- 顶部问候 -->
   <view class="home-header">
     <view class="header-left">

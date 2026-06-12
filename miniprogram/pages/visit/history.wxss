@@ -60,9 +60,9 @@
 
 /* 拜访卡片 */
 .visit-card {
+  display: flex;
   background: #fff;
   border-radius: 16rpx;
-  padding: 28rpx;
   margin-bottom: 20rpx;
   box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
   position: relative;
@@ -70,42 +70,55 @@
 }
 
 /* 左侧状态条 */
-.visit-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 28rpx;
-  bottom: 28rpx;
-  width: 6rpx;
-  border-radius: 0 4rpx 4rpx 0;
-  background: #2B6FF2;
+.card-left-bar {
+  width: 8rpx;
+  flex-shrink: 0;
+  background: #86909C;
 }
 
-.visit-card.status-success::before { background: #22C55E; }
-.visit-card.status-warn::before { background: #F59E0B; }
-.visit-card.status-gray::before { background: #86909C; }
+.visit-card.result-success .card-left-bar { background: #22C55E; }
+.visit-card.result-warn .card-left-bar { background: #F59E0B; }
+.visit-card.result-info .card-left-bar { background: #3B82F6; }
+.visit-card.result-gray .card-left-bar { background: #86909C; }
 
-/* 卡片头部 */
-.visit-card-header {
+/* 卡片内容区 */
+.card-body {
+  flex: 1;
+  padding: 24rpx 28rpx;
+  min-width: 0;
+}
+
+.card-row {
   display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.card-row:last-child {
+  margin-bottom: 0;
+}
+
+/* 第一行：客户名 + 时间 */
+.card-row-primary {
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 16rpx;
-  padding-left: 16rpx;
 }
 
-.visit-customer-wrap {
+.customer-wrap {
   display: flex;
   align-items: center;
   flex: 1;
   min-width: 0;
 }
 
-.visit-customer-name {
+.customer-name {
   font-size: 32rpx;
   font-weight: 600;
   color: #1A1A1A;
   margin-right: 12rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .core-badge {
@@ -119,77 +132,65 @@
   flex-shrink: 0;
 }
 
-.visit-time {
+.visit-date {
   font-size: 24rpx;
   color: #86909C;
   flex-shrink: 0;
   margin-left: 16rpx;
 }
 
-/* 卡片中部 */
-.visit-card-middle {
-  display: flex;
-  align-items: center;
+/* 第二行：联系人 + 拜访方式 */
+.card-row-secondary {
   gap: 16rpx;
-  margin-bottom: 16rpx;
-  padding-left: 16rpx;
 }
 
-.visit-contact {
-  font-size: 26rpx;
-  color: #4B5563;
-  background: #F3F4F6;
-  padding: 6rpx 16rpx;
-  border-radius: 8rpx;
-}
-
-.visit-stage {
+.contact-person {
   font-size: 24rpx;
-  color: #2B6FF2;
-  background: #EFF6FF;
-  padding: 6rpx 16rpx;
-  border-radius: 8rpx;
+  color: #4B5563;
 }
 
-/* 卡片底部 */
-.visit-card-footer {
-  display: flex;
+.location-tag {
+  font-size: 22rpx;
+  color: #6B7280;
+  background: #F3F4F6;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+}
+
+/* 第三行：标签 + 金额 */
+.card-row-tags {
   justify-content: space-between;
   align-items: center;
-  padding-left: 16rpx;
+  margin-top: 4rpx;
 }
 
-.visit-result-tag {
+.tag-group {
+  display: flex;
+  gap: 12rpx;
+}
+
+.tag {
   font-size: 24rpx;
-  padding: 6rpx 16rpx;
+  padding: 4rpx 14rpx;
   border-radius: 8rpx;
   font-weight: 500;
 }
 
-.result-success {
-  color: #16A34A;
-  background: #F0FDF4;
-}
-
-.result-warn {
-  color: #D97706;
-  background: #FFFBEB;
-}
-
-.result-info {
+.tag-stage {
   color: #2563EB;
   background: #EFF6FF;
 }
 
-.result-gray {
-  color: #6B7280;
-  background: #F3F4F6;
-}
+.tag-result-success { color: #16A34A; background: #F0FDF4; }
+.tag-result-warn { color: #D97706; background: #FFFBEB; }
+.tag-result-info { color: #2563EB; background: #EFF6FF; }
+.tag-result-gray { color: #6B7280; background: #F3F4F6; }
 
 .visit-amount {
   font-size: 28rpx;
   font-weight: 600;
   color: #EF4444;
+  flex-shrink: 0;
 }
 
 /* 加载/空状态 */

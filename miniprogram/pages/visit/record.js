@@ -19,6 +19,10 @@ Page({
     competitorInfo: '',
     isCoreCustomer: false,
 
+    // 日期限制：只允许今天或昨天
+    dateMin: '',
+    dateMax: '',
+
     // 选项
     locationOptions: ['上门', '电话', '线上', '其他'],
     purposeOptions: ['初次拜访', '需求挖掘', '方案演示', '商务谈判', '合同签订', '售后服务', '其他'],
@@ -38,9 +42,16 @@ Page({
   },
 
   onLoad(options) {
+    // 计算日期边界：只允许今天或昨天
+    const now = new Date();
+    const today = this.formatDate(now);
+    const yest = new Date(now);
+    yest.setDate(now.getDate() - 1);
+    const yesterday = this.formatDate(yest);
+
     // 编辑模式：从详情页跳转
     if (options.id) {
-      this.setData({ editMode: true, editId: options.id });
+      this.setData({ editMode: true, editId: options.id, dateMin: yesterday, dateMax: today });
       this.loadVisitData(options.id);
       return;
     }
@@ -49,13 +60,24 @@ Page({
     if (options.customer) {
       this.setData({
         customerName: decodeURIComponent(options.customer),
-        isCoreCustomer: true
+        isCoreCustomer: true,
+        dateMin: yesterday,
+        dateMax: today
       });
       this.checkCanSubmit();
+    } else {
+      this.setData({ dateMin: yesterday, dateMax: today });
     }
 
     // 语音录入页现在直接提交，不再通过 storage 回填
     wx.removeStorageSync('voiceFillData');
+  },
+
+  formatDate(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
   },
 
   // 加载已有拜访数据（编辑模式）

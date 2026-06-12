@@ -55,9 +55,10 @@
     <view class="form-group">
       <view class="form-label">
         <text class="required">*</text> 拜访时间
+        <text class="form-hint">（仅限今天或昨天）</text>
       </view>
       <view class="datetime-picker">
-        <picker mode="date" value="{{visitDate}}" bindchange="onDateChange">
+        <picker mode="date" value="{{visitDate}}" start="{{dateMin}}" end="{{dateMax}}" bindchange="onDateChange">
           <view class="picker-value {{visitDate ? '' : 'placeholder'}}">
             {{visitDate || '选择日期'}}
           </view>

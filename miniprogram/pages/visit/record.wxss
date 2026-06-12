@@ -85,6 +85,13 @@
   margin-right: 4rpx;
 }
 
+.form-hint {
+  font-size: 24rpx;
+  color: #9CA3AF;
+  font-weight: 400;
+  margin-left: 12rpx;
+}
+
 /* 输入框 */
 .form-input {
   height: 96rpx;

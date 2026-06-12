@@ -35,27 +35,40 @@
 
   <!-- 拜访列表 -->
   <view class="visit-list" wx:else>
-    <view class="visit-card {{item.result === '达成意向' || item.result === '已成交' ? 'status-success' : item.result === '推进中' ? 'status-warn' : 'status-gray'}}"
+    <view class="visit-card {{'result-' + item.resultClass}}"
           wx:for="{{visitList}}"
           wx:key="_id"
           bindtap="goToDetail"
           data-id="{{item._id}}">
-      <view class="visit-card-header">
-        <view class="visit-customer-wrap">
-          <text class="visit-customer-name">{{item.customerName}}</text>
-          <text wx:if="{{item.isCoreCustomer}}" class="core-badge">核心</text>
+
+      <!-- 卡片左侧状态条 -->
+      <view class="card-left-bar"></view>
+
+      <!-- 卡片内容 -->
+      <view class="card-body">
+        <!-- 第一行：客户名称 + 核心标记 + 时间 -->
+        <view class="card-row card-row-primary">
+          <view class="customer-wrap">
+            <text class="customer-name">{{item.customerName || '未命名客户'}}</text>
+            <text wx:if="{{item.isCoreCustomer}}" class="core-badge">核心</text>
+          </view>
+          <text class="visit-date">{{item.dateLabel}}</text>
         </view>
-        <text class="visit-time">{{item.timeLabel}}</text>
-      </view>
-      <view class="visit-card-middle">
-        <text class="visit-contact">{{item.contactPerson}}</text>
-        <text class="visit-stage">{{item.stage}}</text>
-      </view>
-      <view class="visit-card-footer">
-        <text class="visit-result-tag {{item.result === '达成意向' || item.result === '已成交' ? 'result-success' : item.result === '推进中' ? 'result-warn' : item.result === '待决策' ? 'result-info' : 'result-gray'}}">
-          {{item.result}}
-        </text>
-        <text class="visit-amount" wx:if="{{item.amount}}">¥{{item.amountLabel}}</text>
+
+        <!-- 第二行：联系人 + 拜访方式 -->
+        <view class="card-row card-row-secondary">
+          <text class="contact-person" wx:if="{{item.contactPerson}}">联系人：{{item.contactPerson}}</text>
+          <text class="location-tag" wx:if="{{item.location}}">{{item.location}}</text>
+        </view>
+
+        <!-- 第三行：阶段标签 + 结果标签 + 金额 -->
+        <view class="card-row card-row-tags">
+          <view class="tag-group">
+            <text class="tag tag-stage">{{item.stage || '未分类'}}</text>
+            <text class="tag tag-result tag-result-{{item.resultClass}}">{{item.result || '未记录'}}</text>
+          </view>
+          <text class="visit-amount" wx:if="{{item.amount}}">¥{{item.amountLabel}}</text>
+        </view>
       </view>
     </view>
 
