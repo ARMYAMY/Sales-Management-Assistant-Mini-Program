@@ -1,0 +1,79 @@
+<!--pages/visit/detail.wxml - 拜访详情页-->
+<view class="container detail-page">
+  <!-- 顶部状态栏 -->
+  <view class="detail-header">
+    <view class="detail-status {{visit.status || 'completed'}}">{{visit.status === 'completed' ? '已完成' : visit.status === 'pending' ? '待跟进' : '已取消'}}</view>
+    <view class="detail-date">{{visit.visitDate}} {{visit.visitTime}}</view>
+  </view>
+
+  <!-- 客户信息 -->
+  <view class="card">
+    <view class="detail-section-title">客户信息</view>
+    <view class="detail-row">
+      <view class="detail-label">客户名称</view>
+      <view class="detail-value">{{visit.customerName || '-'}}</view>
+    </view>
+    <view class="detail-row">
+      <view class="detail-label">联系人</view>
+      <view class="detail-value">{{visit.contactPerson || '-'}}</view>
+    </view>
+    <view class="detail-row">
+      <view class="detail-label">拜访地点</view>
+      <view class="detail-value">{{visit.location || '-'}}</view>
+    </view>
+    <view class="detail-row" wx:if="{{visit.isCoreCustomer}}">
+      <view class="detail-label">核心客户</view>
+      <view class="detail-value text-success">✓ 是</view>
+    </view>
+  </view>
+
+  <!-- 拜访信息 -->
+  <view class="card">
+    <view class="detail-section-title">拜访信息</view>
+    <view class="detail-row">
+      <view class="detail-label">拜访阶段</view>
+      <view class="detail-value">{{visit.stage || '-'}}</view>
+    </view>
+    <view class="detail-row">
+      <view class="detail-label">拜访目的</view>
+      <view class="detail-value">{{visit.intent || '-'}}</view>
+    </view>
+    <view class="detail-row">
+      <view class="detail-label">拜访结果</view>
+      <view class="detail-value">{{visit.result || '-'}}</view>
+    </view>
+    <view class="detail-row" wx:if="{{visit.amount > 0}}">
+      <view class="detail-label">涉及金额</view>
+      <view class="detail-value">{{visit.amount}} 元 {{visit.amountSensitive ? '(敏感)' : ''}}</view>
+    </view>
+  </view>
+
+  <!-- 拜访内容 -->
+  <view class="card" wx:if="{{visit.background || visit.content || visit.nextStep}}">
+    <view class="detail-section-title">详细内容</view>
+    <view class="detail-block" wx:if="{{visit.background}}">
+      <view class="detail-block-title">拜访背景</view>
+      <view class="detail-block-content">{{visit.background}}</view>
+    </view>
+    <view class="detail-block" wx:if="{{visit.content}}">
+      <view class="detail-block-title">详细过程</view>
+      <view class="detail-block-content">{{visit.content}}</view>
+    </view>
+    <view class="detail-block" wx:if="{{visit.nextStep}}">
+      <view class="detail-block-title">下一步计划</view>
+      <view class="detail-block-content">{{visit.nextStep}}</view>
+    </view>
+  </view>
+
+  <!-- 竞品信息 -->
+  <view class="card" wx:if="{{visit.competitorInfo}}">
+    <view class="detail-section-title">竞品提及</view>
+    <view class="detail-block-content">{{visit.competitorInfo}}</view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="detail-actions safe-bottom">
+    <view class="btn-outline" style="flex:1;margin-right:24rpx;" bindtap="onEdit">编辑</view>
+    <view class="btn-primary" style="flex:1;text-align:center;" bindtap="onShare">分享</view>
+  </view>
+</view>

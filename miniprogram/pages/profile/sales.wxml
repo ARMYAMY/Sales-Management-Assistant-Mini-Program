@@ -1,0 +1,86 @@
+<!--pages/profile/sales.wxml - 个人中心（销售端）-->
+<view class="container profile-page">
+  <!-- 用户信息卡片 -->
+  <view class="profile-header card">
+    <view class="profile-user">
+      <image class="profile-avatar" src="{{user.avatar || '/images/avatar.png'}}" mode="aspectFill"></image>
+      <view class="profile-info">
+        <view class="profile-name">{{user.name || '未登录'}}</view>
+        <view class="profile-team">{{user.team || ''}}</view>
+        <view class="profile-join">已加入 {{joinDays}} 天</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计指标 -->
+  <view class="stat-grid">
+    <view class="stat-card">
+      <view class="stat-value">{{stats.totalVisits}}</view>
+      <view class="stat-label">总拜访次数</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.totalTrains}}</view>
+      <view class="stat-label">总训练次数</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.customerCount}}</view>
+      <view class="stat-label">覆盖客户</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.avgScore}}</view>
+      <view class="stat-label">平均训练分</view>
+    </view>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="card menu-list">
+    <view class="menu-item" bindtap="goToHistory">
+      <view class="menu-icon">📋</view>
+      <view class="menu-text">拜访记录</view>
+      <view class="menu-badge" wx:if="{{stats.totalVisits > 0}}">{{stats.totalVisits}}条</view>
+      <view class="menu-arrow">→</view>
+    </view>
+    <view class="menu-item" bindtap="goToTrainHistory">
+      <view class="menu-icon">💬</view>
+      <view class="menu-text">训练历史</view>
+      <view class="menu-badge" wx:if="{{stats.totalTrains > 0}}">{{stats.totalTrains}}次</view>
+      <view class="menu-arrow">→</view>
+    </view>
+    <view class="menu-item" bindtap="goToGrowth">
+      <view class="menu-icon">📈</view>
+      <view class="menu-text">成长曲线</view>
+      <view class="menu-arrow">→</view>
+    </view>
+    <view class="menu-item" bindtap="goToWeeklyReport">
+      <view class="menu-icon">📊</view>
+      <view class="menu-text">我的周报</view>
+      <view class="menu-arrow">→</view>
+    </view>
+    <view class="menu-item" bindtap="goToBenchmark">
+      <view class="menu-icon">⭐</view>
+      <view class="menu-text">我的对标</view>
+      <view class="menu-sub">{{benchmarkName || '未设置'}}</view>
+      <view class="menu-arrow">→</view>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="card menu-list">
+    <view class="menu-item" bindtap="goToSettings">
+      <view class="menu-icon">⚙️</view>
+      <view class="menu-text">设置</view>
+      <view class="menu-arrow">→</view>
+    </view>
+    <view class="menu-item" bindtap="switchRole">
+      <view class="menu-icon">🔄</view>
+      <view class="menu-text">切换角色</view>
+      <view class="menu-sub">{{role === 'sales' ? '当前：销售' : '当前：管理者'}}</view>
+      <view class="menu-arrow">→</view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="btn-logout" bindtap="onLogout">退出登录</button>
+  </view>
+</view>

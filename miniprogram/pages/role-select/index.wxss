@@ -1,0 +1,151 @@
+/* pages/role-select/index.wxss - 角色选择页样式 */
+.role-page-scroll {
+  height: 100vh;
+  background: linear-gradient(180deg, #2B6FF2 0%, #1a5bd9 35%, #F5F7FA 35.1%);
+  padding: 0 32rpx 40rpx;
+  box-sizing: border-box;
+}
+
+/* 品牌区 */
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48rpx 0 36rpx;
+  color: #FFFFFF;
+}
+
+.brand-logo {
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.brand-name {
+  font-size: 44rpx;
+  font-weight: 700;
+  letter-spacing: 4rpx;
+  margin-bottom: 12rpx;
+}
+
+.brand-slogan {
+  font-size: 26rpx;
+  opacity: 0.85;
+  letter-spacing: 2rpx;
+}
+
+/* 角色选择区 */
+.role-section {
+  margin-top: 20rpx;
+}
+
+.role-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 32rpx;
+  text-align: center;
+}
+
+.role-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+}
+
+/* 角色卡片 */
+.role-card {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  border: 3rpx solid transparent;
+  transition: all 0.25s ease;
+}
+
+.role-card--active {
+  border-color: #2B6FF2;
+  box-shadow: 0 8rpx 30rpx rgba(43, 111, 242, 0.18);
+  background: rgba(43, 111, 242, 0.02);
+}
+
+.role-card-icon {
+  font-size: 56rpx;
+  margin-bottom: 16rpx;
+}
+
+.role-card-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 12rpx;
+}
+
+.role-card-desc {
+  font-size: 26rpx;
+  color: #86909C;
+  margin-bottom: 24rpx;
+  line-height: 1.6;
+}
+
+.role-card-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.feature-item {
+  font-size: 24rpx;
+  color: #4E5969;
+  line-height: 1.6;
+}
+
+.role-card-check {
+  position: absolute;
+  top: 24rpx;
+  right: 28rpx;
+  width: 48rpx;
+  height: 48rpx;
+  background: #2B6FF2;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+/* 确认按钮区 */
+.confirm-section {
+  margin-top: 36rpx;
+  padding: 0 20rpx 24rpx;
+}
+
+.confirm-btn {
+  width: 100%;
+  height: 96rpx;
+  background: linear-gradient(135deg, #2B6FF2, #1a5bd9);
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 16rpx;
+  border: none;
+  letter-spacing: 4rpx;
+}
+
+.confirm-btn--disabled {
+  background: #C9CDD4;
+  color: #FFFFFF;
+}
+
+.confirm-btn::after {
+  border: none;
+}
+
+.confirm-hint {
+  text-align: center;
+  font-size: 24rpx;
+  color: #F59E0B;
+  margin-top: 16rpx;
+}

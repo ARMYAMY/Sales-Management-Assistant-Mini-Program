@@ -1,0 +1,112 @@
+<!--pages/train/index.wxml - AI训练入口页-->
+<view class="container train-page">
+
+  <!-- 当前对标卡片 -->
+  <view class="benchmark-card">
+    <view class="benchmark-header">
+      <view class="benchmark-tag">当前对标</view>
+      <view class="benchmark-switch" bindtap="goToSelectBenchmark">切换对标 →</view>
+    </view>
+    <view class="benchmark-info">
+      <view class="benchmark-name">{{benchmark.name || '暂未设置'}}</view>
+      <view class="benchmark-desc">{{benchmark.desc || '选择一位Top Sales作为你的训练标杆'}}</view>
+      <view class="benchmark-score" wx:if="{{benchmark.score > 0}}">
+        <text class="score-value">综合评分 {{benchmark.score}}</text>
+        <text class="score-change" wx:if="{{benchmark.change !== 0}}">
+          {{benchmark.change > 0 ? '↑' : '↓'}} {{Math.abs(benchmark.change)}} 分
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 训练场景选择 -->
+  <view class="section-title">训练场景选择</view>
+  <view class="scenario-list">
+    <view
+      class="scenario-card {{item.isWeak ? 'scenario-weak' : ''}}"
+      wx:for="{{scenarios}}"
+      wx:key="type"
+      bindtap="startTraining"
+      data-type="{{item.type}}"
+      data-name="{{item.name}}"
+    >
+      <view class="scenario-main">
+        <view class="scenario-icon">{{item.icon}}</view>
+        <view class="scenario-content">
+          <view class="scenario-name-row">
+            <text class="scenario-name">{{item.name}}</text>
+            <text class="scenario-weak-tag" wx:if="{{item.isWeak}}">⚠ 弱项</text>
+          </view>
+          <view class="scenario-desc">{{item.desc}}</view>
+          <view class="scenario-stats">
+            <text>训练 {{item.count}} 次</text>
+            <text wx:if="{{item.count > 0}}"> · 均分 {{item.avgScore}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="scenario-arrow">→</view>
+    </view>
+
+    <!-- 自定义场景 -->
+    <view class="scenario-card scenario-custom" bindtap="showCustomModal">
+      <view class="scenario-main">
+        <view class="scenario-icon">🎯</view>
+        <view class="scenario-content">
+          <view class="scenario-name">自定义场景</view>
+          <view class="scenario-desc">自己设定客户类型和对话场景</view>
+        </view>
+      </view>
+      <view class="scenario-arrow">→</view>
+    </view>
+  </view>
+
+  <!-- 我的成长 -->
+  <view class="growth-section" bindtap="goToGrowth">
+    <view class="growth-header">
+      <text class="growth-title">📈 我的成长</text>
+      <text class="growth-arrow">→</text>
+    </view>
+    <view class="growth-chart" wx:if="{{growthData.length > 0}}">
+      <view class="chart-bars">
+        <view
+          class="chart-bar"
+          wx:for="{{growthData}}"
+          wx:key="date"
+          style="height: {{item.score}}%;"
+        >
+          <view class="chart-tooltip">{{item.score}}</view>
+        </view>
+      </view>
+      <view class="chart-labels">
+        <text wx:for="{{growthData}}" wx:key="date">{{item.label}}</text>
+      </view>
+    </view>
+    <view class="growth-empty" wx:else>
+      <text>完成首次训练后查看成长曲线</text>
+    </view>
+  </view>
+
+  <!-- 自定义场景弹窗 -->
+  <view class="modal-mask" wx:if="{{showCustomModal}}" bindtap="hideCustomModal">
+    <view class="modal-content" catchtap="preventBubble">
+      <view class="modal-title">自定义训练场景</view>
+      <view class="form-item">
+        <view class="form-label">客户类型</view>
+        <input class="form-input" placeholder="如：医疗器械采购经理" value="{{customCustomer}}" bindinput="onCustomCustomerInput" />
+      </view>
+      <view class="form-item">
+        <view class="form-label">行业</view>
+        <input class="form-input" placeholder="如：医疗器械" value="{{customIndustry}}" bindinput="onCustomIndustryInput" />
+      </view>
+      <view class="form-item">
+        <view class="form-label">对话目标</view>
+        <input class="form-input" placeholder="如：争取更好价格" value="{{customGoal}}" bindinput="onCustomGoalInput" />
+      </view>
+      <view class="modal-btns">
+        <button class="btn-cancel" bindtap="hideCustomModal">取消</button>
+        <button class="btn-confirm" bindtap="startCustomTraining">开始训练</button>
+      </view>
+    </view>
+  </view>
+
+</view>

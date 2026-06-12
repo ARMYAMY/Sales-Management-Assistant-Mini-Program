@@ -1,0 +1,166 @@
+/* pages/distill/trigger.wxss */
+.page {
+  background: #F5F7FA;
+  min-height: 100vh;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+/* 导航栏 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background: #FFFFFF;
+  border-bottom: 2rpx solid #F0F1F2;
+}
+.nav-back {
+  font-size: 36rpx;
+  color: #1A1A1A;
+  width: 60rpx;
+}
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.nav-placeholder {
+  width: 60rpx;
+}
+
+/* 目标销售 */
+.target-bar {
+  background: #FFFFFF;
+  padding: 24rpx 32rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 2rpx solid #F0F1F2;
+}
+.target-label {
+  font-size: 28rpx;
+  color: #86909C;
+}
+.target-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-left: 12rpx;
+}
+
+/* 检查区块 */
+.check-section {
+  background: #FFFFFF;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.check-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 24rpx;
+}
+
+/* Gate列表 */
+.gate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+.gate-item {
+  display: flex;
+  align-items: flex-start;
+}
+.gate-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+  margin-top: 2rpx;
+}
+.gate-info {
+  flex: 1;
+}
+.gate-name {
+  font-size: 28rpx;
+  color: #1A1A1A;
+}
+.gate-detail {
+  font-size: 24rpx;
+  color: #86909C;
+  margin-top: 4rpx;
+}
+
+/* 信息区块 */
+.info-section {
+  background: #FFFFFF;
+  margin: 0 24rpx 24rpx;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.info-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 20rpx;
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12rpx 0;
+  border-bottom: 2rpx solid #F5F7FA;
+}
+.info-row:last-child {
+  border-bottom: none;
+}
+.info-label {
+  font-size: 26rpx;
+  color: #86909C;
+}
+.info-value {
+  font-size: 26rpx;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+
+/* 分析维度 */
+.dim-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+}
+.dim-check {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+}
+.dim-name {
+  font-size: 26rpx;
+  color: #1A1A1A;
+}
+
+/* 操作区 */
+.action-area {
+  margin: 0 24rpx;
+  padding-top: 16rpx;
+}
+.btn-start {
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  color: #FFFFFF;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 24rpx rgba(43,111,242,0.3);
+}
+.btn-start.disabled {
+  background: #C9CDD4;
+  box-shadow: none;
+}
+.btn-hint {
+  text-align: center;
+  font-size: 24rpx;
+  color: #86909C;
+  margin-top: 16rpx;
+}

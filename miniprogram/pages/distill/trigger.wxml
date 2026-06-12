@@ -1,0 +1,68 @@
+<!--pages/distill/trigger.wxml - 蒸馏发起页（设计文档4.3.3）-->
+<view class="page">
+  <!-- 返回+标题 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">←</view>
+    <view class="nav-title">蒸馏 Top Sales</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 目标销售 -->
+  <view class="target-bar">
+    <text class="target-label">目标销售：</text>
+    <text class="target-name">{{salesName}}</text>
+  </view>
+
+  <!-- 检查状态 -->
+  <view class="check-section">
+    <view class="check-title" wx:if="{{checking}}">⏳ 数据检查中...</view>
+    <view class="check-title" wx:else>✅ 数据检查完成</view>
+
+    <view class="gate-list">
+      <view class="gate-item {{item.status}}" wx:for="{{gates}}" wx:key="name">
+        <view class="gate-icon">
+          <text wx:if="{{item.status === 'pass'}}">✅</text>
+          <text wx:elif="{{item.status === 'warn'}}">⚠️</text>
+          <text wx:elif="{{item.status === 'fail'}}">❌</text>
+          <text wx:else>⏳</text>
+        </view>
+        <view class="gate-info">
+          <view class="gate-name">{{item.name}}</view>
+          <view class="gate-detail" wx:if="{{item.detail}}">{{item.detail}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据范围 -->
+  <view class="info-section">
+    <view class="info-title">数据范围</view>
+    <view class="info-row">
+      <text class="info-label">时间</text>
+      <text class="info-value">{{dateRange.start}} ~ {{dateRange.end}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">记录数</text>
+      <text class="info-value">{{recordCount}} 条</text>
+    </view>
+  </view>
+
+  <!-- 分析维度 -->
+  <view class="info-section">
+    <view class="info-title">将分析以下维度</view>
+    <view class="dim-item" wx:for="{{analysisDims}}" wx:key="name">
+      <text class="dim-check">✅</text>
+      <text class="dim-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 开始按钮 -->
+  <view class="action-area">
+    <view class="btn-start {{canStart ? '' : 'disabled'}}" bindtap="startDistill">
+      {{canStart ? '开始蒸馏分析' : '请检查数据要求'}}
+    </view>
+    <view class="btn-hint" wx:if="{{canStart}}">预计耗时 3-5 分钟</view>
+  </view>
+
+  <view style="height:40rpx;"></view>
+</view>

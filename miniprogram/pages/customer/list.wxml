@@ -1,0 +1,122 @@
+<!--pages/customer/list.wxml - 客户清单-->
+<view class="container customer-page">
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索客户名称"
+        placeholder-class="search-placeholder"
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+        confirm-type="search"
+      />
+      <view class="search-clear" wx:if="{{keyword}}" bindtap="onClearSearch">✕</view>
+    </view>
+  </view>
+
+  <!-- 筛选标签 -->
+  <view class="filter-tabs">
+    <view class="filter-tab {{filter === 'all' ? 'filter-tab--active' : ''}}" bindtap="onFilterChange" data-filter="all">
+      全部客户
+      <text class="filter-count">{{total}}</text>
+    </view>
+    <view class="filter-tab {{filter === 'core' ? 'filter-tab--active' : ''}}" bindtap="onFilterChange" data-filter="core">
+      核心客户
+      <text class="filter-count">{{coreCount}}</text>
+    </view>
+  </view>
+
+  <!-- 客户列表 -->
+  <view class="customer-list">
+    <!-- 加载中骨架屏 -->
+    <view wx:if="{{loading && customers.length === 0}}">
+      <view class="customer-card skeleton" wx:for="{{5}}" wx:key="index">
+        <view class="skeleton" style="width:40%;height:36rpx;margin-bottom:20rpx;border-radius:4rpx;"></view>
+        <view class="skeleton" style="width:60%;height:28rpx;border-radius:4rpx;"></view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{!loading && customers.length === 0}}">
+      <view class="empty-icon">📋</view>
+      <view class="empty-text">{{filter === 'core' ? '暂无核心客户' : '暂无客户记录'}}</view>
+      <view class="empty-hint">录入拜访后，客户会自动出现在这里</view>
+    </view>
+
+    <!-- 列表 -->
+    <view class="customer-card {{item.isCore ? 'customer-card--core' : ''}}"
+      wx:for="{{customers}}"
+      wx:key="name"
+      bindtap="onCustomerTap"
+      data-name="{{item.name}}"
+      data-core="{{item.isCore}}"
+    >
+      <!-- 左侧核心标记 -->
+      <view class="customer-core-mark" wx:if="{{item.isCore}}">
+        <text class="core-star">⭐</text>
+      </view>
+
+      <view class="customer-main">
+        <!-- 名称行 -->
+        <view class="customer-header">
+          <view class="customer-name">{{item.name}}</view>
+          <view class="customer-tag {{item.isCore ? 'tag-core' : 'tag-normal'}}">
+            {{item.isCore ? '核心' : '普通'}}
+          </view>
+        </view>
+
+        <!-- 统计行 -->
+        <view class="customer-stats">
+          <view class="stat-item">
+            <text class="stat-num">{{item.visitCount}}</text>
+            <text class="stat-label">次拜访</text>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <text class="stat-label">最近</text>
+            <text class="stat-date">{{item.lastVisitDateStr || '-'}}</text>
+          </view>
+          <view class="stat-divider" wx:if="{{item.lastResult}}"></view>
+          <view class="stat-item" wx:if="{{item.lastResult}}">
+            <text class="stat-label">结果</text>
+            <text class="stat-result">{{item.lastResult}}</text>
+          </view>
+        </view>
+
+        <!-- 联系人 -->
+        <view class="customer-contact" wx:if="{{item.lastContact}}">
+          <text class="contact-label">联系人：</text>
+          <text class="contact-name">{{item.lastContact}}</text>
+        </view>
+      </view>
+
+      <!-- 右侧操作 -->
+      <view class="customer-actions">
+        <view class="action-btn action-btn--core"
+          catchtap="onToggleCore"
+          data-index="{{index}}"
+        >
+          {{item.isCore ? '取消' : '标记'}}
+        </view>
+        <view class="action-btn action-btn--visit"
+          catchtap="onViewHistory"
+          data-name="{{item.name}}"
+        >
+          历史
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{loading && customers.length > 0}}">
+      <text class="load-more-text">加载中...</text>
+    </view>
+    <view class="load-more" wx:if="{{!loading && !hasMore && customers.length > 0}}">
+      <text class="load-more-text">已经到底了</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,153 @@
+<!-- pages/report/detail/detail.wxml -->
+<view class="container report-detail-page">
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-text">加载中…</view>
+  </view>
+
+  <!-- 报告内容 -->
+  <block wx:else>
+    <!-- 顶部标题区 -->
+    <view class="report-header">
+      <view class="report-badge report-badge--{{report.type}}">{{report.type === 'daily' ? '日报' : '周报'}}</view>
+      <view class="report-title">{{report.title}}</view>
+      <view class="report-meta">
+        <text>共 {{report.summary.totalVisits}} 次拜访</text>
+        <text wx:if="{{report.summary.customerCount > 0}}"> · {{report.summary.customerCount}} 家客户</text>
+        <text class="report-source" wx:if="{{report.source === 'fallback'}}">（基础版）</text>
+      </view>
+    </view>
+
+    <!-- 统计概览卡片 -->
+    <view class="stats-grid">
+      <view class="stat-box">
+        <view class="stat-box-value">{{report.summary.totalVisits}}</view>
+        <view class="stat-box-label">拜访次数</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-box-value">{{report.summary.customerCount}}</view>
+        <view class="stat-box-label">客户数</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-box-value">{{report.summary.coreVisits}}</view>
+        <view class="stat-box-label">核心客户</view>
+      </view>
+      <view class="stat-box" wx:if="{{report.summary.totalAmount > 0}}">
+        <view class="stat-box-value">{{report.summary.totalAmount}}w</view>
+        <view class="stat-box-label">涉及金额</view>
+      </view>
+    </view>
+
+    <!-- 标签切换 -->
+    <view class="detail-tabs">
+      <view class="detail-tab {{activeTab === 'summary' ? 'detail-tab--active' : ''}}" bindtap="switchTab" data-tab="summary">
+        <text>AI 摘要</text>
+      </view>
+      <view class="detail-tab {{activeTab === 'visits' ? 'detail-tab--active' : ''}}" bindtap="switchTab" data-tab="visits">
+        <text>拜访明细({{report.visits.length}})</text>
+      </view>
+    </view>
+
+    <!-- AI 摘要内容 -->
+    <view class="tab-panel" wx:if="{{activeTab === 'summary'}}">
+      <!-- 概览 -->
+      <view class="ai-card ai-overview">
+        <view class="ai-card-title">📌 总体概况</view>
+        <view class="ai-card-body">{{report.aiSummary.overview}}</view>
+      </view>
+
+      <!-- 完整报告 -->
+      <view class="ai-card ai-fulltext">
+        <view class="ai-card-title">📝 报告正文</view>
+        <view class="ai-card-body">{{report.aiSummary.fullText}}</view>
+      </view>
+
+      <!-- 亮点 -->
+      <view class="ai-card ai-highlights" wx:if="{{report.aiSummary.highlights.length > 0}}">
+        <view class="ai-card-title">✅ 亮点</view>
+        <view class="ai-card-list">
+          <view class="ai-card-item" wx:for="{{report.aiSummary.highlights}}" wx:key="index">{{item}}</view>
+        </view>
+      </view>
+
+      <!-- 关注 -->
+      <view class="ai-card ai-concerns" wx:if="{{report.aiSummary.concerns.length > 0}}">
+        <view class="ai-card-title">⚠️ 需关注</view>
+        <view class="ai-card-list">
+          <view class="ai-card-item" wx:for="{{report.aiSummary.concerns}}" wx:key="index">{{item}}</view>
+        </view>
+      </view>
+
+      <!-- 下一步 -->
+      <view class="ai-card ai-plan" wx:if="{{report.aiSummary.nextWeekPlan}}">
+        <view class="ai-card-title">🎯 下一步</view>
+        <view class="ai-card-body">{{report.aiSummary.nextWeekPlan}}</view>
+      </view>
+
+      <!-- 目的分布 -->
+      <view class="ai-card ai-distribution" wx:if="{{report.purposeItems.length > 0}}">
+        <view class="ai-card-title">📊 拜访目的分布</view>
+        <view class="dist-list">
+          <view class="dist-row" wx:for="{{report.purposeItems}}" wx:key="name">
+            <view class="dist-label">{{item.name}}</view>
+            <view class="dist-bar-wrap">
+              <view class="dist-bar" style="width: {{item.value / report.summary.totalVisits * 100}}%"></view>
+            </view>
+            <view class="dist-value">{{item.value}}次</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 结果分布 -->
+      <view class="ai-card ai-distribution" wx:if="{{report.resultItems.length > 0}}">
+        <view class="ai-card-title">📈 拜访结果分布</view>
+        <view class="dist-list">
+          <view class="dist-row" wx:for="{{report.resultItems}}" wx:key="name">
+            <view class="dist-label">{{item.name}}</view>
+            <view class="dist-bar-wrap">
+              <view class="dist-bar dist-bar--result" style="width: {{item.value / report.summary.totalVisits * 100}}%"></view>
+            </view>
+            <view class="dist-value">{{item.value}}次</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 拜访明细 -->
+    <view class="tab-panel" wx:if="{{activeTab === 'visits'}}">
+      <view wx:if="{{report.visits.length === 0}}" class="empty-state">
+        <view class="empty-text">本周期暂无拜访记录</view>
+      </view>
+      <view class="visit-list" wx:else>
+        <view class="visit-item" wx:for="{{report.visits}}" wx:key="_id" bindtap="goToVisitDetail" data-id="{{item._id}}">
+          <view class="visit-item-top">
+            <view class="visit-item-name">{{item.customerName}}</view>
+            <view class="visit-item-time">{{item.visitTime || item.visitDate.slice(5, 10)}}</view>
+          </view>
+          <view class="visit-item-mid">
+            <view class="visit-tag visit-tag--purpose">{{item.purpose}}</view>
+            <view class="visit-tag visit-tag--result">{{item.result}}</view>
+            <view class="visit-tag visit-tag--core" wx:if="{{item.isCore}}">核心</view>
+          </view>
+          <view class="visit-item-bot" wx:if="{{item.nextStep}}">
+            <text class="visit-next-label">后续：</text>
+            <text class="visit-next-val">{{item.nextStep}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部操作栏 -->
+    <view class="detail-actions">
+      <view class="action-btn action-btn--copy" bindtap="copyReport">
+        <text class="action-icon">📋</text>
+        <text>复制全文</text>
+      </view>
+      <button class="action-btn action-btn--share" open-type="share">
+        <text class="action-icon">↗️</text>
+        <text>分享</text>
+      </button>
+    </view>
+  </block>
+</view>

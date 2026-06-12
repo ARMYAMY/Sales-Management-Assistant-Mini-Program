@@ -1,0 +1,9 @@
+{
+  "name": "trainChat",
+  "version": "1.0.0",
+  "description": "AI训练对话交互",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

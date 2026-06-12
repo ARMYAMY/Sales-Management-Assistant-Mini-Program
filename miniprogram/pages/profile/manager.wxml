@@ -1,0 +1,66 @@
+<view class="page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="avatar">{{userInfo.name ? userInfo.name[0] : '管'}}</view>
+    <view class="name">{{userInfo.name || '管理者'}}</view>
+    <view class="team">{{userInfo.team || '管理团队'}}</view>
+  </view>
+
+  <!-- 管理概览 -->
+  <view class="overview-card">
+    <view class="overview-item">
+      <view class="overview-value">{{overview.teamSize}}</view>
+      <view class="overview-label">团队人数</view>
+    </view>
+    <view class="overview-item">
+      <view class="overview-value">{{overview.pendingAlerts}}</view>
+      <view class="overview-label">待处理预警</view>
+    </view>
+    <view class="overview-item">
+      <view class="overview-value">{{overview.thisMonthVisits}}</view>
+      <view class="overview-label">本月拜访</view>
+    </view>
+  </view>
+
+  <!-- 管理功能 -->
+  <view class="section">
+    <view class="section-title">管理功能</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goAlerts">
+        <view class="menu-icon">⚠️</view>
+        <view class="menu-text">风险预警</view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="goExport">
+        <view class="menu-icon">📤</view>
+        <view class="menu-text">数据导出</view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="goLibraryManage">
+        <view class="menu-icon">📚</view>
+        <view class="menu-text">话术库管理</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="section">
+    <view class="section-title">设置</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goSettings">
+        <view class="menu-icon">⚙️</view>
+        <view class="menu-text">系统设置</view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="switchRole">
+        <view class="menu-icon">🔄</view>
+        <view class="menu-text">切换角色</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出 -->
+  <view class="logout-btn" bindtap="logout">退出登录</view>
+</view>

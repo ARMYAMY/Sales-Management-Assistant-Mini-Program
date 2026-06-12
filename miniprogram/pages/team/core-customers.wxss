@@ -1,0 +1,130 @@
+/* pages/team/core-customers.wxss */
+.page {
+  background: #F5F7FA;
+  min-height: 100vh;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+.header {
+  background: #FFFFFF;
+  padding: 32rpx;
+  border-bottom: 2rpx solid #F0F1F2;
+}
+.header-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+.header-sub {
+  font-size: 24rpx;
+  color: #86909C;
+  margin-top: 8rpx;
+}
+
+/* 添加区 */
+.add-section {
+  background: #FFFFFF;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.add-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+.add-input {
+  flex: 1;
+  height: 72rpx;
+  background: #F5F7FA;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #1A1A1A;
+}
+.add-btn {
+  height: 72rpx;
+  line-height: 72rpx;
+  padding: 0 28rpx;
+  background: #3B82F6;
+  color: #FFFFFF;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* 列表 */
+.list-section {
+  margin: 0 24rpx;
+}
+.customer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.customer-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.customer-meta {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+.meta-tag {
+  font-size: 22rpx;
+  color: #3B82F6;
+  background: #EFF6FF;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+.meta-visit {
+  font-size: 22rpx;
+  color: #86909C;
+}
+.customer-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+.days-badge {
+  font-size: 22rpx;
+  color: #22C55E;
+  background: #F0FDF4;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+.days-badge.warning {
+  color: #EF4444;
+  background: #FEF2F2;
+}
+.remove-btn {
+  font-size: 24rpx;
+  color: #EF4444;
+  padding: 8rpx 16rpx;
+}
+
+/* 保存 */
+.save-bar {
+  margin: 32rpx 24rpx 0;
+}
+.btn-save {
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  color: #FFFFFF;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 24rpx rgba(43,111,242,0.3);
+}

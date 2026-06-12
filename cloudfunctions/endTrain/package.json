@@ -1,0 +1,9 @@
+{
+  "name": "endTrain",
+  "version": "1.0.0",
+  "description": "结束AI训练并生成报告",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

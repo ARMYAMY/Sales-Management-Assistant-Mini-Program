@@ -1,0 +1,24 @@
+<!--pages/login/index.wxml-->
+<view class="container login-page">
+  <!-- Logo 区域 -->
+  <view class="login-header">
+    <view class="logo-wrap">
+      <view class="logo-icon">📱</view>
+      <view class="logo-title">销售助手</view>
+    </view>
+    <view class="logo-slogan">让优秀可以复制</view>
+  </view>
+
+  <!-- 进入按钮 -->
+  <view class="login-form">
+    <button class="btn-primary login-btn" bindtap="onEnter" disabled="{{loading}}">
+      <text wx:if="{{loading}}">加载中...</text>
+      <text wx:else>进入工作台</text>
+    </button>
+  </view>
+
+  <!-- 协议 -->
+  <view class="login-agreement">
+    使用即表示同意<text class="link">《用户协议》</text>和<text class="link">《隐私政策》</text>
+  </view>
+</view>

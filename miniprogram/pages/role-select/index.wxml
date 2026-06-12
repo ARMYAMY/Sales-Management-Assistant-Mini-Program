@@ -1,0 +1,53 @@
+<!--pages/role-select/index.wxml - 角色选择页-->
+<scroll-view class="role-page-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+  <!--顶部品牌区-->
+  <view class="brand-section">
+    <view class="brand-logo">🤝</view>
+    <view class="brand-name">销售助手</view>
+    <view class="brand-slogan">让优秀可以复制</view>
+  </view>
+
+  <!--角色选择区-->
+  <view class="role-section">
+    <view class="role-title">请选择你的角色</view>
+    <view class="role-cards">
+      <!--销售卡片-->
+      <view class="role-card {{selectedRole === 'sales' ? 'role-card--active' : ''}}"
+            bindtap="selectRole" data-role="sales">
+        <view class="role-card-icon">💼</view>
+        <view class="role-card-title">我是销售</view>
+        <view class="role-card-desc">管理拜访记录、AI话术训练、查看个人数据</view>
+        <view class="role-card-features">
+          <view class="feature-item">📋 拜访录入与历史</view>
+          <view class="feature-item">🤖 AI 话术训练</view>
+          <view class="feature-item">📊 个人周报</view>
+        </view>
+        <view class="role-card-check" wx:if="{{selectedRole === 'sales'}}">✅</view>
+      </view>
+
+      <!--管理者卡片-->
+      <view class="role-card {{selectedRole === 'manager' ? 'role-card--active' : ''}}"
+            bindtap="selectRole" data-role="manager">
+        <view class="role-card-icon">📊</view>
+        <view class="role-card-title">我是管理者</view>
+        <view class="role-card-desc">查看团队数据、管理核心客户、蒸馏Top Sales技能包</view>
+        <view class="role-card-features">
+          <view class="feature-item">📈 团队数据看板</view>
+          <view class="feature-item">👥 团队成员管理</view>
+          <view class="feature-item">📚 话术库管理</view>
+        </view>
+        <view class="role-card-check" wx:if="{{selectedRole === 'manager'}}">✅</view>
+      </view>
+    </view>
+  </view>
+
+  <!--确认按钮-->
+  <view class="confirm-section">
+    <button class="confirm-btn {{selectedRole ? '' : 'confirm-btn--disabled'}}"
+            disabled="{{!selectedRole}}"
+            bindtap="confirmRole">
+      进入{{selectedRole === 'sales' ? '销售工作台' : '管理看板'}}
+    </button>
+    <view class="confirm-hint" wx:if="{{!selectedRole}}">请先选择一个角色</view>
+  </view>
+</scroll-view>

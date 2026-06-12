@@ -1,0 +1,118 @@
+/* pages/train/history.wxss - 训练历史页 */
+.history-page {
+  padding-bottom: 48rpx;
+  background: #F5F7FA;
+  min-height: 100vh;
+}
+
+/* 汇总 */
+.history-summary {
+  display: flex;
+  justify-content: space-around;
+  padding: 32rpx;
+  background: linear-gradient(135deg, #2B6FF2, #1a5bd9);
+}
+
+.summary-item {
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.summary-num {
+  font-size: 44rpx;
+  font-weight: 700;
+  margin-bottom: 4rpx;
+}
+
+.summary-label {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.7);
+}
+
+/* 列表 */
+.history-list {
+  padding: 24rpx 32rpx;
+}
+
+.history-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+.history-card:active {
+  background: #F8F9FA;
+}
+
+.history-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.history-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+  width: 60rpx;
+  text-align: center;
+}
+
+.history-info {
+  flex: 1;
+}
+
+.history-scenario {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #1A1A1A;
+  margin-bottom: 6rpx;
+}
+
+.history-meta {
+  font-size: 22rpx;
+  color: #86909C;
+}
+
+.history-score {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+
+.score-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #2B6FF2;
+}
+
+.score-label {
+  font-size: 22rpx;
+  color: #86909C;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 32rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #1A1A1A;
+  margin-bottom: 12rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #86909C;
+}

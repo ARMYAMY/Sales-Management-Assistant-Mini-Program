@@ -1,0 +1,31 @@
+<!--custom-tab-bar/index.wxml - 自定义 Tab 栏-->
+<view class="tab-bar">
+  <view class="tab-bar-inner">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="index"
+      class="tab-item {{index === activeIndex ? 'tab-item--active' : ''}} {{item.center ? 'tab-item--center' : ''}}"
+      bindtap="switchTab"
+      data-index="{{index}}"
+      data-path="{{item.pagePath}}"
+    >
+      <!--中心凸起按钮（销售端录入）-->
+      <view wx:if="{{item.center}}" class="center-btn">
+        <view class="center-btn-inner">
+          <view class="center-icon">✏️</view>
+          <view class="center-text">录入</view>
+        </view>
+      </view>
+
+      <!--普通 Tab-->
+      <block wx:else>
+        <view class="tab-icon">
+          <view class="tab-icon-text">{{item.iconText}}</view>
+        </view>
+        <view class="tab-text {{index === activeIndex ? 'tab-text--active' : ''}}">
+          {{item.text}}
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

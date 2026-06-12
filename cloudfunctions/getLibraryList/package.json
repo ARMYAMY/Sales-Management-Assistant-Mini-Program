@@ -1,0 +1,9 @@
+{
+  "name": "getLibraryList",
+  "version": "1.0.0",
+  "description": "获取话术库技能包列表",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

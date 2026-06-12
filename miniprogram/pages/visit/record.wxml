@@ -1,0 +1,219 @@
+<!--pages/visit/record.wxml - 录入拜访-->
+<view class="container record-page">
+  <!-- 顶部 -->
+  <view class="page-header">
+    <view class="header-title">录入拜访</view>
+    <view class="header-voice" bindtap="goToVoice">语音录入</view>
+  </view>
+
+  <!-- 必填信息卡片 -->
+  <view class="section-label">必填信息</view>
+  <view class="form-card">
+    <!-- 客户名称 -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text> 客户名称
+      </view>
+      <view class="input-wrap">
+        <input
+          class="form-input"
+          placeholder="请选择或输入客户名称"
+          placeholder-class="input-placeholder"
+          value="{{customerName}}"
+          bindinput="onCustomerInput"
+          bindfocus="onShowCustomerSuggest"
+        />
+        <view class="input-arrow">▼</view>
+      </view>
+      <!-- 搜索建议下拉 -->
+      <view class="suggest-list" wx:if="{{showSuggest && customerSuggest.length > 0}}">
+        <view
+          class="suggest-item"
+          wx:for="{{customerSuggest}}"
+          wx:key="*this"
+          bindtap="onSelectCustomer"
+          data-name="{{item}}"
+        >{{item}}</view>
+      </view>
+    </view>
+
+    <!-- 联系人 -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text> 联系人
+      </view>
+      <input
+        class="form-input"
+        placeholder="请输入联系人姓名及职位"
+        placeholder-class="input-placeholder"
+        value="{{contactPerson}}"
+        bindinput="onContactInput"
+      />
+    </view>
+
+    <!-- 拜访时间 -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text> 拜访时间
+      </view>
+      <view class="datetime-picker">
+        <picker mode="date" value="{{visitDate}}" bindchange="onDateChange">
+          <view class="picker-value {{visitDate ? '' : 'placeholder'}}">
+            {{visitDate || '选择日期'}}
+          </view>
+        </picker>
+        <picker mode="time" value="{{visitTime}}" bindchange="onTimeChange">
+          <view class="picker-value {{visitTime ? '' : 'placeholder'}}">
+            {{visitTime || '选择时间'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 拜访地点 -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text> 拜访地点
+      </view>
+      <view class="radio-group">
+        <view
+          class="radio-btn {{visitLocation === item ? 'radio-btn--active' : ''}}"
+          wx:for="{{locationOptions}}"
+          wx:key="*this"
+          bindtap="onLocationSelect"
+          data-value="{{item}}"
+        >{{item}}</view>
+      </view>
+    </view>
+
+    <!-- 拜访目的 -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text> 拜访目的
+      </view>
+      <picker bindchange="onPurposeChange" value="{{purposeIndex}}" range="{{purposeOptions}}">
+        <view class="picker-wrap">
+          <view class="picker-value {{purposeIndex >= 0 ? '' : 'placeholder'}}">
+            {{purposeIndex >= 0 ? purposeOptions[purposeIndex] : '请选择拜访目的'}}
+          </view>
+          <view class="input-arrow">▼</view>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 拜访结果 -->
+    <view class="form-group">
+      <view class="form-label">
+        <text class="required">*</text> 拜访结果
+      </view>
+      <picker bindchange="onResultChange" value="{{resultIndex}}" range="{{resultOptions}}">
+        <view class="picker-wrap">
+          <view class="picker-value {{resultIndex >= 0 ? '' : 'placeholder'}}">
+            {{resultIndex >= 0 ? resultOptions[resultIndex] : '请选择拜访结果'}}
+          </view>
+          <view class="input-arrow">▼</view>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 选填信息卡片 -->
+  <view class="section-label">选填信息</view>
+  <view class="form-card">
+    <!-- 拜访背景 -->
+    <view class="form-group">
+      <view class="form-label">拜访背景 (Why)</view>
+      <textarea
+        class="form-textarea"
+        placeholder="输入拜访背景..."
+        placeholder-class="input-placeholder"
+        value="{{background}}"
+        bindinput="onBackgroundInput"
+        maxlength="500"
+      />
+    </view>
+
+    <!-- 详细过程 -->
+    <view class="form-group">
+      <view class="form-label">详细过程 (How)</view>
+      <textarea
+        class="form-textarea"
+        placeholder="描述拜访中的对话、客户关注点..."
+        placeholder-class="input-placeholder"
+        value="{{content}}"
+        bindinput="onContentInput"
+        maxlength="2000"
+      />
+    </view>
+
+    <!-- 下一步计划 -->
+    <view class="form-group">
+      <view class="form-label">下一步计划</view>
+      <textarea
+        class="form-textarea"
+        placeholder="输入下一步计划..."
+        placeholder-class="input-placeholder"
+        value="{{nextStep}}"
+        bindinput="onNextStepInput"
+        maxlength="500"
+      />
+    </view>
+
+    <!-- 涉及金额 -->
+    <view class="form-group">
+      <view class="form-label">涉及金额</view>
+      <view class="input-wrap" style="display:flex;align-items:center;">
+        <input
+          class="form-input"
+          type="digit"
+          placeholder="请输入金额"
+          placeholder-class="input-placeholder"
+          value="{{amount}}"
+          bindinput="onAmountInput"
+          style="flex:1;"
+        />
+        <text style="padding-right:24rpx;color:#1A1A1A;font-size:30rpx;">元</text>
+      </view>
+    </view>
+
+    <!-- 敏感标记 -->
+    <view class="form-group">
+      <view class="checkbox-wrap" bindtap="onToggleSensitive">
+        <view class="checkbox {{amountSensitive ? 'checkbox--checked' : ''}}">
+          <text wx:if="{{amountSensitive}}">✓</text>
+        </view>
+        <text class="checkbox-label">标记为敏感（仅管理者可见）</text>
+      </view>
+    </view>
+
+    <!-- 竞品提及 -->
+    <view class="form-group">
+      <view class="form-label">竞品提及</view>
+      <textarea
+        class="form-textarea"
+        placeholder="输入客户提及的竞品信息..."
+        placeholder-class="input-placeholder"
+        value="{{competitorInfo}}"
+        bindinput="onCompetitorInput"
+        maxlength="500"
+      />
+    </view>
+
+    <!-- 核心客户 -->
+    <view class="form-group">
+      <view class="checkbox-wrap" bindtap="onToggleCore">
+        <view class="checkbox {{isCoreCustomer ? 'checkbox--checked checkbox--disabled' : 'checkbox'}}">
+          <text wx:if="{{isCoreCustomer}}">✓</text>
+        </view>
+        <text class="checkbox-label">本次拜访为核心客户</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <button
+    class="btn-primary submit-btn"
+    bindtap="onSubmit"
+    disabled="{{!canSubmit || loading}}"
+  >{{loading ? '提交中...' : '提交拜访记录'}}</button>
+</view>

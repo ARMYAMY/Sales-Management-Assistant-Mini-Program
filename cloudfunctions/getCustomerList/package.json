@@ -1,0 +1,9 @@
+{
+  "name": "getCustomerList",
+  "version": "1.0.0",
+  "description": "获取客户列表（从拜访记录聚合）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

@@ -1,0 +1,42 @@
+<!--pages/team/core-customers.wxml - 核心客户设定页-->
+<view class="page">
+  <view class="header">
+    <view class="header-title">{{salesName}} 的核心客户</view>
+    <view class="header-sub">已设定 {{coreList.length}} 家</view>
+  </view>
+
+  <!-- 添加新客户 -->
+  <view class="add-section">
+    <view class="add-row">
+      <input class="add-input" placeholder="输入客户名称"
+             value="{{newCustomerName}}" bindinput="onNameInput" />
+      <view class="add-btn" bindtap="addCustomer">+ 添加</view>
+    </view>
+  </view>
+
+  <!-- 客户列表 -->
+  <view class="list-section">
+    <view class="customer-item" wx:for="{{coreList}}" wx:key="id">
+      <view class="customer-main">
+        <view class="customer-name">{{item.name}}</view>
+        <view class="customer-meta">
+          <text class="meta-tag">{{item.industry}}</text>
+          <text class="meta-visit" wx:if="{{item.lastVisit !== '-'}}">上次拜访 {{item.lastVisit}}</text>
+        </view>
+      </view>
+      <view class="customer-right">
+        <view class="days-badge {{item.days > 30 ? 'warning' : ''}}" wx:if="{{item.days !== '-'}}">
+          {{item.days}}天
+        </view>
+        <view class="remove-btn" bindtap="removeCustomer" data-id="{{item.id}}">移除</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存 -->
+  <view class="save-bar">
+    <view class="btn-save" bindtap="save">保存设定</view>
+  </view>
+
+  <view style="height:40rpx;"></view>
+</view>

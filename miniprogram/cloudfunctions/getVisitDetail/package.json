@@ -1,0 +1,9 @@
+{
+  "name": "getVisitDetail",
+  "version": "1.0.0",
+  "description": "获取拜访详情",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

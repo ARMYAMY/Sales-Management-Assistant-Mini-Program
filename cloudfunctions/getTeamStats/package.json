@@ -1,0 +1,9 @@
+{
+  "name": "getTeamStats",
+  "version": "1.0.0",
+  "description": "获取团队统计数据（看板用）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

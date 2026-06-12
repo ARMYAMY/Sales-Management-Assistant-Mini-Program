@@ -1,0 +1,269 @@
+/* pages/customer/list.wxss - 客户清单 */
+.customer-page {
+  min-height: 100vh;
+  background-color: #F5F7FA;
+}
+
+/* 搜索栏 */
+.search-bar {
+  padding: 24rpx 32rpx;
+  background-color: #FFFFFF;
+  border-bottom: 2rpx solid rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  background-color: #F5F7FA;
+  border-radius: 16rpx;
+  padding: 16rpx 24rpx;
+}
+
+.search-icon {
+  font-size: 28rpx;
+  color: #86909C;
+  margin-right: 12rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 30rpx;
+  color: #1A1A1A;
+  height: 48rpx;
+  line-height: 48rpx;
+}
+
+.search-placeholder {
+  color: #C9CDD4;
+}
+
+.search-clear {
+  font-size: 24rpx;
+  color: #86909C;
+  padding: 8rpx;
+  margin-left: 8rpx;
+}
+
+/* 筛选标签 */
+.filter-tabs {
+  display: flex;
+  gap: 24rpx;
+  padding: 24rpx 32rpx;
+  background-color: #FFFFFF;
+}
+
+.filter-tab {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #86909C;
+  padding: 12rpx 24rpx;
+  border-radius: 32rpx;
+  background-color: #F5F7FA;
+  transition: all 0.2s;
+}
+
+.filter-tab--active {
+  background-color: #2B6FF2;
+  color: #FFFFFF;
+}
+
+.filter-count {
+  font-size: 22rpx;
+  margin-left: 8rpx;
+  opacity: 0.8;
+}
+
+/* 客户列表 */
+.customer-list {
+  padding: 16rpx 32rpx 48rpx;
+}
+
+.customer-card {
+  display: flex;
+  align-items: flex-start;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.customer-card--core {
+  border-left: 6rpx solid #F59E0B;
+}
+
+.customer-core-mark {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+}
+
+.core-star {
+  font-size: 36rpx;
+}
+
+.customer-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.customer-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.customer-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-right: 16rpx;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.customer-tag {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.tag-core {
+  color: #F59E0B;
+  background-color: #FEF3C7;
+}
+
+.tag-normal {
+  color: #86909C;
+  background-color: #F5F7FA;
+}
+
+/* 统计 */
+.customer-stats {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stat-num {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #2B6FF2;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+.stat-date {
+  font-size: 24rpx;
+  color: #4E5969;
+}
+
+.stat-result {
+  font-size: 24rpx;
+  color: #22C55E;
+}
+
+.stat-divider {
+  width: 2rpx;
+  height: 24rpx;
+  background-color: #E5E7EB;
+}
+
+/* 联系人 */
+.customer-contact {
+  display: flex;
+  align-items: center;
+}
+
+.contact-label {
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+.contact-name {
+  font-size: 24rpx;
+  color: #4E5969;
+}
+
+/* 操作按钮 */
+.customer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-left: 20rpx;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  padding: 12rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  text-align: center;
+  min-width: 80rpx;
+}
+
+.action-btn--core {
+  color: #F59E0B;
+  background-color: #FEF3C7;
+  border: 2rpx solid #FDE68A;
+}
+
+.action-btn--visit {
+  color: #2B6FF2;
+  background-color: #EFF6FF;
+  border: 2rpx solid #BFDBFE;
+}
+
+/* 加载更多 */
+.load-more {
+  text-align: center;
+  padding: 32rpx 0;
+}
+
+.load-more-text {
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 48rpx;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #86909C;
+  margin-bottom: 12rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #C9CDD4;
+}

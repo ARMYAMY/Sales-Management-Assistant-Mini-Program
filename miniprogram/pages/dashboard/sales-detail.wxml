@@ -1,0 +1,42 @@
+<!--pages/dashboard/sales-detail.wxml - 销售详情页-->
+<view class="page">
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">←</view>
+    <view class="nav-title">{{name}}</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-row">
+    <view class="stat-card">
+      <view class="stat-value">{{stats.totalVisits}}</view>
+      <view class="stat-label">总拜访</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.customerCount}}</view>
+      <view class="stat-label">覆盖客户</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.coreRatio}}</view>
+      <view class="stat-label">核心覆盖</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.avgScore}}</view>
+      <view class="stat-label">训练均分</view>
+    </view>
+  </view>
+
+  <!-- 最近拜访 -->
+  <view class="section">
+    <view class="section-title">最近拜访</view>
+    <view class="visit-item" wx:for="{{recentVisits}}" wx:key="id">
+      <view class="visit-main">
+        <view class="visit-customer">{{item.customer}}</view>
+        <view class="visit-meta">{{item.date}} · {{item.stage}}</view>
+      </view>
+      <view class="visit-result">{{item.result}}</view>
+    </view>
+  </view>
+
+  <view style="height:40rpx;"></view>
+</view>

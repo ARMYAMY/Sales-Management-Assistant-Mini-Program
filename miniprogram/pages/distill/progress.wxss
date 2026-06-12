@@ -1,0 +1,118 @@
+/* pages/distill/progress.wxss */
+.page {
+  background: #F5F7FA;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 32rpx;
+}
+
+.header {
+  margin-bottom: 48rpx;
+}
+.header-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+/* 圆形进度 */
+.progress-ring-wrap {
+  margin-bottom: 40rpx;
+}
+.progress-ring {
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 50%;
+  border: 16rpx solid #DBEAFE;
+  border-top-color: #3B82F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.progress-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #3B82F6;
+  animation: none;
+}
+
+/* 步骤标题 */
+.step-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 32rpx;
+}
+
+/* 步骤列表 */
+.step-list {
+  width: 100%;
+  max-width: 560rpx;
+  margin-bottom: 32rpx;
+}
+.step-item {
+  display: flex;
+  align-items: center;
+  padding: 14rpx 0;
+}
+.step-icon {
+  font-size: 28rpx;
+  margin-right: 16rpx;
+  width: 40rpx;
+  text-align: center;
+}
+.step-name {
+  font-size: 28rpx;
+  color: #4E5969;
+}
+.step-item.done .step-name {
+  color: #22C55E;
+}
+.step-item.running .step-name {
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+/* 分隔 */
+.divider {
+  font-size: 24rpx;
+  color: #C9CDD4;
+  margin: 16rpx 0;
+  letter-spacing: 4rpx;
+}
+.waiting-text {
+  font-size: 26rpx;
+  color: #86909C;
+  margin-bottom: 24rpx;
+}
+
+/* 时间 */
+.time-hint {
+  font-size: 26rpx;
+  color: #86909C;
+  margin-bottom: 48rpx;
+}
+
+/* 最小化 */
+.minimize-btn {
+  font-size: 28rpx;
+  color: #3B82F6;
+  padding: 16rpx 40rpx;
+  border: 2rpx solid #3B82F6;
+  border-radius: 40rpx;
+}
+.minimize-btn:active {
+  background: #EFF6FF;
+}
+.notify-hint {
+  font-size: 22rpx;
+  color: #86909C;
+  margin-top: 16rpx;
+}

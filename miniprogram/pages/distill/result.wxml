@@ -1,0 +1,87 @@
+<!--pages/distill/result.wxml - 蒸馏结果页（设计文档4.3.5）-->
+<view class="page">
+  <!-- 返回+标题 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">←</view>
+    <view class="nav-title">{{salesName}} · 分析结果</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 评分头部 -->
+  <view class="score-header">
+    <view class="score-main">
+      <text class="score-label">质量评分</text>
+      <text class="score-star">⭐</text>
+      <text class="score-value">{{qualityScore}}/100</text>
+    </view>
+    <view class="score-desc">基于 {{recordCount}} 条拜访记录生成</view>
+  </view>
+
+  <!-- Work 方法论 -->
+  <view class="result-section">
+    <view class="section-header-bar" bindtap="toggleWork">
+      <text class="section-icon">📋</text>
+      <text class="section-name">Work 方法论</text>
+      <text class="section-arrow">{{workExpanded ? '▼' : '▶'}}</text>
+    </view>
+
+    <view class="section-body">
+      <view class="info-line">
+        <text class="info-label">负责客户群</text>
+        <text class="info-value">{{workData.customerGroup}}</text>
+      </view>
+      <view class="info-line">
+        <text class="info-label">核心方法</text>
+      </view>
+      <view class="method-list">
+        <view class="method-item" wx:for="{{workData.methods}}" wx:key="*this">
+          {{index + 1}}. {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="expand-hint" wx:if="{{!workExpanded}}" bindtap="toggleWork">
+      [展开查看完整 Work 分析]
+    </view>
+  </view>
+
+  <!-- Persona 风格 -->
+  <view class="result-section">
+    <view class="section-header-bar" bindtap="togglePersona">
+      <text class="section-icon">🎭</text>
+      <text class="section-name">Persona 风格</text>
+      <text class="section-arrow">{{personaExpanded ? '▼' : '▶'}}</text>
+    </view>
+
+    <view class="section-body">
+      <view class="info-line">
+        <text class="info-label">表达风格</text>
+        <text class="info-value">{{personaData.style}}</text>
+      </view>
+      <view class="info-line">
+        <text class="info-label">口头禅</text>
+        <text class="info-value">{{personaData.catchphrase}}</text>
+      </view>
+      <view class="info-line">
+        <text class="info-label">互动模式</text>
+        <text class="info-value">{{personaData.interaction}}</text>
+      </view>
+      <view class="info-line">
+        <text class="info-label">谈判风格</text>
+        <text class="info-value">{{personaData.negotiation}}</text>
+      </view>
+    </view>
+
+    <view class="expand-hint" wx:if="{{!personaExpanded}}" bindtap="togglePersona">
+      [展开查看完整 Persona 分析]
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="action-bar">
+    <view class="btn-save" bindtap="saveToLibrary">保存到话术库</view>
+    <view class="btn-retry" bindtap="reAnalyze">重新分析</view>
+  </view>
+
+  <view style="height:40rpx;"></view>
+</view>

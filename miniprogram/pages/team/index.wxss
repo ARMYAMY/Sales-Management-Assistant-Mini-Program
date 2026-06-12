@@ -1,0 +1,194 @@
+/* pages/team/index.wxss - 团队管理（按设计文档4.3.2） */
+.page {
+  background-color: #F5F7FA;
+  min-height: 100vh;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+/* 头部 */
+.header {
+  background: #FFFFFF;
+  padding: 24rpx 32rpx;
+  border-bottom: 2rpx solid #F0F1F2;
+}
+.header-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 16rpx;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #F5F7FA;
+  border-radius: 12rpx;
+  padding: 16rpx 24rpx;
+}
+.search-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+  color: #86909C;
+}
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1A1A1A;
+}
+
+/* 成员列表区 */
+.member-section {
+  padding: 24rpx;
+}
+.member-section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 20rpx;
+}
+
+/* 成员卡片 */
+.member-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.member-card:last-child {
+  margin-bottom: 0;
+}
+
+/* 头像+姓名 */
+.member-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+.member-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+.member-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+/* 统计行 */
+.member-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+  font-size: 26rpx;
+  color: #4E5969;
+}
+.member-line:last-of-type {
+  margin-bottom: 20rpx;
+}
+.member-stat {
+  font-size: 26rpx;
+  color: #4E5969;
+}
+.member-dot {
+  margin: 0 12rpx;
+  color: #C9CDD4;
+}
+
+/* 操作按钮 */
+.member-actions {
+  display: flex;
+  gap: 16rpx;
+  padding-top: 16rpx;
+  border-top: 2rpx solid #F5F7FA;
+}
+.action-btn {
+  flex: 1;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+.btn-core {
+  background: #EFF6FF;
+  color: #3B82F6;
+}
+.btn-distill {
+  background: #F0FDF4;
+  color: #22C55E;
+}
+.btn-detail {
+  background: #F5F7FA;
+  color: #86909C;
+}
+.action-btn:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 120rpx 0;
+}
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+.empty-text {
+  font-size: 28rpx;
+  color: #86909C;
+}
+
+/* 底部排序栏 */
+.sort-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 2rpx solid #F0F1F2;
+  padding: 16rpx 32rpx calc(16rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24rpx;
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.04);
+}
+.sort-label {
+  font-size: 24rpx;
+  color: #86909C;
+  margin-right: 8rpx;
+}
+.sort-option {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+  color: #86909C;
+  gap: 8rpx;
+}
+.sort-option.active {
+  color: #3B82F6;
+  font-weight: 600;
+}
+.sort-radio {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 50%;
+  border: 4rpx solid #C9CDD4;
+  box-sizing: border-box;
+}
+.sort-radio.active {
+  border-color: #3B82F6;
+  background: #3B82F6;
+  box-shadow: inset 0 0 0 6rpx #FFFFFF;
+}

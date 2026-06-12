@@ -1,0 +1,90 @@
+/* pages/dashboard/sales-detail.wxss */
+.page {
+  background: #F5F7FA;
+  min-height: 100vh;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background: #FFFFFF;
+  border-bottom: 2rpx solid #F0F1F2;
+}
+.nav-back {
+  font-size: 36rpx;
+  color: #1A1A1A;
+  width: 60rpx;
+}
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.nav-placeholder {
+  width: 60rpx;
+}
+
+.stats-row {
+  display: flex;
+  padding: 24rpx;
+  gap: 16rpx;
+}
+.stat-card {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx 8rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.stat-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+.stat-label {
+  font-size: 22rpx;
+  color: #86909C;
+  margin-top: 6rpx;
+}
+
+.section {
+  background: #FFFFFF;
+  margin: 0 24rpx;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 20rpx;
+}
+.visit-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid #F5F7FA;
+}
+.visit-item:last-child {
+  border-bottom: none;
+}
+.visit-customer {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.visit-meta {
+  font-size: 24rpx;
+  color: #86909C;
+  margin-top: 4rpx;
+}
+.visit-result {
+  font-size: 24rpx;
+  color: #22C55E;
+  font-weight: 500;
+}

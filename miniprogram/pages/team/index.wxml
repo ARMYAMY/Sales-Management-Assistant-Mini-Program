@@ -1,0 +1,72 @@
+<!--pages/team/index.wxml - 团队管理（按设计文档4.3.2）-->
+<view class="page">
+
+  <!-- 头部搜索 -->
+  <view class="header">
+    <view class="header-title">团队管理</view>
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索销售姓名..."
+             value="{{searchKeyword}}" bindinput="onSearchInput" confirm-type="search" />
+    </view>
+  </view>
+
+  <!-- 成员列表 -->
+  <view class="member-section">
+    <view class="member-section-title">团队成员 ({{members.length}}人)</view>
+
+    <view class="member-card" wx:for="{{members}}" wx:key="_id">
+      <!-- 第一行：头像 + 姓名 -->
+      <view class="member-header">
+        <view class="member-avatar" style="background:{{item.avatarColor}}">{{item.name[0]}}</view>
+        <view class="member-name">{{item.name}}</view>
+      </view>
+
+      <!-- 第二行：总拜访 · 覆盖客户 -->
+      <view class="member-line">
+        <text class="member-stat">总拜访{{item.totalVisits}}</text>
+        <text class="member-dot">·</text>
+        <text class="member-stat">覆盖{{item.customerCount}}客户</text>
+      </view>
+
+      <!-- 第三行：核心客户 · 均分 -->
+      <view class="member-line">
+        <text class="member-stat">核心客户 {{item.coreCustomers}}/{{item.coreTarget}}</text>
+        <text class="member-dot">·</text>
+        <text class="member-stat">均分{{item.avgScore}}</text>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="member-actions">
+        <view class="action-btn btn-core" bindtap="goCoreCustomers" data-id="{{item._id}}">核心客户</view>
+        <view class="action-btn btn-distill" bindtap="goDistill" data-id="{{item._id}}" data-name="{{item.name}}">蒸馏</view>
+        <view class="action-btn btn-detail" bindtap="goDetail" data-id="{{item._id}}">详情</view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{members.length === 0 && !loading}}">
+      <view class="empty-icon">👥</view>
+      <view class="empty-text">暂无符合条件的成员</view>
+    </view>
+  </view>
+
+  <!-- 底部排序 -->
+  <view class="sort-bar">
+    <view class="sort-label">排序:</view>
+    <view class="sort-option {{sortBy === 'visit' ? 'active' : ''}}" bindtap="setSort" data-sort="visit">
+      <view class="sort-radio {{sortBy === 'visit' ? 'active' : ''}}"></view>
+      拜访次数
+    </view>
+    <view class="sort-option {{sortBy === 'compliance' ? 'active' : ''}}" bindtap="setSort" data-sort="compliance">
+      <view class="sort-radio {{sortBy === 'compliance' ? 'active' : ''}}"></view>
+      达标率
+    </view>
+    <view class="sort-option {{sortBy === 'score' ? 'active' : ''}}" bindtap="setSort" data-sort="score">
+      <view class="sort-radio {{sortBy === 'score' ? 'active' : ''}}"></view>
+      训练分
+    </view>
+  </view>
+
+  <view style="height:120rpx;"></view>
+</view>

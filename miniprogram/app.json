@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/role-select/index",
+    "pages/login/index",
+    "pages/home/sales",
+    "pages/visit/record",
+    "pages/visit/voice-confirm",
+    "pages/visit/history",
+    "pages/visit/detail",
+    "pages/train/index",
+    "pages/report/list/list",
+    "pages/report/detail/detail",
+    "pages/profile/sales",
+    "pages/dashboard/index",
+    "pages/team/index",
+    "pages/library/index",
+    "pages/profile/manager",
+    "pages/train/select-benchmark",
+    "pages/train/chat",
+    "pages/train/result",
+    "pages/train/growth",
+    "pages/train/history",
+    "pages/distill/trigger",
+    "pages/distill/progress",
+    "pages/distill/result",
+    "pages/team/core-customers",
+    "pages/dashboard/sales-detail",
+    "pages/alerts/index"
+  ],
+  "window": {
+    "backgroundColor": "#F5F7FA",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2B6FF2",
+    "navigationBarTitleText": "销售助手",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#86909C",
+    "selectedColor": "#2B6FF2",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/sales", "text": "工作台" },
+      { "pagePath": "pages/visit/record", "text": "录入" },
+      { "pagePath": "pages/train/index", "text": "AI训练" },
+      { "pagePath": "pages/profile/sales", "text": "我的" },
+      { "pagePath": "pages/dashboard/index", "text": "数据看板" },
+      { "pagePath": "pages/team/index", "text": "团队" },
+      { "pagePath": "pages/library/index", "text": "话术库" },
+      { "pagePath": "pages/profile/manager", "text": "我的" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "cloud": true
+}

@@ -1,0 +1,139 @@
+<!--pages/home/sales.wxml - 销售工作台-->
+<view class="container home-page">
+  <!-- 顶部问候 -->
+  <view class="home-header">
+    <view class="header-left">
+      <view class="greeting">{{greeting}}，{{userName}}</view>
+      <view class="week-info">本周第 {{weekNumber}} 周 · {{weekRange}}</view>
+    </view>
+    <image class="header-avatar" src="{{avatarUrl || '/images/avatar-default.png'}}" mode="aspectFill"></image>
+  </view>
+
+  <!-- 指标卡片 2x2 -->
+  <view class="stat-grid">
+    <view class="stat-card {{visitRate >= 100 ? 'stat-card--success' : visitRate >= 80 ? 'stat-card--warning' : 'stat-card--danger'}}">
+      <view class="stat-label">本周拜访</view>
+      <view class="stat-value">{{visitCount}}<text class="stat-unit"> /{{visitTarget}} 目标</text></view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width:{{visitRate}}%"></view>
+      </view>
+    </view>
+
+    <view class="stat-card {{coreRate >= 100 ? 'stat-card--success' : coreRate >= 80 ? 'stat-card--warning' : 'stat-card--danger'}}">
+      <view class="stat-label">核心客户覆盖</view>
+      <view class="stat-value">{{coreDone}}<text class="stat-unit"> /{{coreTotal}}</text></view>
+      <view class="stat-desc" wx:if="{{coreTotal - coreDone > 0}}">还差 {{coreTotal - coreDone}} 次</view>
+      <view class="stat-desc" wx:else>已达标 ✓</view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width:{{coreRate}}%"></view>
+      </view>
+    </view>
+
+    <view class="stat-card">
+      <view class="stat-label">训练评分</view>
+      <view class="stat-value">{{trainScore}}<text class="stat-unit"> 分</text></view>
+      <view class="stat-desc {{scoreTrend >= 0 ? 'text-success' : 'text-danger'}}">
+        {{scoreTrend >= 0 ? '↑' : '↓'}} {{absScoreTrend}} 分
+      </view>
+    </view>
+
+    <view class="stat-card">
+      <view class="stat-label">连续达标周</view>
+      <view class="stat-value">{{complianceWeeks}}<text class="stat-unit"> 周</text></view>
+    </view>
+  </view>
+
+  <!-- 客户快捷入口 -->
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">客户管理</view>
+      <view class="section-more" bindtap="goToCustomers">查看全部 →</view>
+    </view>
+    <view class="customer-quick-row">
+      <view class="customer-quick-card" bindtap="goToCustomers">
+        <view class="customer-quick-num">{{coreTotal}}</view>
+        <view class="customer-quick-label">核心客户</view>
+      </view>
+      <view class="customer-quick-card" bindtap="goToCustomers">
+        <view class="customer-quick-num">{{visitList.length}}</view>
+        <view class="customer-quick-label">拜访中客户</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日待办 -->
+  <view class="section" wx:if="{{todos.length > 0}}">
+    <view class="section-title">今日待办</view>
+    <view class="todo-list">
+      <view class="todo-card todo-card--{{item.level}}" wx:for="{{todos}}" wx:key="id" bindtap="onTodoTap" data-item="{{item}}">
+        <view class="todo-icon">{{item.level === 'high' ? '🔴' : '🟡'}}</view>
+        <view class="todo-body">
+          <view class="todo-text">{{item.text}}</view>
+          <view class="todo-hint">{{item.hint}}</view>
+        </view>
+        <view class="todo-arrow">→</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="section">
+    <view class="section-title">快捷操作</view>
+    <view class="quick-actions">
+      <view class="quick-btn" bindtap="goToRecord" hover-class="quick-btn--active" hover-stay-time="100">
+        <view class="quick-icon">✏️</view>
+        <view class="quick-label">文本录入</view>
+      </view>
+      <view class="quick-btn" bindtap="goToVoiceRecord" hover-class="quick-btn--active" hover-stay-time="100">
+        <view class="quick-icon">🎙️</view>
+        <view class="quick-label">语音录入</view>
+      </view>
+      <view class="quick-btn" bindtap="goToReport" hover-class="quick-btn--active" hover-stay-time="100">
+        <view class="quick-icon">📊</view>
+        <view class="quick-label">报告中心</view>
+      </view>
+      <view class="quick-btn" bindtap="goToTrain">
+        <view class="quick-icon">💬</view>
+        <view class="quick-label">开始训练</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近拜访 -->
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">最近拜访</view>
+      <view class="section-more" bindtap="goToHistory">查看全部 →</view>
+    </view>
+
+    <!-- 加载中骨架屏 -->
+    <view wx:if="{{loading}}">
+      <view class="visit-card skeleton" wx:for="{{3}}" wx:key="index">
+        <view class="skeleton" style="width:60%;height:32rpx;margin-bottom:16rpx;border-radius:4rpx;"></view>
+        <view class="skeleton" style="width:40%;height:28rpx;border-radius:4rpx;"></view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:elif="{{visitList.length === 0}}">
+      <view class="empty-text">暂无拜访记录</view>
+      <view class="empty-action">
+        <button class="btn-primary" style="width:300rpx;" bindtap="goToRecord">录入第一次拜访</button>
+      </view>
+    </view>
+
+    <!-- 拜访列表 -->
+    <view wx:else>
+      <view class="visit-card" wx:for="{{visitList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
+        <view class="visit-card-top">
+          <view class="visit-customer">{{item.customerName}}</view>
+          <view class="visit-time">{{item.timeLabel}}</view>
+        </view>
+        <view class="visit-card-bottom">
+          <view class="visit-stage">{{item.stage}}</view>
+          <view class="visit-result">{{item.result}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

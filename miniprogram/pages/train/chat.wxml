@@ -1,0 +1,81 @@
+<!--pages/train/chat.wxml - 对话训练页-->
+<view class="container chat-page">
+
+  <!-- 头部信息 -->
+  <view class="chat-header">
+    <view class="chat-title">{{scenario}} · 扮演客户</view>
+    <view class="chat-subtitle">对标: {{benchmarkName}} · 难度: {{difficulty}}</view>
+  </view>
+
+  <!-- 场景描述卡片 -->
+  <view class="scenario-card" wx:if="{{scenarioDesc}}">
+    <view class="scenario-label">场景设定</view>
+    <view class="scenario-text">{{scenarioDesc}}</view>
+  </view>
+
+  <!-- 对话区域 -->
+  <scroll-view class="chat-scroll" scroll-y scroll-into-view="{{scrollToId}}" enhanced show-scrollbar="{{false}}">
+    <view class="chat-messages">
+      <view
+        class="message-wrap {{item.role === 'user' ? 'message-right' : 'message-left'}}"
+        wx:for="{{messages}}"
+        wx:key="id"
+        id="msg-{{item.id}}"
+      >
+        <view class="message-bubble {{item.role === 'user' ? 'bubble-user' : 'bubble-ai'}}">
+          <view class="message-sender">{{item.role === 'user' ? '我' : item.senderName}}</view>
+          <view class="message-text">{{item.content}}</view>
+        </view>
+        <!-- AI 正在输入动画 -->
+        <view class="typing-indicator" wx:if="{{item.isTyping}}">
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+        </view>
+      </view>
+    </view>
+    <view id="chat-bottom"></view>
+  </scroll-view>
+
+  <!-- 本轮反馈 -->
+  <view class="feedback-panel" wx:if="{{currentFeedback}}">
+    <view class="feedback-title">本轮反馈</view>
+    <view class="feedback-item {{currentFeedback.scriptMatch ? 'feedback-good' : ''}}">
+      <text class="feedback-icon">{{currentFeedback.scriptMatch ? '✅' : '⚠️'}}</text>
+      <text>话术匹配：{{currentFeedback.scriptMatch || currentFeedback.scriptDev}}</text>
+    </view>
+    <view class="feedback-item {{!currentFeedback.styleDev ? 'feedback-good' : 'feedback-warn'}}">
+      <text class="feedback-icon">{{currentFeedback.styleDev ? '⚠️' : '✅'}}</text>
+      <text>风格接近：{{currentFeedback.styleDev || '符合标杆风格'}}</text>
+    </view>
+    <view class="feedback-score">
+      <text>本轮得分: {{currentFeedback.roundScore}}/100</text>
+      <text class="feedback-total">总得分: {{currentFeedback.totalScore}} ({{currentFeedback.round}}/{{currentFeedback.totalRounds}} 轮)</text>
+    </view>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <view class="input-wrap">
+      <textarea
+        class="chat-input"
+        placeholder="输入你的回应..."
+        value="{{inputText}}"
+        bindinput="onInput"
+        maxlength="500"
+        auto-height
+        confirm-type="send"
+        bindconfirm="sendMessage"
+        fixed="{{true}}"
+      />
+      <view class="send-btn {{inputText ? 'send-active' : ''}}" bindtap="sendMessage">
+        <text>发送</text>
+      </view>
+    </view>
+    <view class="chat-actions">
+      <view class="action-hint">按回车发送，支持多行输入</view>
+      <view class="end-btn" bindtap="onEndTraining">结束训练</view>
+    </view>
+  </view>
+
+</view>

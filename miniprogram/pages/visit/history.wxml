@@ -1,0 +1,70 @@
+<!--pages/visit/history.wxml - 拜访历史-->
+<view class="history-page">
+  <!-- 蓝色头部 -->
+  <view class="history-header">
+    <view class="history-header-top">
+      <text class="history-title">拜访历史</text>
+      <text class="history-count">共 {{total}} 条</text>
+    </view>
+    <view class="filter-bar">
+      <view class="filter-item {{currentFilter === 'all' ? 'filter-item--active' : ''}}"
+            bindtap="onFilter" data-type="all">全部</view>
+      <view class="filter-item {{currentFilter === 'core' ? 'filter-item--active' : ''}}"
+            bindtap="onFilter" data-type="core">核心客户</view>
+      <view class="filter-item {{currentFilter === 'week' ? 'filter-item--active' : ''}}"
+            bindtap="onFilter" data-type="week">本周</view>
+    </view>
+  </view>
+
+  <!-- 加载骨架屏 -->
+  <view wx:if="{{loading && visitList.length === 0}}" class="visit-list">
+    <view class="visit-card skeleton" wx:for="{{4}}" wx:key="index" style="padding:32rpx;height:160rpx;">
+      <view style="width:40%;height:32rpx;margin-bottom:20rpx;border-radius:8rpx;" class="skeleton"></view>
+      <view style="width:60%;height:28rpx;border-radius:8rpx;" class="skeleton"></view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:elif="{{visitList.length === 0}}">
+    <view class="empty-icon">📋</view>
+    <view class="empty-text">暂无拜访记录</view>
+    <view class="empty-action">
+      <button class="btn-primary" bindtap="goToRecord">去录入</button>
+    </view>
+  </view>
+
+  <!-- 拜访列表 -->
+  <view class="visit-list" wx:else>
+    <view class="visit-card {{item.result === '达成意向' || item.result === '已成交' ? 'status-success' : item.result === '推进中' ? 'status-warn' : 'status-gray'}}"
+          wx:for="{{visitList}}"
+          wx:key="_id"
+          bindtap="goToDetail"
+          data-id="{{item._id}}">
+      <view class="visit-card-header">
+        <view class="visit-customer-wrap">
+          <text class="visit-customer-name">{{item.customerName}}</text>
+          <text wx:if="{{item.isCoreCustomer}}" class="core-badge">核心</text>
+        </view>
+        <text class="visit-time">{{item.timeLabel}}</text>
+      </view>
+      <view class="visit-card-middle">
+        <text class="visit-contact">{{item.contactPerson}}</text>
+        <text class="visit-stage">{{item.stage}}</text>
+      </view>
+      <view class="visit-card-footer">
+        <text class="visit-result-tag {{item.result === '达成意向' || item.result === '已成交' ? 'result-success' : item.result === '推进中' ? 'result-warn' : item.result === '待决策' ? 'result-info' : 'result-gray'}}">
+          {{item.result}}
+        </text>
+        <text class="visit-amount" wx:if="{{item.amount}}">¥{{item.amountLabel}}</text>
+      </view>
+    </view>
+
+    <!-- 上拉加载更多 -->
+    <view class="load-more" wx:if="{{!noMore}}">
+      <text wx:if="{{loading}}">加载中...</text>
+    </view>
+    <view class="no-more" wx:else>
+      <text>没有更多了</text>
+    </view>
+  </view>
+</view>

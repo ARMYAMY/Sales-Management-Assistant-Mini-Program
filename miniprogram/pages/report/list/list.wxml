@@ -1,0 +1,71 @@
+<!-- pages/report/list/list.wxml -->
+<view class="container report-list-page">
+
+  <!-- 顶部快捷入口 -->
+  <view class="quick-generate">
+    <view class="quick-card quick-card--daily" bindtap="generateToday">
+      <view class="quick-icon">📋</view>
+      <view class="quick-title">今日日报</view>
+      <view class="quick-desc">一键生成今天的工作日报</view>
+    </view>
+    <view class="quick-card quick-card--weekly" bindtap="generateThisWeek">
+      <view class="quick-icon">📊</view>
+      <view class="quick-title">本周周报</view>
+      <view class="quick-desc">汇总本周拜访数据</view>
+    </view>
+  </view>
+
+  <!-- 标签切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 'daily' ? 'tab-item--active' : ''}}" bindtap="switchTab" data-tab="daily">
+      <text class="tab-text">日报</text>
+    </view>
+    <view class="tab-item {{currentTab === 'weekly' ? 'tab-item--active' : ''}}" bindtap="switchTab" data-tab="weekly">
+      <text class="tab-text">周报</text>
+    </view>
+  </view>
+
+  <!-- 日期选择 -->
+  <view class="date-picker-section">
+    <view class="date-label">{{currentTab === 'daily' ? '选择日期' : '选择周（任一天）'}}</view>
+    <picker mode="date" value="{{selectedDate}}" bindchange="onDateChange">
+      <view class="date-value">
+        <text class="date-text">{{selectedDate}}</text>
+        <text class="date-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 生成按钮 -->
+  <button class="btn-generate {{generating ? 'btn-generate--loading' : ''}}" bindtap="generateReport" disabled="{{generating}}">
+    <text wx:if="{{!generating}}">生成{{currentTab === 'daily' ? '日报' : '周报'}}</text>
+    <text wx:else>AI 生成中…</text>
+  </button>
+
+  <!-- 历史报告 -->
+  <view class="history-section" wx:if="{{historyList.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">历史报告</view>
+    </view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{historyList}}" wx:key="id" bindtap="viewReport" data-id="{{item.id}}">
+        <view class="history-left">
+          <view class="history-badge history-badge--{{item.type}}">{{item.type === 'daily' ? '日报' : '周报'}}</view>
+          <view class="history-title">{{item.title}}</view>
+        </view>
+        <view class="history-right">
+          <view class="history-meta">{{item.summary.totalVisits}}次拜访</view>
+          <view class="history-date">{{item.createdAt.slice(5, 16).replace('T', ' ')}}</view>
+        </view>
+        <view class="history-delete" catchtap="deleteReport" data-id="{{item.id}}">×</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{historyList.length === 0}}">
+    <view class="empty-icon">📝</view>
+    <view class="empty-text">暂无历史报告</view>
+    <view class="empty-desc">点击上方按钮生成你的第一份报告</view>
+  </view>
+</view>

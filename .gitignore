@@ -1,0 +1,33 @@
+# Logs
+logs/
+*.log
+
+# Dependencies
+node_modules/
+miniprogram_npm/
+
+# IDE & Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# WeChat DevTool private config
+project.private.config.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.temp

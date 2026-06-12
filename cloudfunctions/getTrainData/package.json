@@ -1,0 +1,9 @@
+{
+  "name": "getTrainData",
+  "version": "1.0.0",
+  "description": "获取训练数据（历史、结果、成长、对标）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

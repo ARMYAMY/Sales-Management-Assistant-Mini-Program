@@ -1,0 +1,159 @@
+/* pages/distill/result.wxss */
+.page {
+  background: #F5F7FA;
+  min-height: 100vh;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+/* 导航 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background: #FFFFFF;
+  border-bottom: 2rpx solid #F0F1F2;
+}
+.nav-back {
+  font-size: 36rpx;
+  color: #1A1A1A;
+  width: 60rpx;
+}
+.nav-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.nav-placeholder {
+  width: 60rpx;
+}
+
+/* 评分头部 */
+.score-header {
+  background: #FFFFFF;
+  padding: 32rpx;
+  text-align: center;
+  border-bottom: 2rpx solid #F0F1F2;
+}
+.score-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+.score-label {
+  font-size: 28rpx;
+  color: #86909C;
+}
+.score-star {
+  font-size: 32rpx;
+}
+.score-value {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #F59E0B;
+}
+.score-desc {
+  font-size: 24rpx;
+  color: #86909C;
+}
+
+/* 结果区块 */
+.result-section {
+  background: #FFFFFF;
+  margin: 24rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+.section-header-bar {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 28rpx;
+  border-bottom: 2rpx solid #F5F7FA;
+}
+.section-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+.section-name {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.section-arrow {
+  font-size: 24rpx;
+  color: #86909C;
+}
+.section-body {
+  padding: 20rpx 28rpx;
+}
+.info-line {
+  display: flex;
+  padding: 12rpx 0;
+  border-bottom: 2rpx solid #F5F7FA;
+}
+.info-line:last-child {
+  border-bottom: none;
+}
+.info-label {
+  width: 160rpx;
+  font-size: 26rpx;
+  color: #86909C;
+  flex-shrink: 0;
+}
+.info-value {
+  flex: 1;
+  font-size: 26rpx;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+.method-list {
+  padding: 8rpx 0;
+}
+.method-item {
+  font-size: 26rpx;
+  color: #4E5969;
+  padding: 8rpx 0;
+  line-height: 1.5;
+}
+.expand-hint {
+  text-align: center;
+  font-size: 26rpx;
+  color: #3B82F6;
+  padding: 16rpx 0;
+  border-top: 2rpx solid #F5F7FA;
+}
+
+/* 底部按钮 */
+.action-bar {
+  display: flex;
+  gap: 20rpx;
+  padding: 24rpx;
+  margin-top: 8rpx;
+}
+.btn-save {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #3B82F6;
+  color: #FFFFFF;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.btn-retry {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #FFFFFF;
+  color: #86909C;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: 2rpx solid #E5E6EB;
+}

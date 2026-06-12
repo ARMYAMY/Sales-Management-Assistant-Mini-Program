@@ -1,0 +1,110 @@
+<!--pages/dashboard/index.wxml - 数据看板（管理者端）-->
+<scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="page-content">
+
+    <!-- 头部 -->
+    <view class="header">
+      <view class="header-top">
+        <view class="header-title">数据看板</view>
+        <view class="header-week">{{weekLabel}}</view>
+      </view>
+      <view class="header-team">{{teamName}}</view>
+    </view>
+
+    <!-- 指标概览（4个横排卡片） -->
+    <view class="stats-row">
+      <view class="stat-card-small">
+        <view class="stat-small-value">{{stats.totalSales}}</view>
+        <view class="stat-small-label">销售数</view>
+      </view>
+      <view class="stat-card-small">
+        <view class="stat-small-value">{{stats.totalVisits}}</view>
+        <view class="stat-small-label">本周拜访</view>
+      </view>
+      <view class="stat-card-small">
+        <view class="stat-small-value">{{stats.coreCoverage}}%</view>
+        <view class="stat-small-label">核心覆盖</view>
+      </view>
+      <view class="stat-card-small">
+        <view class="stat-small-value">{{stats.avgScore}}</view>
+        <view class="stat-small-label">均分</view>
+      </view>
+    </view>
+
+    <!-- 本周拜访趋势 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">本周拜访趋势</view>
+      </view>
+      <view class="trend-chart-area">
+        <view class="trend-bars-row">
+          <view class="trend-bar-col" wx:for="{{trendData}}" wx:key="date">
+            <view class="trend-bar-track">
+              <view class="trend-bar-fill" style="height:{{item.value > 0 ? (item.value / 25 * 100) : 4}}%"></view>
+            </view>
+            <view class="trend-bar-value" wx:if="{{item.value > 0}}">{{item.value}}</view>
+            <view class="trend-bar-label">{{item.label}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 销售排行 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">销售排行</view>
+        <view class="section-sub">本月TOP5</view>
+      </view>
+      <view class="rank-list">
+        <view class="rank-row" wx:for="{{rankList}}" wx:key="name" bindtap="goSalesDetail" data-name="{{item.name}}">
+          <view class="rank-num {{index < 3 ? 'top' : ''}}">{{index + 1}}</view>
+          <view class="rank-avatar">{{item.name[0]}}</view>
+          <view class="rank-info">
+            <view class="rank-name">{{item.name}}</view>
+            <view class="rank-meta">{{item.visitCount}}次 · {{item.coreRatio}} · {{item.avgScore}}分</view>
+          </view>
+          <view class="rank-arrow">›</view>
+        </view>
+      </view>
+      <view class="rank-more" bindtap="goTeam">
+        查看全部 {{stats.totalSales}} 人 →
+      </view>
+    </view>
+
+    <!-- 阶段漏斗 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">阶段漏斗</view>
+      </view>
+      <view class="funnel-list">
+        <view class="funnel-row" wx:for="{{funnel}}" wx:key="name">
+          <view class="funnel-name">{{item.name}}</view>
+          <view class="funnel-bar-wrap">
+            <view class="funnel-bar" style="width:{{item.percent}}%;background:{{item.color}}">
+              <text class="funnel-bar-text" wx:if="{{item.percent > 15}}">{{item.count}}</text>
+            </view>
+            <text class="funnel-count-outside" wx:if="{{item.percent <= 15}}">{{item.count}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 风险预警 -->
+    <view class="section" wx:if="{{alerts.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">⚠ 风险预警 ({{alerts.length}}条)</view>
+      </view>
+      <view class="alert-list">
+        <view class="alert-row" wx:for="{{alerts}}" wx:key="id">
+          <view class="alert-dot {{item.level}}"></view>
+          <view class="alert-text">{{item.text}}</view>
+        </view>
+      </view>
+      <view class="alert-more" bindtap="goAllAlerts">
+        查看全部预警 →
+      </view>
+    </view>
+
+    <view style="height:40rpx;"></view>
+  </view>
+</scroll-view>

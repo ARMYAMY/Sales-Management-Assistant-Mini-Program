@@ -1,0 +1,9 @@
+{
+  "name": "parseVisitText",
+  "version": "1.0.0",
+  "description": "AI解析拜访文本",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

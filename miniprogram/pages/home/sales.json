@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "工作台",
+  "navigationBarBackgroundColor": "#2B6FF2",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

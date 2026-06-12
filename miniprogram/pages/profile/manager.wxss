@@ -1,0 +1,135 @@
+/* pages/profile/manager.wxss */
+.page {
+  background-color: #F3F4F6;
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* 头部 */
+.header {
+  background-color: #3B82F6;
+  padding: 48rpx 32rpx 80rpx;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  text-align: center;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  font-size: 48rpx;
+  font-weight: 600;
+  margin: 0 auto 20rpx;
+}
+
+.name {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.team {
+  font-size: 26rpx;
+  opacity: 0.8;
+  margin-top: 8rpx;
+}
+
+/* 管理概览卡片 */
+.overview-card {
+  display: flex;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  margin: -40rpx 32rpx 24rpx;
+  padding: 32rpx 0;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  position: relative;
+  z-index: 1;
+}
+
+.overview-item {
+  flex: 1;
+  text-align: center;
+  border-right: 2rpx solid #F3F4F6;
+}
+
+.overview-item:last-child {
+  border-right: none;
+}
+
+.overview-value {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.overview-label {
+  font-size: 24rpx;
+  color: #9CA3AF;
+  margin-top: 8rpx;
+}
+
+/* 区块 */
+.section {
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  margin: 24rpx 32rpx 0;
+  padding: 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 24rpx;
+}
+
+/* 菜单列表 */
+.menu-list {
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 0;
+  border-bottom: 2rpx solid #F3F4F6;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  width: 52rpx;
+  text-align: center;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #1F2937;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #D1D5DB;
+}
+
+/* 退出按钮 */
+.logout-btn {
+  margin: 40rpx 32rpx 0;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #EF4444;
+  font-weight: 600;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}

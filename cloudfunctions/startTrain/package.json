@@ -1,0 +1,9 @@
+{
+  "name": "startTrain",
+  "version": "1.0.0",
+  "description": "开始AI训练会话",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

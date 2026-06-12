@@ -1,0 +1,250 @@
+/* pages/train/chat.wxss - 对话训练页 */
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F5F7FA;
+}
+
+/* 头部 */
+.chat-header {
+  background: linear-gradient(135deg, #2B6FF2, #1a5bd9);
+  padding: 16rpx 32rpx;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.chat-title {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.chat-subtitle {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.75);
+}
+
+/* 场景描述 */
+.scenario-card {
+  margin: 12rpx 32rpx;
+  background: #FFF7ED;
+  border-left: 4rpx solid #F59E0B;
+  border-radius: 10rpx;
+  padding: 12rpx 16rpx;
+  flex-shrink: 0;
+}
+
+.scenario-label {
+  font-size: 20rpx;
+  color: #F59E0B;
+  font-weight: 600;
+  margin-bottom: 2rpx;
+}
+
+.scenario-text {
+  font-size: 24rpx;
+  color: #1A1A1A;
+  line-height: 1.4;
+}
+
+/* 对话区域 */
+.chat-scroll {
+  flex: 1;
+  padding: 0 24rpx;
+}
+
+.chat-messages {
+  padding: 16rpx 0;
+}
+
+.message-wrap {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.message-left {
+  justify-content: flex-start;
+}
+
+.message-right {
+  justify-content: flex-end;
+}
+
+.message-bubble {
+  max-width: 75%;
+  padding: 20rpx 24rpx;
+  border-radius: 16rpx;
+  position: relative;
+}
+
+.bubble-ai {
+  background: #FFFFFF;
+  border-radius: 16rpx 16rpx 16rpx 4rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+}
+
+.bubble-user {
+  background: #2B6FF2;
+  color: #FFFFFF;
+  border-radius: 16rpx 16rpx 4rpx 16rpx;
+}
+
+.message-sender {
+  font-size: 20rpx;
+  color: #86909C;
+  margin-bottom: 6rpx;
+}
+
+.bubble-user .message-sender {
+  color: rgba(255,255,255,0.7);
+}
+
+.message-text {
+  font-size: 28rpx;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+/* 正在输入动画 */
+.typing-indicator {
+  display: flex;
+  gap: 8rpx;
+  padding: 16rpx 24rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  margin-top: 8rpx;
+  width: 100rpx;
+}
+
+.typing-dot {
+  width: 12rpx;
+  height: 12rpx;
+  background: #C9CDD4;
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* 反馈面板 */
+.feedback-panel {
+  margin: 0 24rpx 8rpx;
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 12rpx 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  flex-shrink: 0;
+}
+
+.feedback-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 8rpx;
+}
+
+.feedback-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6rpx;
+  font-size: 22rpx;
+  color: #86909C;
+  margin-bottom: 4rpx;
+  line-height: 1.4;
+}
+
+.feedback-good {
+  color: #22C55E;
+}
+
+.feedback-warn {
+  color: #F59E0B;
+}
+
+.feedback-icon {
+  flex-shrink: 0;
+}
+
+.feedback-score {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8rpx;
+  padding-top: 8rpx;
+  border-top: 1rpx solid #F5F7FA;
+  font-size: 22rpx;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+
+.feedback-total {
+  color: #86909C;
+}
+
+/* 输入区域 */
+.input-area {
+  background: #FFFFFF;
+  border-top: 1rpx solid #E5E6EB;
+  padding: 12rpx 24rpx calc(12rpx + env(safe-area-inset-bottom));
+  flex-shrink: 0;
+}
+
+.input-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 12rpx;
+}
+
+.chat-input {
+  flex: 1;
+  min-height: 72rpx;
+  max-height: 200rpx;
+  background: #F5F7FA;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
+  color: #1A1A1A;
+}
+
+.send-btn {
+  width: 120rpx;
+  height: 72rpx;
+  background: #C9CDD4;
+  color: #FFFFFF;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  flex-shrink: 0;
+}
+
+.send-active {
+  background: #2B6FF2;
+}
+
+.chat-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12rpx;
+}
+
+.action-hint {
+  font-size: 20rpx;
+  color: #C9CDD4;
+}
+
+.end-btn {
+  font-size: 24rpx;
+  color: #EF4444;
+  padding: 8rpx 20rpx;
+}

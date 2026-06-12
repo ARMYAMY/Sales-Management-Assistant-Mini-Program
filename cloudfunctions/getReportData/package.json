@@ -1,0 +1,9 @@
+{
+  "name": "getReportData",
+  "version": "1.0.0",
+  "description": "按日/周聚合拜访数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

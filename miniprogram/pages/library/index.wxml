@@ -1,0 +1,68 @@
+<view class="page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-title">话术库</view>
+    <view class="header-desc">Top Sales 技能包 & 话术模板</view>
+  </view>
+
+  <!-- 分类标签 -->
+  <view class="category-tabs">
+    <scroll-view scroll-x class="tab-scroll" show-scrollbar="false">
+      <view class="tab-list">
+        <view class="cat-tab {{activeCategory === 'all' ? 'active' : ''}}" bindtap="setCategory" data-cat="all">全部</view>
+        <view class="cat-tab {{activeCategory === item.key ? 'active' : ''}}" 
+              wx:for="{{categories}}" wx:key="key" bindtap="setCategory" data-cat="{{item.key}}">
+          {{item.name}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 技能包列表 -->
+  <view class="section">
+    <view class="skill-list">
+      <view class="skill-card" wx:for="{{skills}}" wx:key="_id" bindtap="goDetail" data-id="{{item._id}}">
+        <view class="skill-header">
+          <view class="skill-icon">{{item.icon}}</view>
+          <view class="skill-info">
+            <view class="skill-name">{{item.name}}</view>
+            <view class="skill-desc">{{item.description}}</view>
+          </view>
+          <view class="skill-arrow">›</view>
+        </view>
+
+        <!-- 标签 -->
+        <view class="skill-tags" wx:if="{{item.tags.length > 0}}">
+          <view class="tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</view>
+        </view>
+
+        <!-- 统计 -->
+        <view class="skill-stats">
+          <view class="stat">
+            <text class="stat-num">{{item.scriptCount}}</text>
+            <text class="stat-label">话术模板</text>
+          </view>
+          <view class="stat">
+            <text class="stat-num">{{item.useCount}}</text>
+            <text class="stat-label">使用次数</text>
+          </view>
+          <view class="stat">
+            <text class="stat-num">{{item.avgRating}}</text>
+            <text class="stat-label">评分</text>
+          </view>
+        </view>
+
+        <!-- 示例话术预览 -->
+        <view class="script-preview" wx:if="{{item.preview}}">
+          <view class="preview-label">示例话术</view>
+          <view class="preview-text">{{item.preview}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="float-btn" bindtap="addSkill">
+    <text class="float-icon">+</text>
+  </view>
+</view>

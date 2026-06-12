@@ -1,0 +1,34 @@
+<!--pages/train/select-benchmark.wxml - 选择对标页-->
+<view class="container select-page">
+  <view class="select-tip">选择一位 Top Sales 作为你的训练标杆</view>
+
+  <view class="benchmark-list">
+    <view
+      class="benchmark-item {{item.selected ? 'benchmark-selected' : ''}}"
+      wx:for="{{benchmarks}}"
+      wx:key="slug"
+      bindtap="selectBenchmark"
+      data-slug="{{item.slug}}"
+    >
+      <view class="benchmark-avatar">{{item.avatar}}</view>
+      <view class="benchmark-info">
+        <view class="benchmark-name-row">
+          <text class="benchmark-name">{{item.name}}</text>
+          <text class="benchmark-tag" wx:if="{{item.isDefault}}">默认</text>
+        </view>
+        <view class="benchmark-desc">{{item.methodology}}</view>
+        <view class="benchmark-meta">
+          <text>v{{item.version}} · {{item.recordCount}}条数据 · {{item.score}}分</text>
+        </view>
+        <view class="benchmark-tags">
+          <text class="tag" wx:for="{{item.tags}}" wx:key="index">{{item}}</text>
+        </view>
+      </view>
+      <view class="benchmark-check" wx:if="{{item.selected}}">✓</view>
+    </view>
+  </view>
+
+  <view class="confirm-bar">
+    <view class="btn-confirm" bindtap="confirmSelection">确认选择</view>
+  </view>
+</view>
