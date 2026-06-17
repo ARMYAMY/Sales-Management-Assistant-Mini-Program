@@ -23,8 +23,35 @@ exports.main = async (event, context) => {
       teamId: teamId,
       role: _.neq('manager')
     }).get();
-    const members = membersRes.data;
-    const memberIds = members.map(m => m._openid);
+    const members = membersRes.data || [];
+    // 防御：没有成员时直接返回空数据，避免后续_.in([])抛错
+    if (members.length === 0) {
+      return {
+        code: 0,
+        stats: { visitCount: 0, visitChange: 0, dealAmount: 0, dealChange: 0, dealCount: 0, dealCountChange: 0, avgScore: 0, scoreChange: 0 },
+        funnel: [
+          { name: '初步接触', key: 'contacted', count: 0, percent: 0, color: '#3B82F6' },
+          { name: '需求确认', key: 'qualified', count: 0, percent: 0, color: '#6366F1' },
+          { name: '方案报价', key: 'quoted', count: 0, percent: 0, color: '#8B5CF6' },
+          { name: '商务谈判', key: 'negotiating', count: 0, percent: 0, color: '#EC4899' },
+          { name: '签约成交', key: 'closed', count: 0, percent: 0, color: '#10B981' }
+        ],
+        trendData: [],
+        rankList: [],
+        rankMax: 1,
+        alerts: [],
+        overview: { teamSize: 0, pendingAlerts: 0, thisMonthVisits: 0 }
+      };
+    }
+    const memberIds = members.map(m => m._openid).filter(Boolean);
+    if (memberIds.length === 0) {
+      return {
+        code: 0,
+        stats: { visitCount: 0, visitChange: 0, dealAmount: 0, dealChange: 0, dealCount: 0, dealCountChange: 0, avgScore: 0, scoreChange: 0 },
+        funnel: [], trendData: [], rankList: [], rankMax: 1, alerts: [],
+        overview: { teamSize: members.length, pendingAlerts: 0, thisMonthVisits: 0 }
+      };
+    }
 
     // 本月时间范围
     const now = new Date();

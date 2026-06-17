@@ -51,33 +51,40 @@ Page({
 
   async loadDashboardData() {
     this.setData({ loading: true });
+    let result = null;
     try {
-      const result = await app.call('getTeamStats', {});
-      // 如果返回的数据全是空的，使用demo数据
-      const hasData = result && (
-        (result.stats && result.stats.visitCount > 0) ||
-        (result.rankList && result.rankList.length > 0)
-      );
-
-      if (hasData) {
-        this.setData({
-          stats: {
-            totalSales: result.overview?.teamSize || 0,
-            totalVisits: result.stats?.visitCount || 0,
-            coreCoverage: Math.round((result.stats?.dealCount || 0) / Math.max(result.stats?.visitCount || 1, 1) * 100),
-            avgScore: result.stats?.avgScore || 0
-          },
-          trendData: result.trendData || [],
-          rankList: result.rankList || [],
-          funnel: result.funnel || [],
-          alerts: result.alerts || []
-        });
-      } else {
-        // 数据为空也加载demo
-        this.loadDemoData();
-      }
+      result = await app.call('getTeamStats', {});
     } catch (err) {
-      console.error('加载看板数据失败:', err);
+      console.warn('加载看板数据失败，使用演示数据:', err);
+      this.loadDemoData();
+      this.setData({ loading: false });
+      return;
+    }
+
+    // 服务端业务错误（code !== 0）或数据为空时，都用 demo
+    if (!result || result.code !== 0) {
+      console.warn('getTeamStats 返回异常:', result);
+      this.loadDemoData();
+      this.setData({ loading: false });
+      return;
+    }
+
+    const hasData = (result.stats && result.stats.visitCount > 0) ||
+                    (result.rankList && result.rankList.length > 0);
+    if (hasData) {
+      this.setData({
+        stats: {
+          totalSales: result.overview?.teamSize || 0,
+          totalVisits: result.stats?.visitCount || 0,
+          coreCoverage: Math.round((result.stats?.dealCount || 0) / Math.max(result.stats?.visitCount || 1, 1) * 100),
+          avgScore: result.stats?.avgScore || 0
+        },
+        trendData: result.trendData || [],
+        rankList: result.rankList || [],
+        funnel: result.funnel || [],
+        alerts: result.alerts || []
+      });
+    } else {
       this.loadDemoData();
     }
     this.setData({ loading: false });

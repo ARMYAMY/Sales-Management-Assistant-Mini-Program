@@ -24,7 +24,7 @@
       </view>
       <view class="stat-card-small">
         <view class="stat-small-value">{{stats.totalVisits}}</view>
-        <view class="stat-small-label">本周拜访</view>
+        <view class="stat-small-label">{{periodOptions[periodIndex]}}拜访</view>
       </view>
       <view class="stat-card-small">
         <view class="stat-small-value">{{stats.coreCoverage}}%</view>
