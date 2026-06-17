@@ -307,3 +307,117 @@
   color: #9CA3AF !important;
   box-shadow: none;
 }
+
+/* ====== 拜访录音 ====== */
+.audio-section {
+  padding: 24rpx;
+}
+.audio-tip {
+  font-size: 24rpx;
+  color: #86909C;
+  margin-bottom: 20rpx;
+  line-height: 1.5;
+}
+.audio-btns {
+  display: flex;
+  gap: 16rpx;
+}
+.audio-btn-record,
+.audio-btn-upload {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 20rpx 0;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  color: #3B82F6;
+  background: #EFF6FF;
+  border: 2rpx solid #BFDBFE;
+  transition: all 0.2s;
+}
+.audio-btn-record.recording {
+  background: #FEE2E2;
+  color: #DC2626;
+  border-color: #FCA5A5;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+.audio-btn-icon {
+  font-size: 40rpx;
+}
+.audio-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+.audio-info {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  background: #F5F7FA;
+  padding: 16rpx;
+  border-radius: 12rpx;
+}
+.audio-icon {
+  font-size: 44rpx;
+}
+.audio-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.audio-name {
+  font-size: 26rpx;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+.audio-duration {
+  font-size: 22rpx;
+  color: #86909C;
+}
+.audio-actions {
+  display: flex;
+  gap: 12rpx;
+}
+.audio-play-btn {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  background: #EFF6FF;
+  color: #3B82F6;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+}
+.audio-del-btn {
+  padding: 14rpx 28rpx;
+  background: #FEF2F2;
+  color: #DC2626;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+}
+.audio-upload-status {
+  font-size: 22rpx;
+  color: #86909C;
+  text-align: center;
+  padding: 8rpx 0;
+}
+.audio-upload-status.uploading {
+  color: #F59E0B;
+}
+.audio-upload-status.done {
+  color: #22C55E;
+}
+.optional-tag {
+  font-size: 22rpx;
+  color: #86909C;
+  font-weight: 400;
+}
+

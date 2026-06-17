@@ -211,6 +211,44 @@
     </view>
   </view>
 
+  <!-- 拜访录音（选填） -->
+  <view class="section-label">拜访录音 <text class="optional-tag">选填</text></view>
+  <view class="form-card audio-section">
+    <!-- 未录制状态 -->
+    <view wx:if="{{!audioFile}}">
+      <view class="audio-tip">上传拜访现场录音，便于管理者复盘和 AI 分析</view>
+      <view class="audio-btns">
+        <view class="audio-btn-record {{recording ? 'recording' : ''}}" bindtap="toggleRecord">
+          <text class="audio-btn-icon">{{recording ? '⏹' : '🎙'}}</text>
+          <text>{{recording ? '停止录音 ' + recordingTime + 's' : '开始录音'}}</text>
+        </view>
+        <view class="audio-btn-upload" bindtap="chooseAudioFile">
+          <text class="audio-btn-icon">📁</text>
+          <text>从文件选择</text>
+        </view>
+      </view>
+    </view>
+    <!-- 已有录音状态 -->
+    <view wx:else class="audio-preview">
+      <view class="audio-info">
+        <text class="audio-icon">🎵</text>
+        <view class="audio-meta">
+          <text class="audio-name">{{audioFile.name}}</text>
+          <text class="audio-duration">{{audioFile.durationLabel}}{{audioFile.sizeLabel}}</text>
+        </view>
+      </view>
+      <view class="audio-actions">
+        <view class="audio-play-btn" bindtap="playAudio">{{playing ? '⏸ 暂停' : '▶ 播放'}}</view>
+        <view class="audio-del-btn" bindtap="removeAudio">删除</view>
+      </view>
+      <view class="audio-upload-status {{audioUploading ? 'uploading' : (audioUploaded ? 'done' : '')}}">
+        <text wx:if="{{audioUploading}}">⏳ 上传中...</text>
+        <text wx:elif="{{audioUploaded}}">✅ 已上传</text>
+        <text wx:else>⚠ 待上传（提交时自动上传）</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 提交按钮 -->
   <button
     class="btn-primary submit-btn"

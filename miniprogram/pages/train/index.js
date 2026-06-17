@@ -81,9 +81,34 @@ Page({
       }));
 
       this.setData({ scenarios, growthData });
+      // 同步话术库评级到训练场景卡片
+      this.syncLibraryRatings();
     } catch (err) {
       console.error('加载训练数据失败:', err);
+      this.syncLibraryRatings();
     }
+  },
+
+  // 从话术库读取管理者评级，显示在训练场景上
+  syncLibraryRatings() {
+    const saved = wx.getStorageSync('library_ratings') || {};
+    // 场景类型与话术库ID对应（demo: SPIN挖掘=1,初次拜访破冰=3,价格谈判=2,异议处理=4）
+    const sceneToSkillId = {
+      first_visit: '3',
+      needs_discovery: '1',
+      price_negotiation: '2',
+      objection_handling: '4'
+    };
+    const scenarios = this.data.scenarios.map(s => {
+      const skillId = sceneToSkillId[s.type];
+      const rating = skillId && saved[skillId] !== undefined ? saved[skillId] : 0;
+      return { ...s, managerRating: rating, ratingStars: this.buildStars(rating) };
+    });
+    this.setData({ scenarios });
+  },
+
+  buildStars(rating) {
+    return [1, 2, 3, 4, 5].map(n => n <= rating ? 'full' : 'empty');
   },
 
   // 跳转到选择对标页

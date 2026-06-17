@@ -6,7 +6,12 @@
     <view class="header">
       <view class="header-top">
         <view class="header-title">数据看板</view>
-        <view class="header-week">{{weekLabel}}</view>
+        <picker mode="selector" range="{{periodOptions}}" value="{{periodIndex}}" bindchange="onPeriodChange">
+          <view class="period-picker">
+            <text>{{periodOptions[periodIndex]}}</text>
+            <text class="period-arrow">▼</text>
+          </view>
+        </picker>
       </view>
       <view class="header-team">{{teamName}}</view>
     </view>
@@ -34,7 +39,7 @@
     <!-- 本周拜访趋势 -->
     <view class="section">
       <view class="section-header">
-        <view class="section-title">本周拜访趋势</view>
+        <view class="section-title">拜访趋势（{{periodOptions[periodIndex]}}）</view>
       </view>
       <view class="trend-chart-area">
         <view class="trend-bars-row">

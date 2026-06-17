@@ -6,6 +6,12 @@ Page({
     loading: true,
     teamName: '北京办事处团队',
     weekLabel: '',
+    // 时间范围选择
+    period: 'week',  // week | month | lastMonth | quarter
+    periodOptions: ['本周', '本月', '上月', '近3个月'],
+    periodKeys: ['week', 'month', 'lastMonth', 'quarter'],
+    periodIndex: 0,
+    showPeriodPicker: false,
     stats: {
       totalSales: 0,
       totalVisits: 0,
@@ -30,6 +36,17 @@ Page({
     this.loadDashboardData().then(() => {
       wx.stopPullDownRefresh();
     });
+  },
+
+  // 时间范围选择
+  onPeriodChange(e) {
+    const idx = parseInt(e.detail.value);
+    const periodKeys = this.data.periodKeys;
+    const periodOptions = this.data.periodOptions;
+    const period = periodKeys[idx];
+    const label = periodOptions[idx];
+    this.setData({ period, periodIndex: idx, weekLabel: label });
+    this.loadDashboardData();
   },
 
   async loadDashboardData() {
@@ -67,18 +84,52 @@ Page({
   },
 
   loadDemoData() {
-    const demoTrend = [
-      { date: '周一', label: '周一', value: 18 },
-      { date: '周二', label: '周二', value: 15 },
-      { date: '周三', label: '周三', value: 22 },
-      { date: '周四', label: '周四', value: 14 },
-      { date: '周五', label: '周五', value: 12 },
-      { date: '周六', label: '周六', value: 6 },
-      { date: '周日', label: '周日', value: 0 }
-    ];
+    const period = this.data.period;
+
+    // 按时间范围生成不同的趋势数据
+    let demoTrend;
+    if (period === 'week') {
+      demoTrend = [
+        { date: '11', label: '11', value: 1 },
+        { date: '12', label: '12', value: 2 },
+        { date: '13', label: '13', value: 0 },
+        { date: '14', label: '14', value: 1 },
+        { date: '15', label: '15', value: 1 },
+        { date: '16', label: '16', value: 1 },
+        { date: '17', label: '17', value: 1 }
+      ];
+    } else if (period === 'month') {
+      demoTrend = [
+        { date: '第1周', label: '第1周', value: 18 },
+        { date: '第2周', label: '第2周', value: 22 },
+        { date: '第3周', label: '第3周', value: 15 },
+        { date: '第4周', label: '第4周', value: 20 }
+      ];
+    } else if (period === 'lastMonth') {
+      demoTrend = [
+        { date: '第1周', label: '第1周', value: 14 },
+        { date: '第2周', label: '第2周', value: 18 },
+        { date: '第3周', label: '第3周', value: 12 },
+        { date: '第4周', label: '第4周', value: 16 }
+      ];
+    } else {
+      demoTrend = [
+        { date: '4月', label: '4月', value: 65 },
+        { date: '5月', label: '5月', value: 78 },
+        { date: '6月', label: '6月', value: 87 }
+      ];
+    }
+
+    // 按时间范围调整统计
+    const statsMap = {
+      week:      { totalSales: 15, totalVisits: 7,  coreCoverage: 78, avgScore: 72 },
+      month:     { totalSales: 15, totalVisits: 87, coreCoverage: 82, avgScore: 74 },
+      lastMonth: { totalSales: 15, totalVisits: 73, coreCoverage: 75, avgScore: 70 },
+      quarter:   { totalSales: 15, totalVisits: 230, coreCoverage: 85, avgScore: 76 }
+    };
+    const demoStats = statsMap[period] || statsMap.week;
 
     const demoRank = [
-      { name: '张三', visitCount: 12, coreRatio: '10/10', avgScore: 85 },
       { name: '李四', visitCount: 9, coreRatio: '8/10', avgScore: 78 },
       { name: '王五', visitCount: 7, coreRatio: '6/10', avgScore: 72 },
       { name: '赵六', visitCount: 5, coreRatio: '5/10', avgScore: 65 },
@@ -103,7 +154,7 @@ Page({
     const todayMissing = ['王五', '赵六'];
 
     this.setData({
-      stats: { totalSales: 15, totalVisits: 87, coreCoverage: 78, avgScore: 72 },
+      stats: demoStats,
       trendData: demoTrend,
       rankList: demoRank,
       funnel: demoFunnel,

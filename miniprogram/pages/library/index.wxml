@@ -56,6 +56,25 @@
           <view class="tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</view>
         </view>
 
+        <!-- 打星区域 -->
+        <view class="star-row">
+          <view class="star-label">管理者评级</view>
+          <view class="stars">
+            <view
+              class="star {{item.ratingStars[starIdx - 1] === 'full' ? 'star-full' : 'star-empty'}} {{isManager ? 'star-clickable' : ''}}"
+              wx:for="{{starArr}}"
+              wx:for-item="starIdx"
+              wx:for-index="si"
+              wx:key="si"
+              bindtap="{{isManager ? 'rateSkill' : ''}}"
+              data-id="{{item._id}}"
+              data-star="{{starIdx}}"
+            >★</view>
+          </view>
+          <text class="star-score" wx:if="{{item.managerRating > 0}}">{{item.managerRating}}星</text>
+          <text class="star-unrated" wx:else>{{isManager ? '点击评分' : '暂未评级'}}</text>
+        </view>
+
         <!-- 统计 -->
         <view class="skill-stats">
           <view class="stat">

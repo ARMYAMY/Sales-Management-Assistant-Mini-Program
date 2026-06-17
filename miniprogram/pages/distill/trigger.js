@@ -6,17 +6,47 @@ Page({
     checking: true,
     gates: [],
     canStart: false,
-    dateRange: { start: '2025-09-01', end: '2026-06-12' },
+    dateRange: { start: '2025-09-01', end: '2026-06-17' },
     recordCount: 156,
     analysisDims: [
       { name: 'Work: 方法论/话术/报价策略', checked: true },
       { name: 'Persona: 风格/互动/决策模式', checked: true }
-    ]
+    ],
+    // 日期限制
+    dateMin: '2023-01-01',
+    dateMax: '2026-12-31'
   },
 
   onLoad(options) {
     const { id, name } = options;
-    this.setData({ salesId: id || '', salesName: name || '张三' });
+    // 默认结束日期为今天
+    const today = this.getTodayStr();
+    this.setData({
+      salesId: id || '',
+      salesName: name || '张三',
+      'dateRange.end': today,
+      dateMax: today
+    });
+    this.runGateCheck();
+  },
+
+  getTodayStr() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  },
+
+  onStartDateChange(e) {
+    const start = e.detail.value;
+    this.setData({ 'dateRange.start': start });
+    this.runGateCheck();
+  },
+
+  onEndDateChange(e) {
+    const end = e.detail.value;
+    this.setData({ 'dateRange.end': end });
     this.runGateCheck();
   },
 
@@ -43,9 +73,10 @@ Page({
     ];
 
     let i = 0;
-    const interval = setInterval(() => {
+    if (this._checkTimer) clearInterval(this._checkTimer);
+    this._checkTimer = setInterval(() => {
       if (i >= results.length) {
-        clearInterval(interval);
+        clearInterval(this._checkTimer);
         const allFail = results.every(r => r.status === 'fail');
         this.setData({ checking: false, canStart: !allFail });
         return;

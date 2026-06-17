@@ -122,6 +122,16 @@
   color: #1A1A1A;
   font-weight: 500;
 }
+.info-hint {
+  font-size: 22rpx;
+  color: #86909C;
+  font-weight: 400;
+}
+.date-picker-val {
+  font-size: 26rpx;
+  color: #3B82F6;
+  font-weight: 500;
+}
 
 /* 分析维度 */
 .dim-item {

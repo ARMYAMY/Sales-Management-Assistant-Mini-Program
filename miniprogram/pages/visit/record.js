@@ -18,6 +18,13 @@ Page({
     amountSensitive: false,
     competitorInfo: '',
     isCoreCustomer: false,
+    // ---- 录音上传 ----
+    recording: false,
+    recordingTime: 0,
+    audioFile: null,
+    playing: false,
+    audioUploading: false,
+    audioUploaded: false,
 
     // 日期限制：只允许今天或昨天
     dateMin: '',
@@ -200,6 +207,147 @@ Page({
     this.setData({ canSubmit: ok });
   },
 
+  // ============ 录音上传相关 ============
+
+  // 开始/停止录音
+  toggleRecord() {
+    if (this.data.recording) {
+      this.stopRecord();
+    } else {
+      this.startRecord();
+    }
+  },
+
+  startRecord() {
+    const rm = wx.getRecorderManager();
+    this._rm = rm;
+
+    rm.onStart(() => {
+      this.setData({ recording: true, recordingTime: 0 });
+      this._timer = setInterval(() => {
+        this.setData({ recordingTime: this.data.recordingTime + 1 });
+        // 最长录音 5 分钟
+        if (this.data.recordingTime >= 300) {
+          this.stopRecord();
+        }
+      }, 1000);
+    });
+
+    rm.onStop((res) => {
+      clearInterval(this._timer);
+      const sec = this.data.recordingTime;
+      const min = Math.floor(sec / 60);
+      const s = sec % 60;
+      this.setData({
+        recording: false,
+        recordingTime: 0,
+        audioFile: {
+          path: res.tempFilePath,
+          name: `录音_${new Date().toLocaleTimeString('zh-CN', { hour12: false }).replace(/:/g, '')}.m4a`,
+          durationLabel: `时长 ${min > 0 ? min + '分' : ''}${s}秒`,
+          sizeLabel: ''
+        },
+        audioUploaded: false
+      });
+    });
+
+    rm.onError((err) => {
+      clearInterval(this._timer);
+      this.setData({ recording: false, recordingTime: 0 });
+      wx.showToast({ title: '录音失败，请检查麦克风权限', icon: 'none' });
+    });
+
+    rm.start({ duration: 300000, format: 'm4a', sampleRate: 44100, numberOfChannels: 1, encodeBitRate: 48000 });
+  },
+
+  stopRecord() {
+    if (this._rm) {
+      this._rm.stop();
+    }
+    clearInterval(this._timer);
+  },
+
+  // 从文件/会话选择已有音频
+  chooseAudioFile() {
+    wx.chooseMessageFile({
+      count: 1,
+      type: 'file',
+      extension: ['mp3', 'm4a', 'wav', 'aac', 'ogg'],
+      success: (res) => {
+        const f = res.tempFiles[0];
+        const sizeKB = Math.round(f.size / 1024);
+        const sizeLabel = sizeKB > 1024 ? `${(sizeKB / 1024).toFixed(1)} MB` : `${sizeKB} KB`;
+        this.setData({
+          audioFile: {
+            path: f.path,
+            name: f.name || '录音文件',
+            durationLabel: '',
+            sizeLabel
+          },
+          audioUploaded: false
+        });
+      },
+      fail: () => {}
+    });
+  },
+
+  // 播放录音
+  playAudio() {
+    const { audioFile, playing } = this.data;
+    if (!audioFile) return;
+
+    if (!this._am) {
+      this._am = wx.createInnerAudioContext();
+      this._am.src = audioFile.path;
+      this._am.onEnded(() => this.setData({ playing: false }));
+      this._am.onStop(() => this.setData({ playing: false }));
+    }
+
+    if (playing) {
+      this._am.pause();
+      this.setData({ playing: false });
+    } else {
+      this._am.src = audioFile.path;
+      this._am.play();
+      this.setData({ playing: true });
+    }
+  },
+
+  // 删除录音
+  removeAudio() {
+    if (this._am) {
+      this._am.stop();
+      this._am.destroy();
+      this._am = null;
+    }
+    this.setData({ audioFile: null, playing: false, audioUploaded: false });
+  },
+
+  // 上传录音到云存储（在提交时调用）
+  async uploadAudio() {
+    const { audioFile } = this.data;
+    if (!audioFile || this.data.audioUploaded) return null;
+
+    this.setData({ audioUploading: true });
+    try {
+      const cloudPath = `audio/${Date.now()}_${audioFile.name}`;
+      const res = await new Promise((resolve, reject) => {
+        wx.cloud.uploadFile({
+          cloudPath,
+          filePath: audioFile.path,
+          success: resolve,
+          fail: reject
+        });
+      });
+      this.setData({ audioUploading: false, audioUploaded: true });
+      return res.fileID;
+    } catch (err) {
+      this.setData({ audioUploading: false });
+      console.error('录音上传失败:', err);
+      return null;
+    }
+  },
+
   // 提交
   onSubmit() {
     if (!this.data.canSubmit || this.data.loading) return;
@@ -223,9 +371,13 @@ Page({
       is_core_customer: d.isCoreCustomer
     };
 
-    // 编辑模式调用 updateVisit，新增模式调用 createVisit
-    const apiName = d.editMode ? 'updateVisit' : 'createVisit';
-    const apiData = d.editMode ? { id: d.editId, data: payload } : { data: payload };
+    // 如果有录音，先上传再提交
+    const doSubmit = (audioFileId) => {
+      if (audioFileId) payload.audio_file_id = audioFileId;
+
+      // 编辑模式调用 updateVisit，新增模式调用 createVisit
+      const apiName = d.editMode ? 'updateVisit' : 'createVisit';
+      const apiData = d.editMode ? { id: d.editId, data: payload } : { data: payload };
 
     app.call(apiName, apiData).then(res => {
       // 新增拜访记录后，自动划掉"填写今日拜访记录"默认待办
@@ -256,6 +408,14 @@ Page({
       this.setData({ loading: false });
       wx.showToast({ title: err.message || '提交失败', icon: 'none' });
     });
+    }; // end doSubmit
+
+    // 如果有录音文件，先上传
+    if (this.data.audioFile && !this.data.audioUploaded) {
+      this.uploadAudio().then(fileId => doSubmit(fileId));
+    } else {
+      doSubmit(null);
+    }
   },
 
   // 语音录入

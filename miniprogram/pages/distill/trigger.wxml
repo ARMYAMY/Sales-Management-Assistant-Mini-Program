@@ -36,10 +36,18 @@
 
   <!-- 数据范围 -->
   <view class="info-section">
-    <view class="info-title">数据范围</view>
-    <view class="info-row">
-      <text class="info-label">时间</text>
-      <text class="info-value">{{dateRange.start}} ~ {{dateRange.end}}</text>
+    <view class="info-title">数据范围 <text class="info-hint">（可调整时间区间）</text></view>
+    <view class="info-row date-row">
+      <text class="info-label">开始日期</text>
+      <picker mode="date" value="{{dateRange.start}}" start="{{dateMin}}" end="{{dateRange.end}}" bindchange="onStartDateChange">
+        <view class="date-picker-val">{{dateRange.start}} ▼</view>
+      </picker>
+    </view>
+    <view class="info-row date-row">
+      <text class="info-label">结束日期</text>
+      <picker mode="date" value="{{dateRange.end}}" start="{{dateRange.start}}" end="{{dateMax}}" bindchange="onEndDateChange">
+        <view class="date-picker-val">{{dateRange.end}} ▼</view>
+      </picker>
     </view>
     <view class="info-row">
       <text class="info-label">记录数</text>

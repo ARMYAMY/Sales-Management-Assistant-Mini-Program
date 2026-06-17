@@ -128,7 +128,8 @@ Page({
         dailyReport: hasVisit ? this.generateDailyReport(visitsToday, dateStr) : null
       });
     }
-    return records;
+    // 由近到远排序（今天排在最上面）
+    return records.reverse();
   },
 
   generateDailyReport(visits, date) {

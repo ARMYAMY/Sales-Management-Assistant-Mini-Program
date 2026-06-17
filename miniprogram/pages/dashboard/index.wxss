@@ -31,6 +31,21 @@
   opacity: 0.7;
   margin-top: 8rpx;
 }
+/* 时间范围选择器 */
+.period-picker {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  background: rgba(255,255,255,0.2);
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+  color: #FFFFFF;
+}
+.period-arrow {
+  font-size: 20rpx;
+  opacity: 0.8;
+}
 
 /* 指标概览 - 4个横排小卡片 */
 .stats-row {

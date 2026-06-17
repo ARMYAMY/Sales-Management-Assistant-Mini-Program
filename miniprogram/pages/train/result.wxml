@@ -13,32 +13,86 @@
     </view>
   </view>
 
-  <!-- 各维度得分 -->
-  <view class="dimension-section">
-    <view class="section-title">各维度得分</view>
-    <view class="dimension-list">
-      <view class="dimension-item" wx:for="{{dimensions}}" wx:key="name">
-        <view class="dimension-info">
-          <text class="dimension-name">{{item.name}}</text>
-          <text class="dimension-score">{{item.score}}/{{item.max}}</text>
-        </view>
-        <view class="dimension-bar">
-          <view class="dimension-fill" style="width: {{(item.score/item.max)*100}}%; background: {{item.color}};"></view>
-        </view>
-      </view>
-    </view>
+  <!-- Tab 切换：评分结果 | 原始对话 -->
+  <view class="result-tabs">
+    <view
+      class="result-tab {{activeTab === 'score' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="score"
+    >评分结果</view>
+    <view
+      class="result-tab {{activeTab === 'chat' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="chat"
+    >原始对话</view>
   </view>
 
-  <!-- 改进建议 -->
-  <view class="improve-section" wx:if="{{summary.improvements && summary.improvements.length > 0}}">
-    <view class="section-title">改进建议</view>
-    <view class="improve-list">
-      <view class="improve-item" wx:for="{{summary.improvements}}" wx:key="index">
-        <view class="improve-num">{{index + 1}}</view>
-        <view class="improve-text">{{item}}</view>
+  <!-- ===== 评分结果面板 ===== -->
+  <block wx:if="{{activeTab === 'score'}}">
+    <!-- 各维度得分 -->
+    <view class="dimension-section">
+      <view class="section-title">各维度得分</view>
+      <view class="dimension-list">
+        <view class="dimension-item" wx:for="{{dimensions}}" wx:key="name">
+          <view class="dimension-info">
+            <text class="dimension-name">{{item.name}}</text>
+            <text class="dimension-score">{{item.score}}/{{item.max}}</text>
+          </view>
+          <view class="dimension-bar">
+            <view class="dimension-fill" style="width: {{(item.score/item.max)*100}}%; background: {{item.color}};"></view>
+          </view>
+        </view>
       </view>
     </view>
-  </view>
+
+    <!-- 改进建议 -->
+    <view class="improve-section" wx:if="{{summary.improvements && summary.improvements.length > 0}}">
+      <view class="section-title">改进建议</view>
+      <view class="improve-list">
+        <view class="improve-item" wx:for="{{summary.improvements}}" wx:key="index">
+          <view class="improve-num">{{index + 1}}</view>
+          <view class="improve-text">{{item}}</view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- ===== 原始对话面板 ===== -->
+  <block wx:if="{{activeTab === 'chat'}}">
+    <view class="chat-section">
+      <view class="chat-intro">以下是本次训练的完整对话记录，标注了可优化的话术片段</view>
+      <view class="chat-list">
+        <view
+          class="chat-item {{item.role === 'user' ? 'chat-right' : 'chat-left'}}"
+          wx:for="{{chatHistory}}"
+          wx:key="index"
+        >
+          <!-- AI客户 - 左边 -->
+          <block wx:if="{{item.role === 'ai'}}">
+            <view class="chat-avatar ai-avatar">{{item.avatar}}</view>
+            <view class="chat-body">
+              <view class="chat-name">{{item.name}}</view>
+              <view class="chat-bubble ai-bubble">{{item.content}}</view>
+              <view class="chat-time">{{item.time}}</view>
+            </view>
+          </block>
+          <!-- 销售员 - 右边 -->
+          <block wx:if="{{item.role === 'user'}}">
+            <view class="chat-body chat-body-right">
+              <view class="chat-bubble user-bubble {{item.highlight ? 'highlight-bubble' : ''}}">
+                {{item.content}}
+              </view>
+              <view class="chat-highlight-note" wx:if="{{item.highlight}}">
+                {{item.highlightNote}}
+              </view>
+              <view class="chat-time text-right">{{item.time}}</view>
+            </view>
+            <view class="chat-avatar user-avatar">{{item.avatar}}</view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </block>
 
   <!-- 操作按钮 -->
   <view class="result-actions">

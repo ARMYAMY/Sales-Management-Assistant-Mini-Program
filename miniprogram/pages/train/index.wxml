@@ -41,6 +41,15 @@
           <view class="scenario-stats">
             <text>训练 {{item.count}} 次</text>
             <text wx:if="{{item.count > 0}}"> · 均分 {{item.avgScore}}</text>
+            <!-- 管理者评级星星 -->
+            <view class="scenario-stars" wx:if="{{item.managerRating > 0}}">
+              <view
+                class="sc-star {{item.ratingStars[si] === 'full' ? 'sc-star-full' : 'sc-star-empty'}}"
+                wx:for="{{item.ratingStars}}"
+                wx:for-index="si"
+                wx:key="si"
+              >★</view>
+            </view>
           </view>
         </view>
       </view>
