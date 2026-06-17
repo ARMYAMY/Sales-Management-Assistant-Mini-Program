@@ -1,73 +1,77 @@
 <!--pages/library/detail/index.wxml - 话术详情-->
-<view class="page" wx:if="{{skill}}">
-  <!-- 头部 -->
-  <view class="detail-header">
-    <view class="detail-icon">{{skill.icon}}</view>
-    <view class="detail-name">{{skill.name}}</view>
-    <view class="detail-desc">{{skill.description}}</view>
+<block wx:if="{{skill}}">
+  <view class="page">
+    <!-- 头部 -->
+    <view class="detail-header">
+      <view class="detail-icon">{{skill.icon}}</view>
+      <view class="detail-name">{{skill.name}}</view>
+      <view class="detail-desc">{{skill.description}}</view>
 
-    <!-- 标签 -->
-    <view class="detail-tags" wx:if="{{skill.tags.length > 0}}">
-      <view class="tag" wx:for="{{skill.tags}}" wx:key="*this">{{item}}</view>
-    </view>
-
-    <!-- 打星区域 -->
-    <view class="detail-rating-row">
-      <view class="rating-label">管理者评级</view>
-      <view class="rating-stars">
-        <view
-          class="star {{item === 'full' ? 'star-full' : 'star-empty'}} {{isManager ? 'star-clickable' : ''}}"
-          wx:for="{{skill.ratingStars}}"
-          wx:key="*this"
-          catchtap="rateSkill"
-          data-star="{{index + 1}}"
-        >★</view>
+      <!-- 标签 -->
+      <view class="detail-tags" wx:if="{{skill.tags.length > 0}}">
+        <view class="tag" wx:for="{{skill.tags}}" wx:key="id">{{item}}</view>
       </view>
-      <text class="rating-text" wx:if="{{skill.managerRating > 0}}">{{skill.managerRating}}/5 星</text>
-      <text class="rating-text rating-empty" wx:else>{{isManager ? '点击评分' : '暂未评级'}}</text>
-    </view>
-  </view>
 
-  <!-- 统计 -->
-  <view class="stats-card">
-    <view class="stat">
-      <text class="stat-num">{{skill.scriptCount}}</text>
-      <text class="stat-label">话术模板</text>
+      <!-- 打星区域 -->
+      <view class="detail-rating-row">
+        <view class="rating-label">管理者评级</view>
+        <view class="rating-stars">
+          <view
+            class="star {{starItem === 'full' ? 'star-full' : 'star-empty'}} {{isManager ? 'star-clickable' : ''}}"
+            wx:for="{{skill.ratingStars}}"
+            wx:for-item="starItem"
+            wx:key="idx"
+            wx:for-index="idx"
+            catchtap="rateSkill"
+            data-star="{{idx + 1}}"
+          >★</view>
+        </view>
+        <text class="rating-text" wx:if="{{skill.managerRating > 0}}">{{skill.managerRating}}/5 星</text>
+        <text class="rating-text rating-empty" wx:else>{{isManager ? '点击评分' : '暂未评级'}}</text>
+      </view>
     </view>
-    <view class="stat">
-      <text class="stat-num">{{skill.useCount}}</text>
-      <text class="stat-label">使用次数</text>
-    </view>
-    <view class="stat">
-      <text class="stat-num">{{skill.avgRating}}</text>
-      <text class="stat-label">销售评分</text>
-    </view>
-  </view>
 
-  <!-- 完整话术内容 -->
-  <view class="section">
-    <view class="section-title">📖 话术详解</view>
-    <view class="detail-content">
-      <text user-select="true">{{skill.detail}}</text>
+    <!-- 统计 -->
+    <view class="stats-card">
+      <view class="stat">
+        <text class="stat-num">{{skill.scriptCount}}</text>
+        <text class="stat-label">话术模板</text>
+      </view>
+      <view class="stat">
+        <text class="stat-num">{{skill.useCount}}</text>
+        <text class="stat-label">使用次数</text>
+      </view>
+      <view class="stat">
+        <text class="stat-num">{{skill.avgRating}}</text>
+        <text class="stat-label">销售评分</text>
+      </view>
     </view>
-  </view>
 
-  <!-- 示例话术 -->
-  <view class="section" wx:if="{{skill.preview}}">
-    <view class="section-title">💡 核心示例</view>
-    <view class="preview-card">
-      <text user-select="true" class="preview-text">{{skill.preview}}</text>
-      <view class="copy-btn" bindtap="copyText" data-text="{{skill.preview}}">📋 复制话术</view>
+    <!-- 完整话术内容 -->
+    <view class="section">
+      <view class="section-title">📖 话术详解</view>
+      <view class="detail-content">
+        <view class="detail-text">{{skill.detail}}</view>
+      </view>
     </view>
-  </view>
 
-  <!-- 底部按钮 -->
-  <view class="bottom-bar">
-    <view class="btn-use" bindtap="useSkill">✓ 标记为已使用</view>
-  </view>
+    <!-- 示例话术 -->
+    <view class="section" wx:if="{{skill.preview}}">
+      <view class="section-title">💡 核心示例</view>
+      <view class="preview-card">
+        <view class="preview-text">{{skill.preview}}</view>
+        <view class="copy-btn" bindtap="copyText" data-text="{{skill.preview}}">📋 复制话术</view>
+      </view>
+    </view>
 
-  <view style="height:40rpx;"></view>
-</view>
+    <!-- 底部按钮 -->
+    <view class="bottom-bar">
+      <view class="btn-use" bindtap="useSkill">✓ 标记为已使用</view>
+    </view>
+
+    <view style="height:40rpx;"></view>
+  </view>
+</block>
 
 <view class="empty" wx:else>
   <text>话术不存在或已被删除</text>
