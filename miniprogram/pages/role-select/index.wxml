@@ -1,4 +1,4 @@
-<!--pages/role-select/index.wxml - 角色选择页-->
+<!--pages/role-select/index.wxml - 角色选择页（始终可切换）-->
 <scroll-view class="role-page-scroll" scroll-y enhanced show-scrollbar="{{false}}">
   <!--顶部品牌区-->
   <view class="brand-section">
@@ -7,12 +7,19 @@
     <view class="brand-slogan">让优秀可以复制</view>
   </view>
 
+  <!--当前角色提示（仅当已有角色时显示）-->
+  <view class="current-role-bar" wx:if="{{currentRole}}">
+    <text class="current-role-label">当前角色：</text>
+    <text class="current-role-value">{{currentRole === 'sales' ? '我是销售' : '我是管理者'}}</text>
+    <text class="current-role-tip">可点击下方卡片切换</text>
+  </view>
+
   <!--角色选择区-->
   <view class="role-section">
-    <view class="role-title">请选择你的角色</view>
+    <view class="role-title">{{currentRole ? '切换为' : '请选择'}}你的角色</view>
     <view class="role-cards">
       <!--销售卡片-->
-      <view class="role-card {{selectedRole === 'sales' ? 'role-card--active' : ''}}"
+      <view class="role-card {{selectedRole === 'sales' ? 'role-card--active' : ''}} {{currentRole === 'sales' ? 'role-card--current' : ''}}"
             bindtap="selectRole" data-role="sales">
         <view class="role-card-icon">💼</view>
         <view class="role-card-title">我是销售</view>
@@ -23,10 +30,11 @@
           <view class="feature-item">📊 个人周报</view>
         </view>
         <view class="role-card-check" wx:if="{{selectedRole === 'sales'}}">✅</view>
+        <view class="role-card-current-tag" wx:if="{{currentRole === 'sales'}}">当前</view>
       </view>
 
       <!--管理者卡片-->
-      <view class="role-card {{selectedRole === 'manager' ? 'role-card--active' : ''}}"
+      <view class="role-card {{selectedRole === 'manager' ? 'role-card--active' : ''}} {{currentRole === 'manager' ? 'role-card--current' : ''}}"
             bindtap="selectRole" data-role="manager">
         <view class="role-card-icon">📊</view>
         <view class="role-card-title">我是管理者</view>
@@ -37,17 +45,25 @@
           <view class="feature-item">📚 话术库管理</view>
         </view>
         <view class="role-card-check" wx:if="{{selectedRole === 'manager'}}">✅</view>
+        <view class="role-card-current-tag" wx:if="{{currentRole === 'manager'}}">当前</view>
       </view>
     </view>
   </view>
 
-  <!--确认按钮-->
+  <!--确认按钮区-->
   <view class="confirm-section">
     <button class="confirm-btn {{selectedRole ? '' : 'confirm-btn--disabled'}}"
             disabled="{{!selectedRole}}"
             bindtap="confirmRole">
-      进入{{selectedRole === 'sales' ? '销售工作台' : '管理看板'}}
+      {{currentRole ? '切换为' : '进入'}}{{selectedRole === 'sales' ? '销售工作台' : (selectedRole === 'manager' ? '管理看板' : '工作台')}}
     </button>
     <view class="confirm-hint" wx:if="{{!selectedRole}}">请先选择一个角色</view>
+
+    <!--辅助操作：仅当已选过角色时显示-->
+    <view class="aux-actions" wx:if="{{currentRole}}">
+      <view class="aux-link" bindtap="resetRole">重置角色</view>
+      <view class="aux-divider">|</view>
+      <view class="aux-link" bindtap="clearCache">清除缓存</view>
+    </view>
   </view>
 </scroll-view>

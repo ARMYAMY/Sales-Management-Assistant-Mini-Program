@@ -33,6 +33,35 @@
   letter-spacing: 2rpx;
 }
 
+/* 当前角色提示 */
+.current-role-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12rpx;
+  padding: 16rpx 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+.current-role-label {
+  font-size: 26rpx;
+  color: #86909C;
+}
+
+.current-role-value {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #2B6FF2;
+  margin-right: 12rpx;
+}
+
+.current-role-tip {
+  font-size: 22rpx;
+  color: #F59E0B;
+}
+
 /* 角色选择区 */
 .role-section {
   margin-top: 20rpx;
@@ -67,6 +96,24 @@
   border-color: #2B6FF2;
   box-shadow: 0 8rpx 30rpx rgba(43, 111, 242, 0.18);
   background: rgba(43, 111, 242, 0.02);
+}
+
+/* 当前角色卡片的角标 */
+.role-card--current {
+  position: relative;
+}
+
+.role-card-current-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #F59E0B, #FB923C);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 6rpx 16rpx;
+  border-radius: 16rpx 0 16rpx 0;
+  letter-spacing: 1rpx;
 }
 
 .role-card-icon {
@@ -148,4 +195,25 @@
   font-size: 24rpx;
   color: #F59E0B;
   margin-top: 16rpx;
+}
+
+/* 辅助操作 */
+.aux-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24rpx;
+  gap: 16rpx;
+}
+
+.aux-link {
+  font-size: 26rpx;
+  color: #2B6FF2;
+  text-decoration: underline;
+  padding: 8rpx 12rpx;
+}
+
+.aux-divider {
+  font-size: 24rpx;
+  color: #C9CDD4;
 }
