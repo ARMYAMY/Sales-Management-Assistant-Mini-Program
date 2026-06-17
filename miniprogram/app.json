@@ -15,6 +15,7 @@
     "pages/dashboard/index",
     "pages/team/index",
     "pages/library/index",
+    "pages/library/detail",
     "pages/profile/manager",
     "pages/train/select-benchmark",
     "pages/train/chat",

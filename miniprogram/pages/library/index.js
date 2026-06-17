@@ -30,13 +30,22 @@ Page({
 
   onLoad() {
     // 检测角色：有 managerToken 或 role=manager 时为管理者
-    const role = wx.getStorageSync('userRole') || 'sales';
+    let role = wx.getStorageSync('userRole');
+    if (!role) {
+      // 首次进入默认管理者（开发态体验），可在"我的"页切换
+      role = 'manager';
+      try { wx.setStorageSync('userRole', role); } catch (e) {}
+    }
     this.setData({ isManager: role === 'manager' });
     this.loadLibraryData();
   },
 
   onShow() {
-    this.loadLibraryData();
+    // 详情页改星后回到列表，刷新缓存
+    const saved = wx.getStorageSync('library_ratings') || {};
+    if (Object.keys(saved).length > 0) {
+      this.loadLibraryData();
+    }
   },
 
   async loadLibraryData() {
@@ -48,9 +57,11 @@ Page({
       if (result && result.code === 0 && result.skills && result.skills.length > 0) {
         const skills = this.mergeRatings(result.skills);
         this.setData({ allSkills: skills, skills });
+        try { wx.setStorageSync('library_allSkills_cache', skills); } catch (e) {}
       } else {
         // 云端无数据时走本地演示
         this.loadDemoData();
+        try { wx.setStorageSync('library_allSkills_cache', this.data.allSkills); } catch (e) {}
       }
     } catch (err) {
       wx.hideLoading();
@@ -95,6 +106,9 @@ Page({
       this.setData({ skills: filtered });
     }
   },
+
+  // 占位防冒泡
+  noop() {},
 
   // 管理者打星
   rateSkill(e) {

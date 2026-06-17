@@ -19,7 +19,7 @@
           class="star {{item === 'full' ? 'star-full' : 'star-empty'}} {{isManager ? 'star-clickable' : ''}}"
           wx:for="{{skill.ratingStars}}"
           wx:key="*this"
-          bindtap="{{isManager ? 'rateSkill' : ''}}"
+          catchtap="rateSkill"
           data-star="{{index + 1}}"
         >★</view>
       </view>

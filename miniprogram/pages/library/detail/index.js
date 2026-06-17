@@ -77,6 +77,10 @@ Page({
     if (app.globalData.currentSkill) {
       app.globalData.currentSkill = newSkill;
     }
+    // 同步更新 storage 中的 allSkills 缓存（列表页 onShow 读取）
+    const cached = wx.getStorageSync('library_allSkills_cache') || [];
+    const updated = cached.map(s => s._id === skill._id ? newSkill : s);
+    try { wx.setStorageSync('library_allSkills_cache', updated); } catch (e) {}
 
     wx.showToast({ title: `已评 ${rating} 星`, icon: 'none', duration: 1000 });
   },

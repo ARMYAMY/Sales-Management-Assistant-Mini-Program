@@ -35,66 +35,66 @@
   <!-- 技能包列表 -->
   <view class="section">
     <view class="skill-list">
-      <view class="skill-card" wx:for="{{skills}}" wx:key="_id" bindtap="goDetail" data-id="{{item._id}}">
+      <view class="skill-card" wx:for="{{skills}}" wx:key="_id" wx:for-item="skill" bindtap="goDetail" data-id="{{skill._id}}">
         <view class="skill-header">
-          <view class="skill-icon">{{item.icon}}</view>
+          <view class="skill-icon">{{skill.icon}}</view>
           <view class="skill-info">
-            <view class="skill-name">{{item.name}}</view>
-            <view class="skill-desc">{{item.description}}</view>
+            <view class="skill-name">{{skill.name}}</view>
+            <view class="skill-desc">{{skill.description}}</view>
           </view>
           <view class="skill-arrow">›</view>
         </view>
 
         <!-- 销售员信息 -->
-        <view class="sales-info" wx:if="{{item.salesInfo}}">
-          <view class="sales-avatar" style="background-color: {{item.salesInfo.color}};">{{item.salesInfo.avatar}}</view>
-          <text class="sales-name">{{item.salesInfo.name}}</text>
+        <view class="sales-info" wx:if="{{skill.salesInfo}}">
+          <view class="sales-avatar" style="background-color: {{skill.salesInfo.color}};">{{skill.salesInfo.avatar}}</view>
+          <text class="sales-name">{{skill.salesInfo.name}}</text>
         </view>
 
         <!-- 标签 -->
-        <view class="skill-tags" wx:if="{{item.tags.length > 0}}">
-          <view class="tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</view>
+        <view class="skill-tags" wx:if="{{skill.tags.length > 0}}">
+          <view class="tag" wx:for="{{skill.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</view>
         </view>
 
         <!-- 打星区域 -->
-        <view class="star-row">
+        <view class="star-row" catchtap="noop">
           <view class="star-label">管理者评级</view>
           <view class="stars">
             <view
-              class="star {{item.ratingStars[starIdx - 1] === 'full' ? 'star-full' : 'star-empty'}} {{isManager ? 'star-clickable' : ''}}"
+              class="star {{skill.ratingStars[starIdx - 1] === 'full' ? 'star-full' : 'star-empty'}} {{isManager ? 'star-clickable' : ''}}"
               wx:for="{{starArr}}"
               wx:for-item="starIdx"
               wx:for-index="si"
               wx:key="si"
-              bindtap="{{isManager ? 'rateSkill' : ''}}"
-              data-id="{{item._id}}"
+              catchtap="rateSkill"
+              data-id="{{skill._id}}"
               data-star="{{starIdx}}"
             >★</view>
           </view>
-          <text class="star-score" wx:if="{{item.managerRating > 0}}">{{item.managerRating}}星</text>
+          <text class="star-score" wx:if="{{skill.managerRating > 0}}">{{skill.managerRating}}星</text>
           <text class="star-unrated" wx:else>{{isManager ? '点击评分' : '暂未评级'}}</text>
         </view>
 
         <!-- 统计 -->
         <view class="skill-stats">
           <view class="stat">
-            <text class="stat-num">{{item.scriptCount}}</text>
+            <text class="stat-num">{{skill.scriptCount}}</text>
             <text class="stat-label">话术模板</text>
           </view>
           <view class="stat">
-            <text class="stat-num">{{item.useCount}}</text>
+            <text class="stat-num">{{skill.useCount}}</text>
             <text class="stat-label">使用次数</text>
           </view>
           <view class="stat">
-            <text class="stat-num">{{item.avgRating}}</text>
+            <text class="stat-num">{{skill.avgRating}}</text>
             <text class="stat-label">评分</text>
           </view>
         </view>
 
         <!-- 示例话术预览 -->
-        <view class="script-preview" wx:if="{{item.preview}}">
+        <view class="script-preview" wx:if="{{skill.preview}}">
           <view class="preview-label">示例话术</view>
-          <view class="preview-text">{{item.preview}}</view>
+          <view class="preview-text">{{skill.preview}}</view>
         </view>
       </view>
     </view>
