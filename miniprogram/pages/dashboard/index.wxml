@@ -6,14 +6,22 @@
     <view class="header">
       <view class="header-top">
         <view class="header-title">数据看板</view>
-        <picker mode="selector" range="{{periodOptions}}" value="{{periodIndex}}" bindchange="onPeriodChange">
-          <view class="period-picker">
-            <text>{{periodOptions[periodIndex]}}</text>
+      </view>
+      <view class="header-team">{{teamName}}</view>
+      <view class="time-filter-row">
+        <picker mode="selector" range="{{timeModeOptions}}" value="{{timeModeIndex}}" bindchange="onTimeModeChange">
+          <view class="period-picker mode-picker">
+            <text>{{timeModeOptions[timeModeIndex]}}</text>
+            <text class="period-arrow">▼</text>
+          </view>
+        </picker>
+        <picker mode="selector" range="{{timeRangeOptions}}" range-key="label" value="{{timeRangeIndex}}" bindchange="onTimeRangeChange">
+          <view class="period-picker range-picker">
+            <text>{{currentPeriodLabel}}</text>
             <text class="period-arrow">▼</text>
           </view>
         </picker>
       </view>
-      <view class="header-team">{{teamName}}</view>
     </view>
 
     <!-- 指标概览（4个横排卡片） -->
@@ -24,7 +32,7 @@
       </view>
       <view class="stat-card-small">
         <view class="stat-small-value">{{stats.totalVisits}}</view>
-        <view class="stat-small-label">{{periodOptions[periodIndex]}}拜访</view>
+        <view class="stat-small-label">{{currentPeriodLabel}}拜访</view>
       </view>
       <view class="stat-card-small">
         <view class="stat-small-value">{{stats.coreCoverage}}%</view>
@@ -36,16 +44,16 @@
       </view>
     </view>
 
-    <!-- 本周拜访趋势 -->
+    <!-- 拜访趋势 -->
     <view class="section">
       <view class="section-header">
-        <view class="section-title">拜访趋势（{{periodOptions[periodIndex]}}）</view>
+        <view class="section-title">拜访趋势（{{currentPeriodLabel}}）</view>
       </view>
       <view class="trend-chart-area">
         <view class="trend-bars-row">
           <view class="trend-bar-col" wx:for="{{trendData}}" wx:key="date">
             <view class="trend-bar-track">
-              <view class="trend-bar-fill" style="height:{{item.value > 0 ? (item.value / 25 * 100) : 4}}%"></view>
+              <view class="trend-bar-fill" style="height:{{item.value > 0 ? (item.value / trendMax * 100) : 4}}%"></view>
             </view>
             <view class="trend-bar-value" wx:if="{{item.value > 0}}">{{item.value}}</view>
             <view class="trend-bar-label">{{item.label}}</view>
@@ -58,7 +66,7 @@
     <view class="section">
       <view class="section-header">
         <view class="section-title">销售排行</view>
-        <view class="section-sub">本月TOP5</view>
+        <view class="section-sub">{{currentPeriodLabel}} TOP5</view>
       </view>
       <view class="rank-list">
         <view class="rank-row" wx:for="{{rankList}}" wx:key="name" bindtap="goSalesDetail" data-name="{{item.name}}">
